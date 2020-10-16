@@ -31,7 +31,6 @@ namespace GaraManagement
             //    services.AddMvc()
             //    .AddViewLocalization(options => options.ResourcesPath = "Resources")
             //    .AddDataAnnotationsLocalization();
-            services.AddKendo();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -58,9 +57,8 @@ namespace GaraManagement
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Supplies}/{action=Index}/{id?}");
-            });
-            app.UseKendo(env);
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
+            });         
         }
     }
 }

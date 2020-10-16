@@ -21,16 +21,10 @@ namespace GaraManagement.Controllers
         }
 
         // GET: Supplies
-        public async Task<IActionResult> Index()
-        {
-           
-            return View();
-        }
-
-        public JsonResult GetSupplies([DataSourceRequest] DataSourceRequest request)
+        public  IActionResult Index()
         {
             var garaContext = _context.Supplies.Include(s => s.IdTypeNavigation);
-            return Json(garaContext.ToDataSourceResultAsync(request));
+            return View(garaContext);
         }
 
         // GET: Supplies/Details/5
@@ -55,7 +49,8 @@ namespace GaraManagement.Controllers
         // GET: Supplies/Create
         public IActionResult Create()
         {
-            ViewData["IdType"] = new SelectList(_context.TypeOfSupplies, "Id", "Id");
+            var type = _context.TypeOfSupplies.Select(i => i.Name).ToList();
+            ViewData["TypeName"] = new SelectList(_context.TypeOfSupplies, "Id", "Name", type);
             return View();
         }
 
@@ -66,13 +61,14 @@ namespace GaraManagement.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,IdType,Name,Unit,Price,Amount,Description")] Supply supply)
         {
+            var type = _context.TypeOfSupplies.Select(i => i.Name).ToList();
             if (ModelState.IsValid)
             {
                 _context.Add(supply);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdType"] = new SelectList(_context.TypeOfSupplies, "Id", "Id", supply.IdType);
+            ViewData["TypeName"] = new SelectList(_context.TypeOfSupplies, "Id", "Name", type);
             return View(supply);
         }
 

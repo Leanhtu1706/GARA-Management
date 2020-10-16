@@ -13711,7 +13711,7 @@ fieldset[disabled] .form-group .form-control {
 
 .navbar {
   border: 0;
-  border-radius: 3px;
+  border-radius: 4px;
   padding: 0.625rem 0;
   margin-bottom: 20px;
   height: auto !important;
@@ -13742,7 +13742,7 @@ fieldset[disabled] .form-group .form-control {
   font-weight: 400;
   font-size: 12px;
   text-transform: uppercase;
-  border-radius: 3px;
+  border-radius: 4px;
   line-height: 20px;
 }
 
@@ -13999,7 +13999,7 @@ fieldset[disabled] .form-group .form-control {
   font-weight: 400;
   font-size: 12px;
   text-transform: uppercase;
-  border-radius: 3px;
+  border-radius: 4px;
   line-height: 20px;
   margin-left: 5px;
   color: inherit;
@@ -14036,7 +14036,7 @@ fieldset[disabled] .form-group .form-control {
   font-weight: 500;
   font-size: 12px;
   text-transform: uppercase;
-  border-radius: 3px;
+  border-radius: 4px;
   color: #fff;
   margin: 0 15px;
 }
@@ -14465,7 +14465,7 @@ h2.title {
 
 .nav-tabs {
   border: 0;
-  border-radius: 3px;
+  border-radius: 4px;
   padding: 0 15px;
 }
 
@@ -14474,7 +14474,7 @@ h2.title {
   color: #fff;
   border: 0;
   margin: 0;
-  border-radius: 3px;
+  border-radius: 4px;
   line-height: 24px;
   text-transform: uppercase;
   font-size: 12px;
@@ -15337,7 +15337,7 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
 .sidebar .nav li a,
 .sidebar .nav li .dropdown-menu a {
   margin: 10px 15px 0;
-  border-radius: 3px;
+  border-radius: 4px;
   color: #3C4858;
   padding-left: 10px;
   padding-right: 10px;

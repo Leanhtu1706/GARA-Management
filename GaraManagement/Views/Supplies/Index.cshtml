@@ -1,89 +1,134 @@
 ﻿@model IEnumerable<GaraManagement.Models.Supply>
-
+@using System.Dynamic;
 @{
     ViewData["Title"] = "Index";
 }
-<script src="~/kendo_ui/js/jquery.min.js"></script>
-<script src="~/kendo_ui/js/kendo.all.min.js"></script>
-<script src="~/kendo_ui/js/kendo.aspnetmvc.min.js"></script>
-<link href="~/kendo_ui/styles/kendo.default.min.css" rel="stylesheet" />
-<link href="~/kendo_ui/styles/kendo.common.min.css" rel="stylesheet" />
+
 <h1>Index</h1>
-@using Kendo.Mvc.UI 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-@*<table class="table">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Name)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Unit)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Price)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Amount)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Description)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.IdTypeNavigation.Name)
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
+
+@*<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>*@
+<!------ Include the above in your HEAD tag ---------->
+
+<div class="container">
+    <div class="row col-md-12 custyle">
+        <table class="table table-striped custab">
+            <thead>
+                <a class="btn btn-success" asp-action="Create">Add New Supplies</a>
                 <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Unit)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Price)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Amount)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Description)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.IdTypeNavigation.Name)
-                    </td>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                    </td>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Name)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Unit)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Price)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Amount)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Description)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.IdTypeNavigation.Name)
+                    </th>
+                    <th></th>
                 </tr>
-            }
-        </tbody>
-    </table>*@
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Unit)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Price)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Amount)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Description)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IdTypeNavigation.Name)
+                        </td>
+                        <td class="action-button">
+                            <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                            <a class="btn btn-info" asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                            <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
 
-@{
-    Html.Kendo().Grid<Supply>().Name("grid").Columns(columns =>
-    {
-        columns.Bound(c => c.Name);
-        columns.Bound(c => c.IdType);
-        columns.Bound(c => c.Unit);
-        columns.Bound(c => c.Price);
-        columns.Bound(c => c.Amount);
-        columns.Bound(c => c.Description);
+<style>
+    .action-button {
+        text-align: center;
+    }
 
-    }).HtmlAttributes(new { style = "height: 550px" })
-    .Sortable()
-    .Groupable()
-    .Scrollable()
-    .Pageable()
-    .DataSource(dataSource => dataSource.Ajax().Read(read => read.Action("GetSupplies", "Supplies"))
-    .PageSize(5).Model(model => model.Id(p => p.Id)));
-}
+    tr:nth-child(odd) {
+        background-color: lightskyblue;
+    }
+
+    tr:nth-child(even) {
+        background-color: #daefff;
+    }
+
+    .action-button > .btn {
+        padding: 5px 8px;
+    }
+
+    thead > tr > th {
+        background-color: black;
+        font-size: 18px;
+        font-weight: 700;
+        color: aliceblue;
+    }
+
+    .nav-item:visited, .nav-item:active, .nav-item:focus {
+        background-color: #00bcd4 !important;
+        display: block;
+    }
+    .supplies {
+        background-color: #00bcd4;
+        margin: 0 15px;
+        border-radius: 4px;
+    }
+    .sidebar .nav .supplies a {
+        border-radius: 3px;
+    }
+    /*    body{
+        font-size:16px;
+    }*/
+</style>
+
+
+@*@{
+        Html.Kendo().Grid<Supply>().Name("grid").Columns(columns =>
+        {
+            columns.Bound(c => c.Name);
+            columns.Bound(c => c.IdType);
+            columns.Bound(c => c.Unit);
+            columns.Bound(c => c.Price);
+            columns.Bound(c => c.Amount);
+            columns.Bound(c => c.Description);
+
+        }).HtmlAttributes(new { style = "height: 550px" })
+        .Sortable()
+        .Groupable()
+        .Scrollable()
+        .Pageable()
+        .DataSource(dataSource => dataSource.Ajax().Read(read => read.Action("GetSupplies", "Supplies"))
+        .PageSize(5).Model(model => model.Id(p => p.Id)));
+    }*@

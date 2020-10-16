@@ -1,0 +1,32 @@
+﻿.sidebar-wrapper .nav li a {
+    border-left: 5px solid transparent;
+}
+.sidebar-wrapper .nav li a:hover {
+    border-left-color: #00bcd4;
+}
+.sidebar-wrapper .nav .nav {
+    overflow: hidden;
+    transition: max-height 0.5s;
+    max-height: 0;
+    margin: 0;
+}
+.nav .subUser.show {
+    max-height:6em;
+
+    /*    display: block;*/
+}
+.sidebar-wrapper .nav .nav li a{
+    padding-left:50px;
+}
+.sidebar-wrapper .nav li a span {
+    transform: rotate(-90deg);
+    transition: transform 0.5s;
+}
+.sidebar-wrapper .nav li a .user.rotate {
+    transform: rotate(0deg);
+}
+
+
+
+
+
