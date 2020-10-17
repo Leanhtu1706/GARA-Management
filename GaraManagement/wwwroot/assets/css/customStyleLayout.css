@@ -33,7 +33,7 @@ thead > tr > th {
     margin:0;
 }
 .sidebar-wrapper .nav li{
-    border-bottom: 3px solid;
+    border-bottom: 1px solid;
     margin: 5px 15px;
 }
 .sidebar-wrapper .nav .nav li {

@@ -51,10 +51,10 @@
                         <!--sub menu quản lý nhân viên-->
                         <a class="nav-link user-btn" href="#">
                             <i class="fas fa-user-cog"></i>
-                            <p>QL nhân viên <span class="fas fa-caret-down user"></span></p>                           
+                            <p>QL nhân viên <span class="fas fa-caret-down user"></span></p>
                         </a>
                         <ul class="nav subUser">
-                            <li class="nav-item "><a class="nav-link" href="#"><i class="far fa-id-badge"></i><p>Cập nhật hồ sơ</p></a></li>                           
+                            <li class="nav-item "><a class="nav-link" href="#"><i class="far fa-id-badge"></i><p>Cập nhật hồ sơ</p></a></li>
                         </ul>
                     </li>
                     <li class="nav-item ">
@@ -92,12 +92,19 @@
                             <li class="nav-item "><a class="nav-link" href="#"><i class="fas fa-people-carry"></i><p>Nhập xuất vật tư</p></a></li>
                         </ul>
                     </li>
+                    <li class="nav-item ">
+                        <!--sub menu quản lý kho vật tư-->
+                        <a class="nav-link" href="#">
+                            <i class="far fa-user-circle"></i>
+                            <p>Quản lý tài khoản</p>
+                        </a>                       
+                    </li>
                     @*<li class="nav-item ">
-                        <a class="nav-link" href="./notifications.html">
-                            <i class="material-icons">notifications</i>
-                            <p>Notifications</p>
-                        </a>
-                    </li>*@
+            <a class="nav-link" href="./notifications.html">
+                <i class="material-icons">notifications</i>
+                <p>Notifications</p>
+            </a>
+        </li>*@
                 </ul>
             </div>
             <div class="sidebar-background" style="background-image: url(../assets/img/sidebar-1.jpg)"></div>
@@ -170,43 +177,7 @@
             <div class="content">
                 @RenderBody()
             </div>
-            <!--End Content-->
-            <!--Footer-->
-            <footer class="footer">
-                <div class="container-fluid">
-                    <nav class="float-left">
-                        <ul>
-                            <li>
-                                <a href="https://www.creative-tim.com">
-                                    Creative Tim
-                                </a>
-                            </li>
-                            <li>
-                                <a href="https://creative-tim.com/presentation">
-                                    About Us
-                                </a>
-                            </li>
-                            <li>
-                                <a href="http://blog.creative-tim.com">
-                                    Blog
-                                </a>
-                            </li>
-                            <li>
-                                <a href="https://www.creative-tim.com/license">
-                                    Licenses
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
-                    <div class="copyright float-right">
-                        &copy;
-                        <script>
-                            document.write(new Date().getFullYear())
-                        </script>, made with <i class="material-icons">favorite</i> by
-                        <a href="https://www.creative-tim.com" target="_blank">Creative Tim</a> for a better web.
-                    </div>
-                </div>
-            </footer>
+            <!--End Content-->           
         </div>
     </div>
     <!--   Core JS Files   -->
