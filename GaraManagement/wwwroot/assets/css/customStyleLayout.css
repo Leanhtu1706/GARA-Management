@@ -1,8 +1,46 @@
-﻿.sidebar-wrapper .nav li a {
+﻿/* Xử lý style cho bảng*/
+.action-button {
+    text-align: center;
+}
+
+tr:nth-child(odd) {
+    background-color: lightskyblue;
+}
+
+tr:nth-child(even) {
+    background-color: #daefff;
+}
+
+.action-button > .btn {
+    padding: 5px 8px;
+}
+
+thead > tr > th {
+    background-color: black;
+    font-size: 18px;
+    font-weight: 700;
+    color: aliceblue;
+}
+
+.nav-item:visited, .nav-item:focus {
+    background-color: #29a6c8 !important;
+    display: block;
+}
+
+/*Xử lý hiệu ứng menu chung*/
+.sidebar-wrapper .nav li a {
     border-left: 5px solid transparent;
+    margin:0;
+}
+.sidebar-wrapper .nav li{
+    border-bottom: 3px solid;
+    margin: 5px 15px;
+}
+.sidebar-wrapper .nav .nav li {
+    border: none;
 }
 .sidebar-wrapper .nav li a:hover {
-    border-left-color: #00bcd4;
+    border-left-color: #29a6c8;
 }
 .sidebar-wrapper .nav .nav {
     overflow: hidden;
@@ -10,21 +48,58 @@
     max-height: 0;
     margin: 0;
 }
-.nav .subUser.show {
-    max-height:6em;
-
-    /*    display: block;*/
-}
-.sidebar-wrapper .nav .nav li a{
-    padding-left:50px;
-}
+/*.sidebar-wrapper .nav .nav li a {*/
+    /*padding-left: 50px;*/
+    /*margin:0 15px;
+}*/
 .sidebar-wrapper .nav li a span {
     transform: rotate(-90deg);
     transition: transform 0.5s;
+    position: absolute;
+    top: 8px;
+    right: 0;
+}
+/* Xử lý submenu nhân viên*/
+.nav .subUser.show {
+    max-height:6em;
+    margin-top: 5px;
 }
 .sidebar-wrapper .nav li a .user.rotate {
     transform: rotate(0deg);
 }
+
+/*Xử lý icon*/
+i.fas.fa-user-cog {
+    font-size: 20px;
+}
+/* Xử lý submenu khách hàng*/
+.nav .subCustomer.show {
+    max-height: 8em;
+    margin-top: 5px;
+}
+
+.sidebar-wrapper .nav li a .customer.rotate {
+    transform: rotate(0deg);
+}
+/* Xử lý submenu sửa chữa*/
+.nav .subRepair.show {
+    max-height: 15em;
+    margin-top: 5px;
+}
+
+.sidebar-wrapper .nav li a .repair.rotate {
+    transform: rotate(0deg);
+}
+/* Xử lý submenu kho vật tư*/
+.nav .subWarehouse.show {
+    max-height: 15em;
+    margin-top: 5px;
+}
+
+.sidebar-wrapper .nav li a .warehouse.rotate {
+    transform: rotate(0deg);
+}
+
 
 
 

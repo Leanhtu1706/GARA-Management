@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Index";
 }
-
+<link href="~/assets/css/customStyleLayout.css" rel="stylesheet" />
 <h1>Index</h1>
 
 @*<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
@@ -13,9 +13,9 @@
 
 <div class="container">
     <div class="row col-md-12 custyle">
+        <a class="btn btn-success" asp-action="Create">Add New Supplies</a>
         <table class="table table-striped custab">
             <thead>
-                <a class="btn btn-success" asp-action="Create">Add New Supplies</a>
                 <tr>
                     <th>
                         @Html.DisplayNameFor(model => model.Name)
@@ -73,46 +73,22 @@
 </div>
 
 <style>
-    .action-button {
-        text-align: center;
-    }
-
-    tr:nth-child(odd) {
-        background-color: lightskyblue;
-    }
-
-    tr:nth-child(even) {
-        background-color: #daefff;
-    }
-
-    .action-button > .btn {
-        padding: 5px 8px;
-    }
-
-    thead > tr > th {
-        background-color: black;
-        font-size: 18px;
-        font-weight: 700;
-        color: aliceblue;
-    }
-
-    .nav-item:visited, .nav-item:active, .nav-item:focus {
-        background-color: #00bcd4 !important;
-        display: block;
-    }
     .supplies {
-        background-color: #00bcd4;
-        margin: 0 15px;
+        background-color: #29a6c8;
         border-radius: 4px;
     }
+
     .sidebar .nav .supplies a {
         border-radius: 3px;
     }
-    /*    body{
-        font-size:16px;
-    }*/
 </style>
-
+<script src="~/assets/js/core/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('.nav .subWarehouse').toggleClass("show");
+        $('.sidebar-wrapper .nav li a .warehouse').toggleClass("rotate");
+    });
+</script>
 
 @*@{
         Html.Kendo().Grid<Supply>().Name("grid").Columns(columns =>

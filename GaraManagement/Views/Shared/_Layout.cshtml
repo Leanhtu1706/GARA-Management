@@ -16,8 +16,6 @@
     <!--     Fonts and icons     -->
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
     <script src="https://kit.fontawesome.com/da5c22bb38.js" crossorigin="anonymous"></script>
-
-
     <!-- CSS Files -->
     <link href="~/assets/css/material-dashboard.css?v=2.1.2" rel="stylesheet" />
     <!-- CSS Just for demo purpose, don't include it in your project -->
@@ -45,63 +43,61 @@
                 <ul class="nav">
                     <li class="nav-item ">
                         <a class="nav-link" href="./dashboard.html">
-                            <i class="material-icons">dashboard</i>
+                            <i class="fas fa-chart-line"></i>
                             <p>Dashboard</p>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <!--sub menu-->
+                        <!--sub menu quản lý nhân viên-->
                         <a class="nav-link user-btn" href="#">
-                            <i class="material-icons">person</i>
-                            <p>User Profile &emsp; <span class="fas fa-caret-down user"></span></p>                           
+                            <i class="fas fa-user-cog"></i>
+                            <p>QL nhân viên <span class="fas fa-caret-down user"></span></p>                           
                         </a>
                         <ul class="nav subUser">
-                            <li class="nav-item "><a class="nav-link" href="#">C#</a></li>
-                            <li class="nav-item "><a class="nav-link" href="#">PHP</a></li>
+                            <li class="nav-item "><a class="nav-link" href="#"><i class="far fa-id-badge"></i><p>Cập nhật hồ sơ</p></a></li>                           
                         </ul>
                     </li>
                     <li class="nav-item ">
-                        <a class="nav-link" href="./tables.html">
-                            <i class="material-icons">content_paste</i>
-                            <p>Table List</p>
+                        <!--sub menu quản lý khách hàng-->
+                        <a class="nav-link customer-btn" href="#">
+                            <i class="fas fa-user-tie"></i>
+                            <p>QL khách hàng <span class="fas fa-caret-down customer"></span></p>
                         </a>
+                        <ul class="nav subCustomer">
+                            <li class="nav-item "><a class="nav-link" href="#"><i class="far fa-id-card"></i><p>Hồ sơ khách hàng</p></a></li>
+                            <li class="nav-item "><a class="nav-link" href="#"><i class="fas fa-car"></i><p>Thông tin xe</p></a></li>
+                        </ul>
                     </li>
-                    <li class="nav-item supplies">
-                        <a class="nav-link" asp-controller="Supplies" asp-action="Index">
-                            <i class="material-icons">library_books</i>
-                            <p>Typography</p>
+                    <li class="nav-item">
+                        <!--sub menu quản lý sửa chữa-->
+                        <a class="nav-link repair-btn" href="#">
+                            <i class="fas fa-tools"></i>
+                            <p>Sửa chữa <span class="fas fa-caret-down repair"></span></p>
                         </a>
+                        <ul class="nav subRepair">
+                            <li class="nav-item "><a class="nav-link" href="#"><i class="fas fa-exchange-alt"></i><p>Xe nhập xuất xưởng</p></a></li>
+                            <li class="nav-item "><a class="nav-link" href="#"><i class="fas fa-file-invoice"></i><p>Lập phiếu sửa chữa</p></a></li>
+                            <li class="nav-item "><a class="nav-link" href="#"><i class="fab fa-stripe-s"></i><p>Dịch vụ</p></a></li>
+                        </ul>
                     </li>
                     <li class="nav-item ">
-                        <a class="nav-link" href="./icons.html">
-                            <i class="material-icons">bubble_chart</i>
-                            <p>Icons</p>
+                        <!--sub menu quản lý kho vật tư-->
+                        <a class="nav-link warehouse-btn" href="#">
+                            <i class="fas fa-truck-loading"></i>
+                            <p>Kho vật tư <span class="fas fa-caret-down warehouse"></span></p>
                         </a>
+                        <ul class="nav subWarehouse">
+                            <li class="nav-item supplies"><a class="nav-link" asp-controller="Supplies" asp-action="Index"><i class="far fa-id-badge"></i><p>Thông tin vật tư</p></a></li>
+                            <li class="nav-item "><a class="nav-link" href="#"><i class="fas fa-boxes"></i><p>Nhà cung cấp</p></a></li>
+                            <li class="nav-item "><a class="nav-link" href="#"><i class="fas fa-people-carry"></i><p>Nhập xuất vật tư</p></a></li>
+                        </ul>
                     </li>
-                    <li class="nav-item ">
-                        <a class="nav-link" href="./map.html">
-                            <i class="material-icons">location_ons</i>
-                            <p>Maps</p>
-                        </a>
-                    </li>
-                    <li class="nav-item ">
+                    @*<li class="nav-item ">
                         <a class="nav-link" href="./notifications.html">
                             <i class="material-icons">notifications</i>
                             <p>Notifications</p>
                         </a>
-                    </li>
-                    <li class="nav-item ">
-                        <a class="nav-link" href="./rtl.html">
-                            <i class="material-icons">language</i>
-                            <p>RTL Support</p>
-                        </a>
-                    </li>
-                    <li class="nav-item active-pro ">
-                        <a class="nav-link" href="./upgrade.html">
-                            <i class="material-icons">unarchive</i>
-                            <p>Upgrade to PRO</p>
-                        </a>
-                    </li>
+                    </li>*@
                 </ul>
             </div>
             <div class="sidebar-background" style="background-image: url(../assets/img/sidebar-1.jpg)"></div>
@@ -222,9 +218,20 @@
 
 <script>
     $('.user-btn').click(function () {
-        console.log("on click");
         $('.nav .subUser').toggleClass("show");
         $('.sidebar-wrapper .nav li a .user').toggleClass("rotate");
+    });
+    $('.customer-btn').click(function () {
+        $('.nav .subCustomer').toggleClass("show");
+        $('.sidebar-wrapper .nav li a .customer').toggleClass("rotate");
+    });
+    $('.repair-btn').click(function () {
+        $('.nav .subRepair').toggleClass("show");
+        $('.sidebar-wrapper .nav li a .repair').toggleClass("rotate");
+    });
+    $('.warehouse-btn').click(function () {
+        $('.nav .subWarehouse').toggleClass("show");
+        $('.sidebar-wrapper .nav li a .warehouse').toggleClass("rotate");
     });
 </script>
 </body>
