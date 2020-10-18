@@ -13,7 +13,7 @@
 
 <div class="container">
     <div class="row col-md-12 custyle">
-        <a class="btn btn-success" asp-action="Create">Add New Supplies</a>
+        <a class="btn btn-success create-btn" data-toggle='modal' data-target='#createModal'>Add New Supplies</a>
         <table class="table table-striped custab">
             <thead>
                 <tr>
@@ -72,6 +72,32 @@
     </div>
 </div>
 
+<div id="createModal" class="modal fade col-md-12" tabindex="-1" role="dialog">
+    <div class="modal-dialog w-full" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>Create New Supplies</h4>
+            </div>
+            <div class="modal-body">
+                <div class="spinner overlay-loading">
+                    <span></span>
+                    <span class="rect2"></span>
+                    <span class="rect3"></span>
+                    <span class="rect4"></span>
+                    <span class="rect5"></span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="modal-actions col-md-offset-3 col-md-9">
+                    <button icon-name="action-cancel" name="close" class="btn btn-default" data-dismiss="modal">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Style and Js-->
 <style>
     .supplies {
         background-color: #29a6c8;
@@ -81,6 +107,13 @@
     .sidebar .nav .supplies a {
         border-radius: 3px;
     }
+    #createModal{
+        position:absolute;
+    }
+    .modal-dialog{
+        max-width:60%;
+    }
+
 </style>
 <script src="~/assets/js/core/jquery.min.js"></script>
 <script>
@@ -88,23 +121,26 @@
         $('.nav .subWarehouse').toggleClass("show");
         $('.sidebar-wrapper .nav li a .warehouse').toggleClass("rotate");
     });
+
+    //$(document).on('shown.bs.modal', '#createModal', function (event) {
+    $(".create-btn").click(function () {
+        console.log("shown modal event", event);
+
+        $.ajax({
+            /**/
+            url: '@Url.Action("Create")',
+            /**/
+            type: "GET",
+            data: { layout: "_ModalLayout" },
+            success: function (data) {
+                console.log("Data nè:", data);
+                debugger
+                $(".modal-content").html(data);
+            }
+        });
+    });
+    $("#createModal").on('hidden.bs.modal', function (event) {
+        $('.divmodal').remove();
+        console.log('HIDDEN MODAL EVENT', event);
+    });
 </script>
-
-@*@{
-        Html.Kendo().Grid<Supply>().Name("grid").Columns(columns =>
-        {
-            columns.Bound(c => c.Name);
-            columns.Bound(c => c.IdType);
-            columns.Bound(c => c.Unit);
-            columns.Bound(c => c.Price);
-            columns.Bound(c => c.Amount);
-            columns.Bound(c => c.Description);
-
-        }).HtmlAttributes(new { style = "height: 550px" })
-        .Sortable()
-        .Groupable()
-        .Scrollable()
-        .Pageable()
-        .DataSource(dataSource => dataSource.Ajax().Read(read => read.Action("GetSupplies", "Supplies"))
-        .PageSize(5).Model(model => model.Id(p => p.Id)));
-    }*@

@@ -18,7 +18,6 @@ tr:nth-child(even) {
 thead > tr > th {
     background-color: black;
     font-size: 18px;
-    font-weight: 700;
     color: aliceblue;
 }
 

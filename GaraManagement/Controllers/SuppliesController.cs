@@ -47,9 +47,11 @@ namespace GaraManagement.Controllers
         }
 
         // GET: Supplies/Create
-        public IActionResult Create()
+        [HttpGet]
+        public IActionResult Create(string layout = "_")
         {
             var type = _context.TypeOfSupplies.Select(i => i.Name).ToList();
+            ViewData["Layout"] = layout == "_" ? "" : layout;
             ViewData["TypeName"] = new SelectList(_context.TypeOfSupplies, "Id", "Name", type);
             return View();
         }

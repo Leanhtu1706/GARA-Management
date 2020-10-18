@@ -1,0 +1,42 @@
+﻿@{
+    Layout = "";
+}
+
+<div class="modal-header">
+    <h4 class="modal-title">@ViewData["Title"]</h4>
+</div>
+<div class="modal-body" style="display: flex">
+    <div class="content col-lg-12  col-md-12">
+        @RenderBody()
+    </div>
+</div>
+<div class="modal-footer">
+    @RenderSection("actions")
+</div>
+<style>
+    @@media only screen and (max-width : 1280px) {
+        .col-lg-push-1 {
+            left: 0%;
+        }
+
+        .modal-body .col-lg-8 {
+            margin: 0 auto;
+            width: auto;
+        }
+
+        body {
+            background-color: darkgray;
+        }
+    }
+
+    .modal-footer {
+        text-align: center;
+    }
+    form{
+        width:100%;
+    }
+    .divmodal{
+        width:100%;
+    }
+</style>
+@RenderSection("Scripts", required: false);
