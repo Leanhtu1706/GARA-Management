@@ -54,7 +54,7 @@
                             <p>QL nhân viên <span class="fas fa-caret-down user"></span></p>
                         </a>
                         <ul class="nav subUser">
-                            <li class="nav-item "><a class="nav-link" href="#"><i class="far fa-id-badge"></i><p>Cập nhật hồ sơ</p></a></li>
+                            <li class="nav-item employee"><a class="nav-link"  asp-controller="Employees" asp-action="Index"><i class="far fa-id-badge"></i><p>Cập nhật hồ sơ</p></a></li>
                         </ul>
                     </li>
                     <li class="nav-item ">
@@ -186,6 +186,8 @@
     @RenderSection("Scripts", required: false);
 
 <script>
+    //show submenu
+
     $('.user-btn').click(function () {
         $('.nav .subUser').toggleClass("show");
         $('.sidebar-wrapper .nav li a .user').toggleClass("rotate");

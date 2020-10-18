@@ -1,0 +1,103 @@
+﻿@model GaraManagement.Models.Employee
+
+@{
+    ViewData["Title"] = "Create new Employee";
+}
+
+<div class="row divmodal">
+    <form asp-action="Create">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="row form-group">
+            <div class="col-md-2 offset-2">
+                <label asp-for="Id" class="control-label"></label>
+            </div>
+            <div class="col-md-7">
+                <input asp-for="Id" class="form-control" />
+                <span asp-validation-for="Id" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-md-2 offset-2">
+                <label asp-for="Name" class="control-label"></label>
+            </div>
+            <div class="col-md-7">
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-md-2 offset-2">
+                <label asp-for="DateOfBirth" class="control-label"></label>
+            </div>
+            <div class="col-md-7">
+                <input asp-for="DateOfBirth" class="form-control" />
+                <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-md-2 offset-2">
+                <label asp-for="ContractStartDate" class="control-label"></label>
+            </div>
+            <div class="col-md-7">
+                <input asp-for="ContractStartDate" class="form-control" />
+                <span asp-validation-for="ContractStartDate" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-md-2 offset-2">
+                <label asp-for="Salary" class="control-label"></label>
+            </div>
+            <div class="col-md-7">
+                <input asp-for="Salary" class="form-control" />
+                <span asp-validation-for="Salary" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-md-2 offset-2">
+                <label asp-for="Phone" class="control-label"></label>
+            </div>
+            <div class="col-md-7">
+                <input asp-for="Phone" class="form-control" />
+                <span asp-validation-for="Phone" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-md-2 offset-2">
+                <label asp-for="Address" class="control-label"></label>
+            </div>
+            <div class="col-md-7">
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-md-2 offset-2">
+                <label asp-for="IdentityCardNumber" class="control-label"></label>
+            </div>
+            <div class="col-md-7">
+                <input asp-for="IdentityCardNumber" class="form-control" />
+                <span asp-validation-for="IdentityCardNumber" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-md-2 offset-2">
+                <label asp-for="Department" class="control-label"></label>
+            </div>
+            <div class="col-md-7">
+                <input asp-for="Department" class="form-control" />
+                <span asp-validation-for="Department" class="text-danger"></span>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section actions {
+    <div class="modal-actions col-md-offset-3 col-md-9">
+        <button icon-name="action-cancel" name="close" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button icon-name="action-save" type="submit" class="btn btn-success" id="createBtn">Create</button>
+    </div>
+}
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

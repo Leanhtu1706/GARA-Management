@@ -99,7 +99,14 @@ i.fas.fa-user-cog {
     transform: rotate(0deg);
 }
 
+/*--- Modal -----*/
+#createModal {
+    position: absolute;
+}
 
+.modal-dialog {
+    max-width: 60%;
+}
 
 
 

@@ -1,15 +1,10 @@
-﻿@model IEnumerable<GaraManagement.Models.Supply>
-@using System.Dynamic;
+﻿@model IEnumerable<GaraManagement.Models.Employee>
+
 @{
     ViewData["Title"] = "Index";
 }
 <link href="~/assets/css/customStyleLayout.css" rel="stylesheet" />
 <h1>Index</h1>
-
-@*<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
-    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>*@
-<!------ Include the above in your HEAD tag ---------->
 
 <div class="container">
     <div class="row col-md-12 custyle">
@@ -21,19 +16,25 @@
                         @Html.DisplayNameFor(model => model.Name)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.Unit)
+                        @Html.DisplayNameFor(model => model.DateOfBirth)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.Price)
+                        @Html.DisplayNameFor(model => model.ContractStartDate)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.Amount)
+                        @Html.DisplayNameFor(model => model.Salary)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.Description)
+                        @Html.DisplayNameFor(model => model.Phone)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.IdTypeNavigation.Name)
+                        @Html.DisplayNameFor(model => model.Address)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.IdentityCardNumber)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Department)
                     </th>
                     <th></th>
                 </tr>
@@ -46,19 +47,25 @@
                             @Html.DisplayFor(modelItem => item.Name)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Unit)
+                            @Html.DisplayFor(modelItem => item.DateOfBirth)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Price)
+                            @Html.DisplayFor(modelItem => item.ContractStartDate)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Amount)
+                            @Html.DisplayFor(modelItem => item.Salary)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Description)
+                            @Html.DisplayFor(modelItem => item.Phone)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.IdTypeNavigation.Name)
+                            @Html.DisplayFor(modelItem => item.Address)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IdentityCardNumber)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Department)
                         </td>
                         <td class="action-button">
                             <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
@@ -71,7 +78,6 @@
         </table>
     </div>
 </div>
-
 <div id="createModal" class="modal fade col-md-12" tabindex="-1" role="dialog">
     <div class="modal-dialog w-full" role="document">
         <div class="modal-content">
@@ -97,9 +103,10 @@
         </div>
     </div>
 </div>
+
 <!-- Style and Js-->
 <style>
-    .supplies {
+    .employee {
         background-color: #29a6c8;
         border-radius: 4px;
     }
@@ -108,8 +115,8 @@
 <script src="~/assets/js/core/jquery.min.js"></script>
 <script>
     $(document).ready(function () {
-        $('.nav .subWarehouse').toggleClass("show");
-        $('.sidebar-wrapper .nav li a .warehouse').toggleClass("rotate");
+        $('.nav .subUser').toggleClass("show");
+        $('.sidebar-wrapper .nav li a .user').toggleClass("rotate");
     });
 
     //$(document).on('shown.bs.modal', '#createModal', function (event) {
