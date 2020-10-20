@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GaraManagement.Models;
+using X.PagedList;
 
 namespace GaraManagement.Controllers
 {
@@ -19,9 +20,11 @@ namespace GaraManagement.Controllers
         }
 
         // GET: Employees
-        public async Task<IActionResult> Index()
+        public IActionResult Index(int? pageNumber)
         {
-            return View(await _context.Employees.ToListAsync());
+            if (pageNumber == null) pageNumber = 1;
+            int pageSize = 2;
+            return View( _context.Employees.ToList().ToPagedList((int)pageNumber, pageSize));
         }
 
         // GET: Employees/Details/5
@@ -67,13 +70,14 @@ namespace GaraManagement.Controllers
         }
 
         // GET: Employees/Edit/5
-        public async Task<IActionResult> Edit(string id)
+        [HttpGet]
+        public async Task<IActionResult> Edit(string id, string layout = "_")
         {
             if (id == null)
             {
                 return NotFound();
             }
-
+            ViewData["Layout"] = layout == "_" ? "" : layout;
             var employee = await _context.Employees.FindAsync(id);
             if (employee == null)
             {
@@ -87,7 +91,7 @@ namespace GaraManagement.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Id,Name,DateOfBirth,ContractStartDate,Salary,Phone,Address,IdentityCardNumber,Department")] Employee employee)
+        public async Task<IActionResult> Edit(string id, Employee employee)
         {
             if (id != employee.Id)
             {

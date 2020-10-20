@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<GaraManagement.Models.Supply>
-@using System.Dynamic;
+
 @{
     ViewData["Title"] = "Index";
 }
@@ -61,18 +61,58 @@
                             @Html.DisplayFor(modelItem => item.IdTypeNavigation.Name)
                         </td>
                         <td class="action-button">
-                            <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                            <a class="btn btn-warning edit-btn" data-toggle='modal' data-target='#editModal' data-id="@item.Id">Edit</a> |
                             <a class="btn btn-info" asp-action="Details" asp-route-id="@item.Id">Details</a> |
                             <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                         </td>
                     </tr>
                 }
+                <!-- Phân trang -->
+                <tr>
+                    <td colspan="7" align="center">
+                        @Html.PagedListPager((IPagedList)Model, pageNumber => Url.Action("Index",
+                       new { pageNumber }),
+                       new PagedListRenderOptions
+                       {
+                           LiElementClasses = new string[] { "page-item" },
+                           PageClasses = new string[] { "page-link" }
+                       })
+                    </td>
+                </tr>
             </tbody>
         </table>
     </div>
 </div>
 
+@*Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)
+/ @Model.PageCount*@
+
 <div id="createModal" class="modal fade col-md-12" tabindex="-1" role="dialog">
+    <div class="modal-dialog w-full" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>Create New Employee</h4>
+            </div>
+            <div class="modal-body">
+                <div class="spinner overlay-loading">
+                    <span></span>
+                    <span class="rect2"></span>
+                    <span class="rect3"></span>
+                    <span class="rect4"></span>
+                    <span class="rect5"></span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="modal-actions col-md-offset-3 col-md-9">
+                    <button icon-name="action-cancel" name="close" class="btn btn-default" data-dismiss="modal">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="editModal" class="modal fade col-md-12" tabindex="-1" role="dialog">
     <div class="modal-dialog w-full" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -103,7 +143,6 @@
         background-color: #29a6c8;
         border-radius: 4px;
     }
-
 </style>
 <script src="~/assets/js/core/jquery.min.js"></script>
 <script>
@@ -125,6 +164,20 @@
             success: function (data) {
                 console.log("Data nè:", data);
                 debugger
+                $(".modal-content").html(data);
+            }
+        });
+    });
+      $(".edit-btn").click(function () {
+        console.log("shown modal event", event);
+        var supId = $(this).attr("data-id");
+        $.ajax({
+            /**/
+            url: '@Url.Action("Edit")',
+            /**/
+            type: "GET",
+            data: { id: supId, layout: "_ModalLayout" },
+            success: function (data) {
                 $(".modal-content").html(data);
             }
         });

@@ -5,7 +5,7 @@
 }
 
 <div class="row divmodal">
-    <form asp-action="Create">
+    <form asp-action="Create" id="formCreate">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="row form-group">
             <div class="col-md-2 offset-2">
@@ -88,15 +88,13 @@
                 <span asp-validation-for="Department" class="text-danger"></span>
             </div>
         </div>
+        <hr/>
+        <div class="btn-action">
+            <button icon-name="action-cancel" name="close" class="btn btn-default" data-dismiss="modal">Close</button>
+            <input type="submit" class="btn btn-success" value="Create" />
+        </div>
     </form>
 </div>
-
-@section actions {
-    <div class="modal-actions col-md-offset-3 col-md-9">
-        <button icon-name="action-cancel" name="close" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button icon-name="action-save" type="submit" class="btn btn-success" id="createBtn">Create</button>
-    </div>
-}
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

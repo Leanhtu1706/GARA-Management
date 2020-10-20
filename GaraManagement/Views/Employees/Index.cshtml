@@ -68,12 +68,24 @@
                             @Html.DisplayFor(modelItem => item.Department)
                         </td>
                         <td class="action-button">
-                            <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                            <a class="btn btn-warning edit-btn" data-toggle='modal' data-target='#editModal' data-id="@item.Id">Edit</a> |
                             <a class="btn btn-info" asp-action="Details" asp-route-id="@item.Id">Details</a> |
                             <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                         </td>
                     </tr>
                 }
+                <!-- Phân trang -->
+                <tr>
+                    <td colspan="15" align="center">
+                        @Html.PagedListPager((IPagedList)Model, pageNumber => Url.Action("Index",
+                       new { pageNumber }),
+                       new PagedListRenderOptions
+                       {
+                           LiElementClasses = new string[] { "page-item" },
+                           PageClasses = new string[] { "page-link" }
+                       })
+                    </td>
+                </tr>
             </tbody>
         </table>
     </div>
@@ -104,13 +116,37 @@
     </div>
 </div>
 
+<div id="editModal" class="modal fade col-md-12" tabindex="-1" role="dialog">
+    <div class="modal-dialog w-full" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>Create New Employee</h4>
+            </div>
+            <div class="modal-body">
+                <div class="spinner overlay-loading">
+                    <span></span>
+                    <span class="rect2"></span>
+                    <span class="rect3"></span>
+                    <span class="rect4"></span>
+                    <span class="rect5"></span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="modal-actions col-md-offset-3 col-md-9">
+                    <button icon-name="action-cancel" name="close" class="btn btn-default" data-dismiss="modal">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- Style and Js-->
 <style>
     .employee {
         background-color: #29a6c8;
         border-radius: 4px;
     }
-
 </style>
 <script src="~/assets/js/core/jquery.min.js"></script>
 <script>
@@ -119,7 +155,7 @@
         $('.sidebar-wrapper .nav li a .user').toggleClass("rotate");
     });
 
-    //$(document).on('shown.bs.modal', '#createModal', function (event) {
+
     $(".create-btn").click(function () {
         console.log("shown modal event", event);
 
@@ -136,8 +172,26 @@
             }
         });
     });
-    $("#createModal").on('hidden.bs.modal', function (event) {
-        $('.divmodal').remove();
-        console.log('HIDDEN MODAL EVENT', event);
+    $(".edit-btn").click(function () {
+        console.log("shown modal event", event);
+        var empId = $(this).attr("data-id");
+        $.ajax({
+            /**/
+            url: '@Url.Action("Edit")',
+            /**/
+            type: "GET",
+            data: { id: empId, layout: "_ModalLayout" },
+            success: function (data) {
+                $(".modal-content").html(data);
+            }
+        });
     });
+    //$("#createModal").on('hide.bs.modal',function (event) {
+    //    $('.divmodal').remove();
+    //    console.log('HIDDEN MODAL EVENT', event);
+    //});
+    //$("#editModal").on('hide.bs.modal',function (event) {
+    //    $('.divmodal').remove();
+    //    console.log('HIDDEN MODAL EVENT', event);
+    //});
 </script>

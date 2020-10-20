@@ -5,9 +5,17 @@
 }
 
 <div class="row divmodal">
-    <form asp-action="Create">
+    <form asp-action="Create" id="formCreate">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        @Html.HiddenFor(m => m.Id)
+        <div class="row form-group">
+            <div class="col-md-2 offset-2">
+                <label asp-for="Id" class="control-label"></label>
+            </div>
+            <div class="col-md-7">
+                <input asp-for="Id" class="form-control" />
+                <span asp-validation-for="Id" class="text-danger"></span>
+            </div>
+        </div>
         <div class="row form-group">
             <div class="col-md-2 offset-2">
                 <label asp-for="IdType" class="control-label">Type</label>
@@ -61,6 +69,11 @@
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
         </div>
+        <hr />
+        <div class="btn-action">
+            <button icon-name="action-cancel" name="close" class="btn btn-default" data-dismiss="modal">Close</button>
+            <input type="submit" class="btn btn-success" value="Create" />
+        </div>
         @*<div class="row form-group">
             <div class="col-md-5 offset-3">
                 <input type="submit" value="Create" class="btn btn-success" />
@@ -68,12 +81,6 @@
         </div>*@
     </form>
 </div>
-@section actions {
-    <div class="modal-actions col-md-offset-3 col-md-9">
-        <button icon-name="action-cancel" name="close" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button icon-name="action-save" type="submit" class="btn btn-success" id="createBtn">Create</button>
-    </div>
-}
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

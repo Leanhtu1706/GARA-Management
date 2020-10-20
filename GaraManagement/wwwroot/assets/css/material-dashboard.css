@@ -2028,15 +2028,15 @@ pre code {
 }
 
 .table {
-  width: 100%;
-  max-width: 100%;
-  margin-bottom: 1rem;
-  background-color: transparent;
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 1rem;
+    background-color: transparent;
+    box-shadow: 0px 10px 20px grey;
 }
 
 .table th,
 .table td {
-  padding: 0.75rem;
   vertical-align: top;
   border-top: 1px solid rgba(0, 0, 0, 0.06);
 }
@@ -5065,10 +5065,11 @@ tbody.collapse.show {
 }
 
 .pagination {
-  display: flex;
-  padding-left: 0;
-  list-style: none;
-  border-radius: 0.25rem;
+    display: flex;
+    margin: 10px 0 5px 0;
+    padding-left: 0;
+    list-style: none;
+    border-radius: 0.25rem;
 }
 
 .page-link {
@@ -16843,19 +16844,20 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
   margin-top: -2px;
 }
 
-.table>thead>tr>th,
-.table>tbody>tr>th,
-.table>tfoot>tr>th,
-.table>thead>tr>td,
-.table>tbody>tr>td,
-.table>tfoot>tr>td {
-  padding: 12px 8px;
-  vertical-align: middle;
-  border-color: #ddd;
+.table > thead > tr > th,
+.table > tbody > tr > th,
+.table > tfoot > tr > th,
+.table > thead > tr > td,
+.table > tbody > tr > td,
+.table > tfoot > tr > td {
+    padding: 0px 10px;
+    vertical-align: middle;
+    border-color: #ddd;
 }
 
 .table thead tr th {
-  font-size: 1.063rem;
+    padding: 10px 10px;
+    font-size: 1.063rem;
 }
 
 .table .th-description {
@@ -17004,7 +17006,7 @@ legend {
 }
 
 a {
-    color: #e37300;tutu
+    color: #e37300;
 }
 
 a:hover,

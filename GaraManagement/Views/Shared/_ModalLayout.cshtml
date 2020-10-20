@@ -1,7 +1,6 @@
 ﻿@{
     Layout = "";
 }
-
 <div class="modal-header">
     <h4 class="modal-title">@ViewData["Title"]</h4>
 </div>
@@ -9,9 +8,6 @@
     <div class="content col-lg-12  col-md-12">
         @RenderBody()
     </div>
-</div>
-<div class="modal-footer">
-    @RenderSection("actions")
 </div>
 <style>
     @@media only screen and (max-width : 1280px) {
@@ -32,11 +28,14 @@
     .modal-footer {
         text-align: center;
     }
-    form{
-        width:100%;
+
+    form {
+        width: 100%;
     }
-    .divmodal{
-        width:100%;
+
+    .divmodal {
+        width: 100%;
     }
 </style>
+
 @RenderSection("Scripts", required: false);

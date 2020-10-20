@@ -14,6 +14,7 @@ namespace GaraManagement.Models
             Accounts = new HashSet<Account>();
         }
 
+        [Key]
         public string Id { get; set; }
         [DisplayName("Tên")]
         public string Name { get; set; }

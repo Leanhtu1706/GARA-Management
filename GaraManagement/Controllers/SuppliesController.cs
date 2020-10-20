@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using GaraManagement.Models;
 using Kendo.Mvc.UI;
 using Kendo.Mvc.Extensions;
+using X.PagedList;
 
 namespace GaraManagement.Controllers
 {
@@ -21,10 +22,13 @@ namespace GaraManagement.Controllers
         }
 
         // GET: Supplies
-        public  IActionResult Index()
+        public  IActionResult Index(int? pageNumber)
         {
+            if (pageNumber == null) pageNumber = 1;
+            int pageSize = 2;
             var garaContext = _context.Supplies.Include(s => s.IdTypeNavigation);
-            return View(garaContext);
+            
+            return View(garaContext.ToList().ToPagedList((int)pageNumber,pageSize));
         }
 
         // GET: Supplies/Details/5
@@ -75,12 +79,14 @@ namespace GaraManagement.Controllers
         }
 
         // GET: Supplies/Edit/5
-        public async Task<IActionResult> Edit(string id)
+        [HttpGet]
+        public async Task<IActionResult> Edit(string id, string layout = "_")
         {
+            
             if (id == null)
             {
                 return NotFound();
-            }
+            }           
             var type =  _context.TypeOfSupplies.Select(i => i.Name).ToList();
             var supply = await _context.Supplies.FindAsync(id);
             if (supply == null)
@@ -88,6 +94,7 @@ namespace GaraManagement.Controllers
                 return NotFound();
             }
             ViewData["TypeName"] = new SelectList(_context.TypeOfSupplies, "Id", "Name", type);
+            ViewData["Layout"] = layout == "_" ? "" : layout;
             return View(supply);
         }
 
@@ -96,7 +103,7 @@ namespace GaraManagement.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Id,IdType,Name,Unit,Price,Amount,Description")] Supply supply)
+        public async Task<IActionResult> Edit(string id, Supply supply)
         {
             if (id != supply.Id)
             {
