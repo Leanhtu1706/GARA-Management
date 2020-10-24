@@ -4,14 +4,22 @@
     ViewData["Title"] = "Index";
 }
 <link href="~/assets/css/customStyleLayout.css" rel="stylesheet" />
-<h1>Index</h1>
 
-<div class="container">
-    <div class="row col-md-12 custyle">
+<div class="container-fluid">
+    <div class="row custyle">
         <a class="btn btn-success create-btn" data-toggle='modal' data-target='#createModal'>Add New Supplies</a>
+        <div class="input-group no-border">
+            <form asp-action="Index" method="get">
+                <input id="search" type="text" name="search" class="form-control" value="@ViewData["GetTextSearch"]" placeholder="Search...">
+            </form>
+            <i class="fas fa-backspace"></i>
+        </div>
         <table class="table table-striped custab">
             <thead>
                 <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Image)
+                    </th>
                     <th>
                         @Html.DisplayNameFor(model => model.Name)
                     </th>
@@ -43,6 +51,9 @@
                 @foreach (var item in Model)
                 {
                     <tr>
+                        <td>
+                            <img class="image-field" src="@item.Image" alt="Alternate Text" />
+                        </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.Name)
                         </td>
@@ -76,7 +87,7 @@
                 }
                 <!-- Phân trang -->
                 <tr>
-                    <td colspan="15" align="center">
+                    <td colspan="10" align="center">
                         @Html.PagedListPager((IPagedList)Model, pageNumber => Url.Action("Index",
                        new { pageNumber }),
                        new PagedListRenderOptions
@@ -91,7 +102,7 @@
     </div>
 </div>
 <div id="createModal" class="modal fade col-md-12" tabindex="-1" role="dialog">
-    <div class="modal-dialog w-full" role="document">
+    <div class="modal-dialog w-full" style="max-width: 75%;" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h4>Create New Employee</h4>
@@ -117,10 +128,10 @@
 </div>
 
 <div id="editModal" class="modal fade col-md-12" tabindex="-1" role="dialog">
-    <div class="modal-dialog w-full" role="document">
+    <div class="modal-dialog w-full" style="max-width: 75%;" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4>Create New Employee</h4>
+                <h4>Edit Employee</h4>
             </div>
             <div class="modal-body">
                 <div class="spinner overlay-loading">
@@ -186,12 +197,8 @@
             }
         });
     });
-    //$("#createModal").on('hide.bs.modal',function (event) {
-    //    $('.divmodal').remove();
-    //    console.log('HIDDEN MODAL EVENT', event);
-    //});
-    //$("#editModal").on('hide.bs.modal',function (event) {
-    //    $('.divmodal').remove();
-    //    console.log('HIDDEN MODAL EVENT', event);
-    //});
+
+    $(".fa-backspace").click(function () {
+        window.location = "Employees";
+    });
 </script>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 #nullable disable
@@ -15,17 +16,19 @@ namespace GaraManagement.Models
         }
 
         public string Id { get; set; }
-        [Display]
+        [DisplayName("Loại")]
         public string IdType { get; set; }
-        [Display]
+        [DisplayName("Tên")]
         public string Name { get; set; }
-        [Display]
+        [DisplayName("Đơn vị tính")]
         public string Unit { get; set; }
-        [Display]
+        [DisplayName("Giá")]
         public int? Price { get; set; }
-        [Display]
+        [DisplayName("Số lượng")]
         public int? Amount { get; set; }
-        [Display]
+        [DisplayName("Ảnh")]
+        public string Image { get; set; }
+        [DisplayName("Mô tả")]
         public string Description { get; set; }
 
         public virtual TypeOfSupply IdTypeNavigation { get; set; }

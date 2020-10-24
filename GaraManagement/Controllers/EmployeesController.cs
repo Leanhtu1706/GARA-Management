@@ -19,14 +19,24 @@ namespace GaraManagement.Controllers
             _context = context;
         }
 
-        // GET: Employees
-        public IActionResult Index(int? pageNumber)
+        [HttpGet]
+        public IActionResult Index(string search)
         {
-            if (pageNumber == null) pageNumber = 1;
-            int pageSize = 2;
-            return View( _context.Employees.ToList().ToPagedList((int)pageNumber, pageSize));
-        }
+            var pageNumber = 1;
+            int pageSize = 10;
+            ViewData["GetTextSearch"] = search;
+            if (!string.IsNullOrEmpty(search))
+            {
+                var garaContext = _context.Employees.Where(a => a.Name.Contains(search));
+                return View(garaContext.ToList().ToPagedList((int)pageNumber, pageSize));
+            }
+            else
+            {
+                var garaContext = _context.Employees;
+                return View(garaContext.ToList().ToPagedList((int)pageNumber, pageSize));
+            }
 
+        }
         // GET: Employees/Details/5
         public async Task<IActionResult> Details(string id)
         {
@@ -79,6 +89,8 @@ namespace GaraManagement.Controllers
             }
             ViewData["Layout"] = layout == "_" ? "" : layout;
             var employee = await _context.Employees.FindAsync(id);
+            var image = _context.Employees.Where(a => a.Id == id).Select(i => i.Image).FirstOrDefault();
+            ViewBag.image = image;
             if (employee == null)
             {
                 return NotFound();

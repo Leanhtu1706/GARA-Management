@@ -32,6 +32,8 @@ namespace GaraManagement.Models
         public string Address { get; set; }
         [DisplayName("CMND")]
         public string IdentityCardNumber { get; set; }
+        [DisplayName("Avatar")]
+        public string Image { get; set; }
         [DisplayName("Bộ phận")]
         public string Department { get; set; }
 

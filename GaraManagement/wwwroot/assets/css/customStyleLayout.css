@@ -4,11 +4,11 @@
 }
 
 tr:nth-child(odd) {
-    background-color: lightskyblue;
+    background-color: #252830;
 }
 
 tr:nth-child(even) {
-    background-color: #daefff;
+    background-color: #292d36;
 }
 
 .action-button > .btn {
@@ -72,11 +72,20 @@ thead > tr {
 i.fas.fa-user-cog {
     font-size: 20px;
 }
-/* Xử lý submenu khách hàng*/
-.nav .subCustomer.show {
-    max-height: 8em;
-    margin-top: 5px;
+i.fas.fa-backspace {
+    font-size: 20px;
+    padding-top: 12px;
+    color:white;
 }
+i.fas.fa-backspace:hover {
+    background: none;
+    color: brown;
+}
+    /* Xử lý submenu khách hàng*/
+    .nav .subCustomer.show {
+        max-height: 8em;
+        margin-top: 5px;
+    }
 
 .sidebar-wrapper .nav li a .customer.rotate {
     transform: rotate(0deg);
@@ -120,5 +129,44 @@ i.fas.fa-user-cog {
 form{
     margin: 0;
 }
+/* fiel image */
+.image-field{
+    border-radius:50%;
+    width:45px;
+    height:45px;
+}
+.image-edit {
+    margin-top: 30px;
+    width: 120px;
+    height: 120px;
+}
 
-
+/* trang detail*/
+.view-detail{
+    margin-left: 100px;
+    color: floralwhite;
+}
+.footer-detail{
+    margin-left:100px;
+}
+dt.col-sm-2 {
+    padding: 10px;
+}
+dd.col-sm-10 {
+    padding: 10px;
+}
+.image-detail {
+    width: 400px;
+    height: 300px;
+}
+.image-detail img{
+    height:100%;
+}
+/* end detail*/
+.input-group{
+    max-width:30%;
+    margin-left:50px;
+}
+.input-group form {
+    width: 80%;
+}

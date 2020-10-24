@@ -4,19 +4,22 @@
     ViewData["Title"] = "Index";
 }
 <link href="~/assets/css/customStyleLayout.css" rel="stylesheet" />
-<h1>Index</h1>
 
-@*<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
-    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>*@
-<!------ Include the above in your HEAD tag ---------->
-
-<div class="container">
-    <div class="row col-md-12 custyle">
+<div class="container-fluid">
+    <div class="row custyle">
         <a class="btn btn-success create-btn" data-toggle='modal' data-target='#createModal'>Add New Supplies</a>
+        <div class="input-group no-border">
+            <form asp-action="Index" method="get">
+                <input id="search" type="text" name="search" class="form-control" value="@ViewData["GetTextSearch"]" placeholder="Search...">
+            </form>
+            <i class="fas fa-backspace"></i>
+        </div>
         <table class="table table-striped custab">
             <thead>
                 <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Image)
+                    </th>
                     <th>
                         @Html.DisplayNameFor(model => model.Name)
                     </th>
@@ -42,6 +45,9 @@
                 @foreach (var item in Model)
                 {
                     <tr>
+                        <td>
+                            <img class="image-field" src="@item.Image" alt="Alternate Text" />
+                        </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.Name)
                         </td>
@@ -69,7 +75,7 @@
                 }
                 <!-- Phân trang -->
                 <tr>
-                    <td colspan="7" align="center">
+                    <td colspan="8" align="center">
                         @Html.PagedListPager((IPagedList)Model, pageNumber => Url.Action("Index",
                        new { pageNumber }),
                        new PagedListRenderOptions
@@ -85,7 +91,7 @@
 </div>
 
 @*Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)
-/ @Model.PageCount*@
+    / @Model.PageCount*@
 
 <div id="createModal" class="modal fade col-md-12" tabindex="-1" role="dialog">
     <div class="modal-dialog w-full" role="document">
@@ -162,8 +168,6 @@
             type: "GET",
             data: { layout: "_ModalLayout" },
             success: function (data) {
-                console.log("Data nè:", data);
-                debugger
                 $(".modal-content").html(data);
             }
         });
@@ -181,9 +185,12 @@
                 $(".modal-content").html(data);
             }
         });
+      });
+    $(".create-btn").on('hide.bs.modal', function () {
+        alert('The modal is about to be hidden.');
     });
-    $("#createModal").on('hidden.bs.modal', function (event) {
-        $('.divmodal').remove();
-        console.log('HIDDEN MODAL EVENT', event);
+
+    $(".fa-backspace").click(function () {
+        window.location = "Supplies";
     });
 </script>

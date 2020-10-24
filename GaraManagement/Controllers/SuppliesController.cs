@@ -22,15 +22,32 @@ namespace GaraManagement.Controllers
         }
 
         // GET: Supplies
-        public  IActionResult Index(int? pageNumber)
-        {
-            if (pageNumber == null) pageNumber = 1;
-            int pageSize = 2;
-            var garaContext = _context.Supplies.Include(s => s.IdTypeNavigation);
+        //public  IActionResult Index(int? pageNumber)
+        //{
+        //    if (pageNumber == null) pageNumber = 1;
+        //    int pageSize = 10;
+        //    var garaContext = _context.Supplies.Include(s => s.IdTypeNavigation);
             
-            return View(garaContext.ToList().ToPagedList((int)pageNumber,pageSize));
+        //    return View(garaContext.ToList().ToPagedList((int)pageNumber,pageSize));
+        //}
+        [HttpGet]
+        public IActionResult Index(string search)
+        {
+            var pageNumber = 1;
+            int pageSize = 10;
+            ViewData["GetTextSearch"] = search;
+            if (!string.IsNullOrEmpty(search))
+            {
+                var garaContext = _context.Supplies.Include(s => s.IdTypeNavigation).Where(a => a.Name.Contains(search));
+                return View(garaContext.ToList().ToPagedList((int)pageNumber, pageSize));
+            }
+            else
+            {
+                var garaContext = _context.Supplies.Include(s => s.IdTypeNavigation);
+                return View(garaContext.ToList().ToPagedList((int)pageNumber, pageSize));
+            }
+            
         }
-
         // GET: Supplies/Details/5
         public async Task<IActionResult> Details(string id)
         {
@@ -65,7 +82,7 @@ namespace GaraManagement.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,IdType,Name,Unit,Price,Amount,Description")] Supply supply)
+        public async Task<IActionResult> Create(Supply supply)
         {
             var type = _context.TypeOfSupplies.Select(i => i.Name).ToList();
             if (ModelState.IsValid)
@@ -88,6 +105,8 @@ namespace GaraManagement.Controllers
                 return NotFound();
             }           
             var type =  _context.TypeOfSupplies.Select(i => i.Name).ToList();
+            var image = _context.Supplies.Where(a => a.Id == id).Select(i => i.Image).FirstOrDefault();
+            ViewBag.image = image;
             var supply = await _context.Supplies.FindAsync(id);
             if (supply == null)
             {
@@ -109,11 +128,11 @@ namespace GaraManagement.Controllers
             {
                 return NotFound();
             }
-
+         
             if (ModelState.IsValid)
             {
                 try
-                {
+                {                  
                     _context.Update(supply);
                     await _context.SaveChangesAsync();
                 }
