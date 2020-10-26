@@ -31,9 +31,9 @@ namespace GaraManagement.Controllers
         //    return View(garaContext.ToList().ToPagedList((int)pageNumber,pageSize));
         //}
         [HttpGet]
-        public IActionResult Index(string search)
+        public IActionResult Index(string search, int? pageNumber)
         {
-            var pageNumber = 1;
+            if (pageNumber == null) pageNumber = 1;
             int pageSize = 10;
             ViewData["GetTextSearch"] = search;
             if (!string.IsNullOrEmpty(search))

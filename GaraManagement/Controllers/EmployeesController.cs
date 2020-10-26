@@ -20,9 +20,9 @@ namespace GaraManagement.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index(string search)
+        public IActionResult Index(string search, int? pageNumber)
         {
-            var pageNumber = 1;
+            if (pageNumber == null) pageNumber = 1;
             int pageSize = 10;
             ViewData["GetTextSearch"] = search;
             if (!string.IsNullOrEmpty(search))
@@ -68,7 +68,7 @@ namespace GaraManagement.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,DateOfBirth,ContractStartDate,Salary,Phone,Address,IdentityCardNumber,Department")] Employee employee)
+        public async Task<IActionResult> Create(Employee employee)
         {
             if (ModelState.IsValid)
             {
