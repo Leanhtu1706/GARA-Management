@@ -1,0 +1,55 @@
+﻿@model GaraManagement.Models.Customer
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="view-detail">
+    <h1>Details</h1>
+    <h4>Employee</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.DateOfBirth)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.DateOfBirth)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.Gender)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.Gender)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.Phone)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.Phone)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.Address)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.Address)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.IdentityCardNumber)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.IdentityCardNumber)
+        </dd>
+    </dl>
+</div>
+<div class="footer-detail">
+    <hr />
+    <a asp-action="Index">Back to List</a>
+</div>

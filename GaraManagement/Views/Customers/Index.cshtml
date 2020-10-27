@@ -1,13 +1,15 @@
-﻿@model IEnumerable<GaraManagement.Models.Supply>
+﻿@model IEnumerable<GaraManagement.Models.Customer>
 
 @{
     ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 <link href="~/assets/css/customStyleLayout.css" rel="stylesheet" />
 
 <div class="container-fluid">
     <div class="row custyle">
-        <a class="btn btn-success create-btn" data-toggle='modal' data-target='#createModal'>Add New Supplies</a>
+        <a class="btn btn-success create-btn" data-toggle='modal' data-target='#createModal'>Add New Customer</a>
         <div class="input-group no-border">
             <form asp-action="Index" method="get">
                 <input id="search" type="text" name="search" class="form-control" value="@ViewData["GetTextSearch"]" placeholder="Search...">
@@ -18,25 +20,22 @@
             <thead>
                 <tr>
                     <th>
-                        @Html.DisplayNameFor(model => model.Image)
-                    </th>
-                    <th>
                         @Html.DisplayNameFor(model => model.Name)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.Unit)
+                        @Html.DisplayNameFor(model => model.DateOfBirth)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.Price)
+                        @Html.DisplayNameFor(model => model.Gender)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.Amount)
+                        @Html.DisplayNameFor(model => model.Phone)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.Description)
+                        @Html.DisplayNameFor(model => model.Address)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.IdTypeNavigation.Name)
+                        @Html.DisplayNameFor(model => model.IdentityCardNumber)
                     </th>
                     <th></th>
                 </tr>
@@ -46,30 +45,28 @@
                 {
                     <tr>
                         <td>
-                            <img class="image-field" src="@item.Image" alt="Alternate Text" />
-                        </td>
-                        <td>
                             @Html.DisplayFor(modelItem => item.Name)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Unit)
+                            @Html.DisplayFor(modelItem => item.DateOfBirth)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Price)
+                            @Html.DisplayFor(modelItem => item.Gender)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Amount)
+                            @Html.DisplayFor(modelItem => item.Phone)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Description)
+                            @Html.DisplayFor(modelItem => item.Address)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.IdTypeNavigation.Name)
+                            @Html.DisplayFor(modelItem => item.IdentityCardNumber)
                         </td>
                         <td class="action-button">
                             <a class="btn btn-warning edit-btn" data-toggle='modal' data-target='#editModal' data-id="@item.Id">Edit</a> |
                             <a class="btn btn-info" asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                            <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                            <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a> |
+                            <a class="btn btn-primary" style="width:40px;" asp-action="" asp-route-id=""><i class="fas fa-car"></i></a>
                         </td>
                     </tr>
                 }
@@ -89,9 +86,6 @@
         </table>
     </div>
 </div>
-
-@*Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)
-    / @Model.PageCount*@
 
 @* View Modal*@
 <div id="createModal" class="modal fade col-md-12" tabindex="-1" role="dialog">
@@ -146,7 +140,7 @@
 </div>
 <!-- Style and Js-->
 <style>
-    .supplies {
+    .customer-profile {
         background-color: #29a6c8;
         border-radius: 4px;
     }
@@ -154,8 +148,8 @@
 <script src="~/assets/js/core/jquery.min.js"></script>
 <script>
     $(document).ready(function () {
-        $('.nav .subWarehouse').toggleClass("show");
-        $('.sidebar-wrapper .nav li a .warehouse').toggleClass("rotate");
+        $('.nav .subCustomer').toggleClass("show");
+        $('.sidebar-wrapper .nav li a .customer').toggleClass("rotate");
     });
 
     //$(document).on('shown.bs.modal', '#createModal', function (event) {
