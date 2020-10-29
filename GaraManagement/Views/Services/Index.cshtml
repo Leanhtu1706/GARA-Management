@@ -1,0 +1,200 @@
+﻿@model IEnumerable<GaraManagement.Models.Service>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<link href="~/assets/css/customStyleLayout.css" rel="stylesheet" />
+
+<div class="container-fluid">
+    <div class="row custyle">
+        <div class="row create">
+            <div class="col-md-8">
+                @{await Html.RenderPartialAsync("_CreatePartialView", new Service());}
+            </div>
+            <div class="col-md-4">
+                <div class="action-button">
+                    <button id="create-btn" type="button" class="btn btn-outline-success"> [Create] </button>
+                    <button id="edit-btn" type="button" class="btn btn-outline-warning"> [Edit] </button>
+                    <button id="delete-btn" type="button" class="btn btn-outline-danger"> [Delete] </button>
+                    <button id="save-btn" type="button" class="btn btn-outline-primary"> [Save] </button>
+                    <a asp-action="Index" asp-controller="Services" id="cancel-btn" type="button" class="btn btn-outline-dark"> [Cancel] </a>
+                </div>
+            </div>                       
+        </div>
+
+        <table class="table" id="table1">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Name)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Description)
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" value="@item.Id" id="@item.Id">
+                                <label class="custom-control-label" for="@item.Id"></label>
+                            </div>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Description)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+@* Modal delete *@
+<div id="deleteConfirmModal" class="modal fade" role="dialog">
+    <div class="modal-dialog delete">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 style="color:black;" class="modal-title">Are you sure?</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-action col-md-5 offset-4">
+                <a asp-action="Index" icon-name="action-cancel" class="btn btn-default" data-dismiss="modal" data-target="#deleteConfirmModal">
+                    Cancel
+                </a>
+                <button icon-name="action-delete" class="btn btn-danger deleteConfirm-btn">
+                    Delete
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.service {
+    background-color: #29a6c8;
+    border-radius: 4px;
+}
+#save-btn, #cancel-btn{
+    display:none;
+}
+</style>
+<script src="~/assets/js/core/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('.nav .subRepair').toggleClass("show");
+        $('.sidebar-wrapper .nav li a .repair').toggleClass("rotate");
+
+        // Xử lý disable button delete & edit
+        if ($("input:checked").length == 0) {
+            $("#delete-btn").attr("disabled", true);
+            $("#edit-btn").attr("disabled", true);
+        }            
+    });
+    $('.custom-control-input').click(function () {
+        if ($("input:checked").length == 0) {
+            $("#delete-btn").attr("disabled", true);
+            $("#edit-btn").attr("disabled", true);
+        }
+        else{
+            $("#delete-btn").attr("disabled", false);
+            $("#edit-btn").attr("disabled", false);
+        }
+    });
+
+
+    //Xử lý btn create
+    $("#create-btn").click(function () {
+        $("#formCreate").attr('action','/Services/Create')
+        $("#formCreate").submit();
+    });
+
+    //delete
+    $("#delete-btn").click(function () {
+        console.log("shown modal event", event);
+        var selected = new Array();
+        $("#table1 input[type=checkbox]:checked").each(function () {
+            selected.push($(this).val());
+            console.log("Id:", selected);
+        });
+        $.ajax({
+            /**/
+            url: '@Url.Action("Delete")',
+            /**/
+            type: "Get",
+            traditional: true,
+            data: { id: selected },
+            success: function (data) {
+                $("#deleteConfirmModal").modal('show');
+                console.log("Data:", data);
+                $(".deleteConfirm-btn").click(function () {
+                    console.log("array Id:", selected);
+                    AjaxDeleteConfirm(selected);
+
+                });
+            }
+        });
+
+        function AjaxDeleteConfirm(arrayId) {
+             $.ajax({
+                /**/
+                url: '@Url.Action("DeleteConfirmed")',
+                /**/
+                type: "POST",
+                data: { id: arrayId },
+                success: function (data) {
+                    console.log("Delete Successed");
+                    window.location.href = data.redirectToUrl;
+                }
+            });
+        };
+    });
+
+    //Edit
+    $("#edit-btn").click(function () {
+        if ($("input:checked").length > 1) {
+            alert("Chỉ được chọn 1 bản ghi để sửa!");
+            return false;
+        }
+        else if ($("input:checked").length < 1) {
+            alert("Chưa có bản ghi nào được chọn!");
+            return false;
+        }
+        $("#save-btn").css("display", "inline-block");
+        $("#cancel-btn").css("display", "inline-block");
+        $("#delete-btn").css("display", "none");
+        $("#create-btn").css("display", "none");
+        $("#edit-btn").css("display", "none");
+        var idSer = $("input:checkbox:checked").val();
+        console.log("Id edit:", idSer);
+        $.ajax({
+            /**/
+            url: '@Url.Action("Edit")',
+            /**/
+            type: "Get",
+            data: { id: idSer },
+            success: function (data) {               
+                console.log("Data:", data);
+                $.each(data, function (key, value) {
+                    console.log(key, value);
+                    $("input[name='"+key+"']").val(value);                                         
+                });       
+                $("#save-btn").click(function () {
+                    console.log("array Id:", idSer);
+                    $("#formCreate").attr('action', '/Services/Edit')
+                    $("#formCreate").submit();
+
+                });
+            }
+        });     
+    });
+</script>

@@ -1,0 +1,39 @@
+﻿@model GaraManagement.Models.Service
+
+@{
+    ViewData["Title"] = "Create";
+}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<link href="~/assets/css/customStyleLayout.css" rel="stylesheet" />
+<hr />
+<div class="row createPartial">
+    <form id="formCreate" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="Id" name="id" />
+        <div class="row">
+            <div class="col-md-6 row form-group">
+                <div class="col-md-3">
+                    <label asp-for="Name" class="control-label"></label>
+                </div>
+                <div class="col-md-8">
+                    <input asp-for="Name" class="form-control Name" name="name" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-6 row form-group">
+                <div class="col-md-3">
+                    <label asp-for="Description" class="control-label"></label>
+                </div>
+                <div class="col-md-9">
+                    <input asp-for="Description" class="form-control" name="description" />
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

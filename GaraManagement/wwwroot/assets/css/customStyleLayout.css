@@ -275,3 +275,50 @@ img.image-logo {
 #search{
     color:whitesmoke;
 }
+/*------------*/
+/*----- Service --------*/
+.create {
+    width: 100%;
+    margin: 10px 0;
+    border-radius: 5px;
+    background: whitesmoke;
+}
+.createPartial {
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+.createPartial .form-control {
+    background-color: #dcdcdc;
+}
+.createPartial .form-control:focus{
+    background-color: white;
+}
+.create .action-button {
+    display: block;
+    margin-top: 30px;
+}
+.create .action-button .btn-outline-success:hover {
+    color: #fff;
+    background-color: #4caf50;
+    box-shadow: none;
+}
+.create .action-button .btn-outline-warning:hover {
+    color: #fff;
+    background-color: #ff9800;
+    box-shadow: none;
+}
+.create .action-button .btn-outline-danger:hover {
+    color: #fff;
+    background-color: #e33145;
+    box-shadow: none;
+}
+.create .action-button .btn-outline-primary:hover {
+    color: #fff;
+    background-color: #9c27b0;
+    box-shadow: none;
+}
+.btn[disabled] {
+    cursor: not-allowed;
+    opacity: .65;
+}
