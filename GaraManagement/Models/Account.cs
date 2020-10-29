@@ -9,7 +9,7 @@ namespace GaraManagement.Models
     {
         public string UserName { get; set; }
         public string Password { get; set; }
-        public string IdEmployee { get; set; }
+        public int? IdEmployee { get; set; }
 
         public virtual Employee IdEmployeeNavigation { get; set; }
     }

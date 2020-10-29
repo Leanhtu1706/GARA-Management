@@ -853,8 +853,6 @@ h6,
 }
 
 hr {
-    margin-top: 1rem;
-    margin-bottom: 1rem;
     border: 0;
     border-top: 1px solid #30c2ffa8;
 }
@@ -14357,7 +14355,7 @@ h6,
 .h3,
 .h4 {
   font-family: "Roboto", "Helvetica", "Arial", sans-serif;
-  font-weight: 300;
+  font-weight: 500;
   line-height: 1.5em;
 }
 
@@ -14383,7 +14381,7 @@ h4,
 .h4 {
   font-size: 1.125rem;
   line-height: 1.4em;
-  font-weight: 300;
+  font-weight: 500;
 }
 
 h5,
@@ -17361,7 +17359,7 @@ html[dir="rtl"] .form-check .form-check-sign .check:before {
 
 .card {
   border: 0;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   margin-top: 30px;
   border-radius: 6px;
   color: #333333;

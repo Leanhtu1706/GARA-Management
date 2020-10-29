@@ -49,7 +49,7 @@ namespace GaraManagement.Controllers
             
         }
         // GET: Supplies/Details/5
-        public async Task<IActionResult> Details(string id)
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
@@ -97,7 +97,7 @@ namespace GaraManagement.Controllers
 
         // GET: Supplies/Edit/5
         [HttpGet]
-        public async Task<IActionResult> Edit(string id, string layout = "_")
+        public async Task<IActionResult> Edit(int? id, string layout = "_")
         {
             
             if (id == null)
@@ -122,7 +122,7 @@ namespace GaraManagement.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, Supply supply)
+        public async Task<IActionResult> Edit(int? id, Supply supply)
         {
             if (id != supply.Id)
             {
@@ -155,7 +155,7 @@ namespace GaraManagement.Controllers
         }
 
         // GET: Supplies/Delete/5
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
@@ -176,7 +176,7 @@ namespace GaraManagement.Controllers
         // POST: Supplies/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
+        public async Task<IActionResult> DeleteConfirmed(int? id)
         {
             var supply = await _context.Supplies.FindAsync(id);
             _context.Supplies.Remove(supply);
@@ -184,7 +184,7 @@ namespace GaraManagement.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool SupplyExists(string id)
+        private bool SupplyExists(int? id)
         {
             return _context.Supplies.Any(e => e.Id == id);
         }

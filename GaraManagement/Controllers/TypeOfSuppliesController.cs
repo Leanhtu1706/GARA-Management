@@ -10,34 +10,24 @@ using X.PagedList;
 
 namespace GaraManagement.Controllers
 {
-    public class EmployeesController : Controller
+    public class TypeOfSuppliesController : Controller
     {
         private readonly GaraContext _context;
 
-        public EmployeesController(GaraContext context)
+        public TypeOfSuppliesController(GaraContext context)
         {
             _context = context;
         }
 
-        [HttpGet]
-        public IActionResult Index(string search, int? pageNumber)
+        // GET: TypeOfSupplies
+        public IActionResult Index(int? pageNumber)
         {
             if (pageNumber == null) pageNumber = 1;
             int pageSize = 10;
-            ViewData["GetTextSearch"] = search;
-            if (!string.IsNullOrEmpty(search))
-            {
-                var garaContext = _context.Employees.Where(a => a.Name.Contains(search));
-                return View(garaContext.ToList().ToPagedList((int)pageNumber, pageSize));
-            }
-            else
-            {
-                var garaContext = _context.Employees;
-                return View(garaContext.ToList().ToPagedList((int)pageNumber, pageSize));
-            }
-
+            return View( _context.TypeOfSupplies.ToList().ToPagedList((int)pageNumber, pageSize));
         }
-        // GET: Employees/Details/5
+
+        // GET: TypeOfSupplies/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -45,42 +35,40 @@ namespace GaraManagement.Controllers
                 return NotFound();
             }
 
-            var employee = await _context.Employees
+            var typeOfSupply = await _context.TypeOfSupplies
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (employee == null)
+            if (typeOfSupply == null)
             {
                 return NotFound();
             }
 
-            return View(employee);
+            return View(typeOfSupply);
         }
 
-        // GET: Employees/Create
-        [HttpGet]
+        // GET: TypeOfSupplies/Create
         public IActionResult Create(string layout = "_")
         {
             ViewData["Layout"] = layout == "_" ? "" : layout;
             return View();
         }
 
-        // POST: Employees/Create
+        // POST: TypeOfSupplies/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Employee employee)
+        public async Task<IActionResult> Create( TypeOfSupply typeOfSupply)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(employee);
+                _context.Add(typeOfSupply);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(employee);
+            return View(typeOfSupply);
         }
 
-        // GET: Employees/Edit/5
-        [HttpGet]
+        // GET: TypeOfSupplies/Edit/5
         public async Task<IActionResult> Edit(int? id, string layout = "_")
         {
             if (id == null)
@@ -88,24 +76,22 @@ namespace GaraManagement.Controllers
                 return NotFound();
             }
             ViewData["Layout"] = layout == "_" ? "" : layout;
-            var employee = await _context.Employees.FindAsync(id);
-            var image = _context.Employees.Where(a => a.Id == id).Select(i => i.Image).FirstOrDefault();
-            ViewBag.image = image;
-            if (employee == null)
+            var typeOfSupply = await _context.TypeOfSupplies.FindAsync(id);
+            if (typeOfSupply == null)
             {
                 return NotFound();
             }
-            return View(employee);
+            return View(typeOfSupply);
         }
 
-        // POST: Employees/Edit/5
+        // POST: TypeOfSupplies/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int? id, Employee employee)
+        public async Task<IActionResult> Edit(int id, TypeOfSupply typeOfSupply)
         {
-            if (id != employee.Id)
+            if (id != typeOfSupply.Id)
             {
                 return NotFound();
             }
@@ -114,12 +100,12 @@ namespace GaraManagement.Controllers
             {
                 try
                 {
-                    _context.Update(employee);
+                    _context.Update(typeOfSupply);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!EmployeeExists(employee.Id))
+                    if (!TypeOfSupplyExists(typeOfSupply.Id))
                     {
                         return NotFound();
                     }
@@ -130,10 +116,10 @@ namespace GaraManagement.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(employee);
+            return View(typeOfSupply);
         }
 
-        // GET: Employees/Delete/5
+        // GET: TypeOfSupplies/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -141,30 +127,30 @@ namespace GaraManagement.Controllers
                 return NotFound();
             }
 
-            var employee = await _context.Employees
+            var typeOfSupply = await _context.TypeOfSupplies
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (employee == null)
+            if (typeOfSupply == null)
             {
                 return NotFound();
             }
 
-            return View(employee);
+            return View(typeOfSupply);
         }
 
-        // POST: Employees/Delete/5
+        // POST: TypeOfSupplies/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int? id)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var employee = await _context.Employees.FindAsync(id);
-            _context.Employees.Remove(employee);
+            var typeOfSupply = await _context.TypeOfSupplies.FindAsync(id);
+            _context.TypeOfSupplies.Remove(typeOfSupply);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool EmployeeExists(int? id)
+        private bool TypeOfSupplyExists(int id)
         {
-            return _context.Employees.Any(e => e.Id == id);
+            return _context.TypeOfSupplies.Any(e => e.Id == id);
         }
     }
 }

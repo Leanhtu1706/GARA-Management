@@ -1,0 +1,31 @@
+﻿@model GaraManagement.Models.TypeOfSupply
+
+@{
+    ViewData["Title"] = "Detail";
+}
+
+
+
+<div class="view-detail">
+    <h1>Details</h1>
+    <h4>Type Of Supplies</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+    </dl>
+</div>
+<div class="footer-detail">
+    <hr />
+    <a asp-action="Index">Back to List</a>
+</div>

@@ -1,0 +1,109 @@
+﻿@model GaraManagement.Models.Car
+@{
+    ViewData["Title"] = "Create car";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/assets/js/core/jquery.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+<link href="~/assets/css/customStyleLayout.css" rel="stylesheet" />
+
+<div class="row create-edit">
+
+    <form asp-action="Create" id="formCreate">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="row">
+            <h2>Create new car</h2>
+        </div>
+        <hr />
+        <div class="btn-action">
+            <button icon-name="action-cancel" name="close" class="btn btn-default closeBtn" data-dismiss="modal">Close</button>
+            <input type="submit" class="btn btn-success" value="Save" />
+        </div>
+        <div class="row">
+            <div class="col-md-5">
+                <div class="row form-group">
+                    <div class="col-sm-4">
+                        <label asp-for="IdCustomer" class="control-label">Customer</label>
+                    </div>
+                    <div class="col-sm-8">
+                        <select id="select-customer" class="custom-select" asp-for="IdCustomer" asp-items="ViewBag.Customer"></select>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-sm-4">
+                        <label asp-for="CarName" class="control-label" name="Name"></label>
+                    </div>
+                    <div class="col-sm-8">
+                        <input asp-for="CarName" class="form-control" />
+                        <span asp-validation-for="CarName" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-sm-4">
+                        <label asp-for="Manufacturer" class="control-label" name="Name"></label>
+                    </div>
+                    <div class="col-sm-8">
+                        <input asp-for="Manufacturer" class="form-control" />
+                        <span asp-validation-for="Manufacturer" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-sm-4">
+                        <label asp-for="LicensePlates" class="control-label" name="Name"></label>
+                    </div>
+                    <div class="col-sm-8">
+                        <input asp-for="LicensePlates" class="form-control" />
+                        <span asp-validation-for="LicensePlates" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-sm-4">
+                        <label asp-for="Color" class="control-label" name="Name"></label>
+                    </div>
+                    <div class="col-sm-8">
+                        <input asp-for="Color" class="form-control" />
+                        <span asp-validation-for="Color" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            @* Image *@
+            <div class="col-md-5">
+                <div class="row form-group">
+                    <div class="col-sm-2">
+                        <label asp-for="Image" class="control-label"></label>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="file" id="uploadFile">
+                    </div>
+                </div>
+                <div class="row thumbnail">
+                    <img class="image-edit" src="" alt="Logo" />
+                </div>
+                <div class="row form-group">
+                    <div class="col-md-12">
+                        <input type="hidden" asp-for="Image" class="form-control image-input">
+                        <span asp-validation-for="Image" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </form>
+</div>
+
+
+<script>
+    $('input[type="file"]').change(function (e) {
+        var path = "../assets/img/logoCar/" + e.target.files[0].name;
+        $(".image-edit").attr("src", path);
+        $('.image-input').attr('value', path);
+    });
+
+    $("#select-customer").select2();
+
+</script>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

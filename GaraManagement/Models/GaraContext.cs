@@ -35,7 +35,7 @@ namespace GaraManagement.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=DELL-LAT\\SQLEXPRESS;Database=Gara;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer("Name=Gara");
             }
         }
 
@@ -50,10 +50,6 @@ namespace GaraManagement.Models
 
                 entity.Property(e => e.UserName)
                     .HasMaxLength(50)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.IdEmployee)
-                    .HasMaxLength(20)
                     .IsUnicode(false);
 
                 entity.Property(e => e.Password)
@@ -71,17 +67,9 @@ namespace GaraManagement.Models
             {
                 entity.ToTable("Car");
 
-                entity.Property(e => e.Id)
-                    .HasMaxLength(20)
-                    .IsUnicode(false);
-
                 entity.Property(e => e.CarName).HasMaxLength(50);
 
                 entity.Property(e => e.Color).HasMaxLength(10);
-
-                entity.Property(e => e.IdCustomer)
-                    .HasMaxLength(20)
-                    .IsUnicode(false);
 
                 entity.Property(e => e.LicensePlates)
                     .HasMaxLength(20)
@@ -98,10 +86,6 @@ namespace GaraManagement.Models
             modelBuilder.Entity<Customer>(entity =>
             {
                 entity.ToTable("Customer");
-
-                entity.Property(e => e.Id)
-                    .HasMaxLength(20)
-                    .IsUnicode(false);
 
                 entity.Property(e => e.Address).HasMaxLength(80);
 
@@ -125,14 +109,6 @@ namespace GaraManagement.Models
 
                 entity.ToTable("DetailGoodsDeliveryNote");
 
-                entity.Property(e => e.IdGoodsDeliveryNote)
-                    .HasMaxLength(20)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.IdSupplies)
-                    .HasMaxLength(20)
-                    .IsUnicode(false);
-
                 entity.HasOne(d => d.IdGoodsDeliveryNoteNavigation)
                     .WithMany(p => p.DetailGoodsDeliveryNotes)
                     .HasForeignKey(d => d.IdGoodsDeliveryNote)
@@ -152,14 +128,6 @@ namespace GaraManagement.Models
 
                 entity.ToTable("DetailGoodsReceivedNote");
 
-                entity.Property(e => e.IdGoodsReceivedNote)
-                    .HasMaxLength(20)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.IdSupplies)
-                    .HasMaxLength(20)
-                    .IsUnicode(false);
-
                 entity.HasOne(d => d.IdGoodsReceivedNoteNavigation)
                     .WithMany(p => p.DetailGoodsReceivedNotes)
                     .HasForeignKey(d => d.IdGoodsReceivedNote)
@@ -177,10 +145,7 @@ namespace GaraManagement.Models
             {
                 entity.ToTable("Employee");
 
-                entity.Property(e => e.Id)
-                    .HasMaxLength(20)
-                    .IsUnicode(false)
-                    .HasColumnName("ID");
+                entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.Address).HasMaxLength(80);
 
@@ -192,6 +157,10 @@ namespace GaraManagement.Models
 
                 entity.Property(e => e.IdentityCardNumber)
                     .HasMaxLength(12)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Image)
+                    .HasMaxLength(200)
                     .IsUnicode(false);
 
                 entity.Property(e => e.Name).HasMaxLength(50);
@@ -206,17 +175,9 @@ namespace GaraManagement.Models
             {
                 entity.ToTable("GoodsDeliveryNote");
 
-                entity.Property(e => e.Id)
-                    .HasMaxLength(20)
-                    .IsUnicode(false);
-
                 entity.Property(e => e.Description).HasMaxLength(100);
 
                 entity.Property(e => e.ExportDate).HasColumnType("date");
-
-                entity.Property(e => e.IdRepair)
-                    .HasMaxLength(20)
-                    .IsUnicode(false);
 
                 entity.HasOne(d => d.IdRepairNavigation)
                     .WithMany(p => p.GoodsDeliveryNotes)
@@ -228,15 +189,7 @@ namespace GaraManagement.Models
             {
                 entity.ToTable("GoodsReceivedNote");
 
-                entity.Property(e => e.Id)
-                    .HasMaxLength(20)
-                    .IsUnicode(false);
-
                 entity.Property(e => e.Description).HasMaxLength(100);
-
-                entity.Property(e => e.IdSupplier)
-                    .HasMaxLength(20)
-                    .IsUnicode(false);
 
                 entity.Property(e => e.ImportDate).HasColumnType("date");
 
@@ -250,21 +203,9 @@ namespace GaraManagement.Models
             {
                 entity.ToTable("Repair");
 
-                entity.Property(e => e.Id)
-                    .HasMaxLength(20)
-                    .IsUnicode(false);
-
                 entity.Property(e => e.DateFinished).HasColumnType("date");
 
                 entity.Property(e => e.DateOfFactoryEntry).HasColumnType("date");
-
-                entity.Property(e => e.IdCar)
-                    .HasMaxLength(20)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.IdService)
-                    .HasMaxLength(20)
-                    .IsUnicode(false);
 
                 entity.HasOne(d => d.IdCarNavigation)
                     .WithMany(p => p.Repairs)
@@ -281,10 +222,6 @@ namespace GaraManagement.Models
             {
                 entity.ToTable("Service");
 
-                entity.Property(e => e.Id)
-                    .HasMaxLength(20)
-                    .IsUnicode(false);
-
                 entity.Property(e => e.Description).HasMaxLength(100);
 
                 entity.Property(e => e.Name).HasMaxLength(50);
@@ -293,10 +230,6 @@ namespace GaraManagement.Models
             modelBuilder.Entity<Supplier>(entity =>
             {
                 entity.ToTable("Supplier");
-
-                entity.Property(e => e.Id)
-                    .HasMaxLength(20)
-                    .IsUnicode(false);
 
                 entity.Property(e => e.Address).HasMaxLength(80);
 
@@ -314,14 +247,10 @@ namespace GaraManagement.Models
 
             modelBuilder.Entity<Supply>(entity =>
             {
-                entity.Property(e => e.Id)
-                    .HasMaxLength(20)
-                    .IsUnicode(false);
-
                 entity.Property(e => e.Description).HasMaxLength(50);
 
-                entity.Property(e => e.IdType)
-                    .HasMaxLength(20)
+                entity.Property(e => e.Image)
+                    .HasMaxLength(200)
                     .IsUnicode(false);
 
                 entity.Property(e => e.Name).HasMaxLength(20);
@@ -336,10 +265,6 @@ namespace GaraManagement.Models
 
             modelBuilder.Entity<TypeOfSupply>(entity =>
             {
-                entity.Property(e => e.Id)
-                    .HasMaxLength(20)
-                    .IsUnicode(false);
-
                 entity.Property(e => e.Description).HasMaxLength(50);
 
                 entity.Property(e => e.Name).HasMaxLength(50);

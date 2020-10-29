@@ -38,7 +38,7 @@ namespace GaraManagement.Controllers
         }
 
         // GET: Customers/Details/5
-        public async Task<IActionResult> Details(string id)
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
@@ -67,7 +67,7 @@ namespace GaraManagement.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,DateOfBirth,Gender,Phone,Address,IdentityCardNumber")] Customer customer)
+        public async Task<IActionResult> Create(Customer customer)
         {
             if (ModelState.IsValid)
             {
@@ -79,7 +79,7 @@ namespace GaraManagement.Controllers
         }
 
         // GET: Customers/Edit/5
-        public async Task<IActionResult> Edit(string id,string layout = "_")
+        public async Task<IActionResult> Edit(int? id,string layout = "_")
         {
             if (id == null)
             {
@@ -99,7 +99,7 @@ namespace GaraManagement.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Id,Name,DateOfBirth,Gender,Phone,Address,IdentityCardNumber")] Customer customer)
+        public async Task<IActionResult> Edit(int? id, Customer customer)
         {
             if (id != customer.Id)
             {
@@ -130,7 +130,7 @@ namespace GaraManagement.Controllers
         }
 
         // GET: Customers/Delete/5
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
@@ -150,7 +150,7 @@ namespace GaraManagement.Controllers
         // POST: Customers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
+        public async Task<IActionResult> DeleteConfirmed(int? id)
         {
             var customer = await _context.Customers.FindAsync(id);
             _context.Customers.Remove(customer);
@@ -158,7 +158,7 @@ namespace GaraManagement.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CustomerExists(string id)
+        private bool CustomerExists(int? id)
         {
             return _context.Customers.Any(e => e.Id == id);
         }

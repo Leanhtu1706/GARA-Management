@@ -1,4 +1,4 @@
-﻿@model IEnumerable<GaraManagement.Models.Supply>
+﻿@model IEnumerable<GaraManagement.Models.TypeOfSupply>
 
 @{
     ViewData["Title"] = "Index";
@@ -7,7 +7,7 @@
 
 <div class="container-fluid">
     <div class="row custyle">
-        <a class="btn btn-success create-btn" data-toggle='modal' data-target='#createModal'>Add New Supplies</a>
+        <a class="btn btn-success create-btn" data-toggle='modal' data-target='#createModal'>Add New Customer</a>
         <div class="input-group no-border">
             <form asp-action="Index" method="get">
                 <input id="search" type="text" name="search" class="form-control" value="@ViewData["GetTextSearch"]" placeholder="Search...">
@@ -18,25 +18,10 @@
             <thead>
                 <tr>
                     <th>
-                        @Html.DisplayNameFor(model => model.Image)
-                    </th>
-                    <th>
                         @Html.DisplayNameFor(model => model.Name)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Unit)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Price)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Amount)
-                    </th>
+                    </th>                
                     <th>
                         @Html.DisplayNameFor(model => model.Description)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.IdTypeNavigation.Name)
                     </th>
                     <th></th>
                 </tr>
@@ -46,36 +31,21 @@
                 {
                     <tr>
                         <td>
-                            <img class="image-field" src="@item.Image" alt="Alternate Text" />
-                        </td>
-                        <td>
                             @Html.DisplayFor(modelItem => item.Name)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Unit)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Price)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Amount)
-                        </td>
+                        </td>                   
                         <td>
                             @Html.DisplayFor(modelItem => item.Description)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.IdTypeNavigation.Name)
                         </td>
                         <td class="action-button">
                             <a class="btn btn-warning edit-btn" data-toggle='modal' data-target='#editModal' data-id="@item.Id">Edit</a> |
                             <a class="btn btn-info" asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                            <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                            <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a> |
                         </td>
                     </tr>
                 }
                 <!-- Phân trang -->
                 <tr>
-                    <td colspan="8" align="center">
+                    <td colspan="3" align="center">
                         @Html.PagedListPager((IPagedList)Model, pageNumber => Url.Action("Index",
                        new { pageNumber }),
                        new PagedListRenderOptions
@@ -90,15 +60,12 @@
     </div>
 </div>
 
-@*Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)
-    / @Model.PageCount*@
-
 @* View Modal*@
 <div id="createModal" class="modal fade col-md-12" tabindex="-1" role="dialog">
     <div class="modal-dialog w-full" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4>Create New Employee</h4>
+                <h4>Create New Type</h4>
             </div>
             <div class="modal-body">
                 <div class="spinner overlay-loading">
@@ -123,7 +90,7 @@
     <div class="modal-dialog w-full" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4>Edit Supplies</h4>
+                <h4>Edit Type</h4>
             </div>
             <div class="modal-body">
                 <div class="spinner overlay-loading">
@@ -144,9 +111,8 @@
         </div>
     </div>
 </div>
-<!-- Style and Js-->
 <style>
-    .supplies {
+    .typeOfSupplies {
         background-color: #29a6c8;
         border-radius: 4px;
     }
@@ -157,9 +123,7 @@
         $('.nav .subWarehouse').toggleClass("show");
         $('.sidebar-wrapper .nav li a .warehouse').toggleClass("rotate");
     });
-
-    //$(document).on('shown.bs.modal', '#createModal', function (event) {
-    $(".create-btn").click(function () {
+     $(".create-btn").click(function () {
         console.log("shown modal event", event);
 
         $.ajax({
@@ -189,9 +153,5 @@
       });
     $(".create-btn").on('hide.bs.modal', function () {
         alert('The modal is about to be hidden.');
-    });
-
-    $(".fa-backspace").click(function () {
-        window.location = "Supplies";
     });
 </script>

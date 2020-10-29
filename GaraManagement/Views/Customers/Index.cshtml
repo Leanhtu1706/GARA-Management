@@ -72,7 +72,7 @@
                 }
                 <!-- Phân trang -->
                 <tr>
-                    <td colspan="8" align="center">
+                    <td colspan="7" align="center">
                         @Html.PagedListPager((IPagedList)Model, pageNumber => Url.Action("Index",
                        new { pageNumber }),
                        new PagedListRenderOptions
@@ -92,7 +92,7 @@
     <div class="modal-dialog w-full" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4>Create New Employee</h4>
+                <h4>Create New Customer</h4>
             </div>
             <div class="modal-body">
                 <div class="spinner overlay-loading">
@@ -117,7 +117,7 @@
     <div class="modal-dialog w-full" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h4>Create New Employee</h4>
+                <h4>Edit Customer</h4>
             </div>
             <div class="modal-body">
                 <div class="spinner overlay-loading">

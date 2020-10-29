@@ -7,8 +7,8 @@ namespace GaraManagement.Models
 {
     public partial class DetailGoodsReceivedNote
     {
-        public string IdGoodsReceivedNote { get; set; }
-        public string IdSupplies { get; set; }
+        public int IdGoodsReceivedNote { get; set; }
+        public int IdSupplies { get; set; }
         public int? Amount { get; set; }
         public int? Price { get; set; }
 

@@ -12,9 +12,9 @@ namespace GaraManagement.Models
             GoodsDeliveryNotes = new HashSet<GoodsDeliveryNote>();
         }
 
-        public string Id { get; set; }
-        public string IdService { get; set; }
-        public string IdCar { get; set; }
+        public int Id { get; set; }
+        public int? IdService { get; set; }
+        public int? IdCar { get; set; }
         public DateTime? DateOfFactoryEntry { get; set; }
         public DateTime? DateFinished { get; set; }
         public int? Cost { get; set; }

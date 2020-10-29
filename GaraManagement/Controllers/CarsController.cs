@@ -6,38 +6,38 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GaraManagement.Models;
-using X.PagedList;
 
 namespace GaraManagement.Controllers
 {
-    public class EmployeesController : Controller
+    public class CarsController : Controller
     {
         private readonly GaraContext _context;
 
-        public EmployeesController(GaraContext context)
+        public CarsController(GaraContext context)
         {
             _context = context;
         }
 
-        [HttpGet]
-        public IActionResult Index(string search, int? pageNumber)
+        // GET: Cars
+        public async Task<IActionResult> Index(string search)
         {
-            if (pageNumber == null) pageNumber = 1;
-            int pageSize = 10;
             ViewData["GetTextSearch"] = search;
             if (!string.IsNullOrEmpty(search))
             {
-                var garaContext = _context.Employees.Where(a => a.Name.Contains(search));
-                return View(garaContext.ToList().ToPagedList((int)pageNumber, pageSize));
+                var carData = _context.Cars.Include(i => i.IdCustomerNavigation).Where(a => a.CarName.Contains(search) || a.Manufacturer.Contains(search) || a.IdCustomerNavigation.Name.Contains(search));
+                return View(carData.ToList());
             }
             else
             {
-                var garaContext = _context.Employees;
-                return View(garaContext.ToList().ToPagedList((int)pageNumber, pageSize));
+                //Tí nhớ xóa 2 dòng này nha
+                var customer = _context.Customers.Select(i => i.Name).ToList();
+                ViewData["Customer"] = new SelectList(_context.Customers, "Id", "Name", customer);
+                var carData = _context.Cars.Include(c => c.IdCustomerNavigation);
+                return View(await carData.ToListAsync());
             }
-
         }
-        // GET: Employees/Details/5
+
+        // GET: Cars/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -45,41 +45,44 @@ namespace GaraManagement.Controllers
                 return NotFound();
             }
 
-            var employee = await _context.Employees
+            var car = await _context.Cars
+                .Include(c => c.IdCustomerNavigation)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (employee == null)
+            if (car == null)
             {
                 return NotFound();
             }
 
-            return View(employee);
+            return View(car);
         }
 
-        // GET: Employees/Create
-        [HttpGet]
+        // GET: Cars/Create
         public IActionResult Create(string layout = "_")
         {
+            var customer = _context.Customers.Select(i => i.Name).ToList();
             ViewData["Layout"] = layout == "_" ? "" : layout;
+            ViewData["Customer"] = new SelectList(_context.Customers, "Id", "Name",customer);
             return View();
         }
 
-        // POST: Employees/Create
+        // POST: Cars/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Employee employee)
+        public async Task<IActionResult> Create(Car car)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(employee);
+                _context.Add(car);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(employee);
+            ViewData["Customer"] = new SelectList(_context.Customers, "Id", "Id", car.IdCustomer);
+            return View(car);
         }
 
-        // GET: Employees/Edit/5
+        // GET: Cars/Edit/5
         [HttpGet]
         public async Task<IActionResult> Edit(int? id, string layout = "_")
         {
@@ -87,25 +90,26 @@ namespace GaraManagement.Controllers
             {
                 return NotFound();
             }
-            ViewData["Layout"] = layout == "_" ? "" : layout;
-            var employee = await _context.Employees.FindAsync(id);
-            var image = _context.Employees.Where(a => a.Id == id).Select(i => i.Image).FirstOrDefault();
-            ViewBag.image = image;
-            if (employee == null)
+            var customer = _context.Customers.Select(i => i.Name).ToList();
+            var car = await _context.Cars.FindAsync(id);
+            if (car == null)
             {
                 return NotFound();
             }
-            return View(employee);
+            ViewBag.image = car.Image;
+            ViewData["Layout"] = layout == "_" ? "" : layout;
+            ViewData["Customer"] = new SelectList(_context.Customers, "Id", "Name", car.IdCustomer);
+            return View(car);
         }
 
-        // POST: Employees/Edit/5
+        // POST: Cars/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int? id, Employee employee)
+        public async Task<IActionResult> Edit(int id, Car car)
         {
-            if (id != employee.Id)
+            if (id != car.Id)
             {
                 return NotFound();
             }
@@ -114,12 +118,12 @@ namespace GaraManagement.Controllers
             {
                 try
                 {
-                    _context.Update(employee);
+                    _context.Update(car);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!EmployeeExists(employee.Id))
+                    if (!CarExists(car.Id))
                     {
                         return NotFound();
                     }
@@ -130,10 +134,11 @@ namespace GaraManagement.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(employee);
+            ViewData["IdCustomer"] = new SelectList(_context.Customers, "Id", "Id", car.IdCustomer);
+            return View(car);
         }
 
-        // GET: Employees/Delete/5
+        // GET: Cars/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -141,30 +146,31 @@ namespace GaraManagement.Controllers
                 return NotFound();
             }
 
-            var employee = await _context.Employees
+            var car = await _context.Cars
+                .Include(c => c.IdCustomerNavigation)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (employee == null)
+            if (car == null)
             {
                 return NotFound();
             }
-
-            return View(employee);
+            ViewBag.idDelete = id;
+            return Json(car.Id);
         }
 
-        // POST: Employees/Delete/5
-        [HttpPost, ActionName("Delete")]
+        // POST: Cars/Delete/5
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int? id)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var employee = await _context.Employees.FindAsync(id);
-            _context.Employees.Remove(employee);
+            var car = await _context.Cars.FindAsync(id);
+            _context.Cars.Remove(car);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool EmployeeExists(int? id)
+        private bool CarExists(int id)
         {
-            return _context.Employees.Any(e => e.Id == id);
+            return _context.Cars.Any(e => e.Id == id);
         }
     }
 }

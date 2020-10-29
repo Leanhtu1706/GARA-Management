@@ -27,6 +27,10 @@ thead > tr {
     display: block;
 }
 
+.custyle {
+    max-width: 100%;
+    margin: 0 auto;
+}
 /*Xử lý hiệu ứng menu chung*/
 .sidebar-wrapper .nav li a {
     border-left: 5px solid transparent;
@@ -81,15 +85,27 @@ i.fas.fa-backspace:hover {
     background: none;
     color: brown;
 }
-    /* Xử lý submenu khách hàng*/
-    .nav .subCustomer.show {
-        max-height: 8em;
-        margin-top: 5px;
-    }
-
+.fas {
+    font-size: 20px;
+}
+i.far.fa-trash-alt {
+    font-size: 20px;
+    margin-right: 10px;
+    color:#ff3b3b;
+}
+i.fas.fa-edit {
+    margin-right: 5px;
+    color: #fd9500;
+}
+/* Xử lý submenu khách hàng*/
+.nav .subCustomer.show {
+    max-height: 8em;
+    margin-top: 5px;
+}
 .sidebar-wrapper .nav li a .customer.rotate {
     transform: rotate(0deg);
 }
+
 /* Xử lý submenu sửa chữa*/
 .nav .subRepair.show {
     max-height: 15em;
@@ -140,9 +156,11 @@ form{
     width: 120px;
     height: 120px;
 }
-
+.delete .image-detail img {
+    height: 60%;
+}
 /* trang detail*/
-.view-detail{
+.view-detail {
     margin-left: 100px;
     color: floralwhite;
 }
@@ -180,4 +198,80 @@ dd.col-sm-10 {
 .modal-dialog.delete {
     width: 30%;
 }
+.delete{
+    height:250px;
+}
 /*=========*/
+/* View car*/
+img.image-logo {
+    width: 100%;
+    height: 100%;
+}
+.btn-more {
+    border-radius: 25px;
+    padding: 3px 10px;
+    background-color: #ff5f2f;
+}
+.btn-more:hover, .btn-more:focus {
+    background-color: #c43a00;
+}
+#drop-menu {
+    top: 45px !important;
+    left: -80px !important;
+    min-width: 0;
+}
+.dropdown-menu .dropdown-item:hover {
+    background-color: #6d8ee3;
+}
+
+.dropdown-menu .dropdown-item:active, .dropdown-menu .dropdown-item:focus {
+    background-color: #4c629b;
+}
+.container-fluid.loop-card {
+    padding: 0;
+}
+#formCreate{
+    width:100%;
+}
+#formEdit {
+    width: 100%;
+}
+.create-edit .control-label {
+    color: whitesmoke;
+}
+.create-edit .btn-action {
+    text-align: left;
+    margin-bottom: 30px;
+}
+.create-edit{
+    margin: 0 150px;
+}
+.create-edit #uploadFile {
+    color: whitesmoke;
+}
+.thumbnail {
+    background-color:white;
+    text-align: center;
+    vertical-align: middle;
+    position: relative;
+    height: 200px;
+    width: 200px;
+    padding: 0;
+    margin-left:100px;
+    box-shadow: 0px 0px 10px 5px red;
+}
+.create-edit .image-edit {
+    position: inherit;
+    width: 80%;
+    height: 80%;
+    margin:auto;
+}
+.create-edit .form-control{
+    color:whitesmoke;
+}
+.create-edit h2{
+    color:whitesmoke;
+}
+#search{
+    color:whitesmoke;
+}

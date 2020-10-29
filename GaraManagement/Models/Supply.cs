@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 
 #nullable disable
 
@@ -15,20 +13,13 @@ namespace GaraManagement.Models
             DetailGoodsReceivedNotes = new HashSet<DetailGoodsReceivedNote>();
         }
 
-        public string Id { get; set; }
-        [DisplayName("Loại")]
-        public string IdType { get; set; }
-        [DisplayName("Tên")]
+        public int Id { get; set; }
+        public int? IdType { get; set; }
         public string Name { get; set; }
-        [DisplayName("Đơn vị tính")]
         public string Unit { get; set; }
-        [DisplayName("Giá")]
         public int? Price { get; set; }
-        [DisplayName("Số lượng")]
         public int? Amount { get; set; }
-        [DisplayName("Ảnh")]
         public string Image { get; set; }
-        [DisplayName("Mô tả")]
         public string Description { get; set; }
 
         public virtual TypeOfSupply IdTypeNavigation { get; set; }

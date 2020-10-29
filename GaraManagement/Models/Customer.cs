@@ -12,7 +12,7 @@ namespace GaraManagement.Models
             Cars = new HashSet<Car>();
         }
 
-        public string Id { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
         public DateTime? DateOfBirth { get; set; }
         public int? Gender { get; set; }
