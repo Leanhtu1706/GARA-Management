@@ -6,6 +6,7 @@
 <link href="~/assets/css/customStyleLayout.css" rel="stylesheet" />
 
 <div class="container-fluid">
+    <h2 class="title">Nhân viên</h2>
     <div class="row custyle">
         <a class="btn btn-success create-btn" data-toggle='modal' data-target='#createModal'>Add New Supplies</a>
         <div class="input-group no-border">
@@ -164,6 +165,16 @@
     $(document).ready(function () {
         $('.nav .subUser').toggleClass("show");
         $('.sidebar-wrapper .nav li a .user').toggleClass("rotate");
+
+        if ('@ViewBag.SuccessMessage' != "")
+        {
+            $.bootstrapGrowl('@ViewBag.SuccessMessage', {
+                type: 'success',
+                align: 'center',
+                delay: 2000,
+                stackup_spacing: 30
+            });
+        }
     });
 
 

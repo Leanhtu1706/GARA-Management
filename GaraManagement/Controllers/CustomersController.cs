@@ -25,6 +25,7 @@ namespace GaraManagement.Controllers
             if (pageNumber == null) pageNumber = 1;
             int pageSize = 10;
             ViewData["GetTextSearch"] = search;
+            ViewBag.SuccessMessage = TempData["SuccessMessage"];
             if (!string.IsNullOrEmpty(search))
             {
                 var garaContext = _context.Customers.Where(a => a.Name.Contains(search));
@@ -73,8 +74,9 @@ namespace GaraManagement.Controllers
             {
                 _context.Add(customer);
                 await _context.SaveChangesAsync();
+                TempData["SuccessMessage"] = "Thêm mới thành công!";
                 return RedirectToAction(nameof(Index));
-            }
+            }           
             return View(customer);
         }
 
@@ -124,6 +126,7 @@ namespace GaraManagement.Controllers
                         throw;
                     }
                 }
+                TempData["SuccessMessage"] = "Sửa thành công!";
                 return RedirectToAction(nameof(Index));
             }
             return View(customer);
@@ -155,6 +158,7 @@ namespace GaraManagement.Controllers
             var customer = await _context.Customers.FindAsync(id);
             _context.Customers.Remove(customer);
             await _context.SaveChangesAsync();
+            TempData["SuccessMessage"] = "Xóa thành công!";
             return RedirectToAction(nameof(Index));
         }
 

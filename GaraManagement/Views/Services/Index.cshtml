@@ -6,6 +6,7 @@
 <link href="~/assets/css/customStyleLayout.css" rel="stylesheet" />
 
 <div class="container-fluid">
+    <h2 class="title">Dịch vụ</h2>
     <div class="row custyle">
         <div class="row create">
             <div class="col-md-8">
@@ -19,7 +20,7 @@
                     <button id="save-btn" type="button" class="btn btn-outline-primary"> [Save] </button>
                     <a asp-action="Index" asp-controller="Services" id="cancel-btn" type="button" class="btn btn-outline-dark"> [Cancel] </a>
                 </div>
-            </div>                       
+            </div>
         </div>
 
         <table class="table" id="table1">
@@ -80,13 +81,14 @@
 </div>
 
 <style>
-.service {
-    background-color: #29a6c8;
-    border-radius: 4px;
-}
-#save-btn, #cancel-btn{
-    display:none;
-}
+    .service {
+        background-color: #29a6c8;
+        border-radius: 4px;
+    }
+
+    #save-btn, #cancel-btn {
+        display: none;
+    }
 </style>
 <script src="~/assets/js/core/jquery.min.js"></script>
 <script>
@@ -98,7 +100,17 @@
         if ($("input:checked").length == 0) {
             $("#delete-btn").attr("disabled", true);
             $("#edit-btn").attr("disabled", true);
-        }            
+        }
+
+        if ('@ViewBag.SuccessMessage' != "")
+        {
+            $.bootstrapGrowl('@ViewBag.SuccessMessage', {
+                type: 'success',
+                align: 'center',
+                delay: 2000,
+                stackup_spacing: 30
+            });
+        }
     });
     $('.custom-control-input').click(function () {
         if ($("input:checked").length == 0) {
@@ -182,12 +194,12 @@
             /**/
             type: "Get",
             data: { id: idSer },
-            success: function (data) {               
+            success: function (data) {
                 console.log("Data:", data);
                 $.each(data, function (key, value) {
                     console.log(key, value);
-                    $("input[name='"+key+"']").val(value);                                         
-                });       
+                    $("input[name='"+key+"']").val(value);
+                });
                 $("#save-btn").click(function () {
                     console.log("array Id:", idSer);
                     $("#formCreate").attr('action', '/Services/Edit')
@@ -195,6 +207,6 @@
 
                 });
             }
-        });     
+        });
     });
 </script>

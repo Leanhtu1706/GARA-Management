@@ -1,7 +1,7 @@
 ﻿@model GaraManagement.Models.Employee
 
 @{
-    ViewData["Title"] = "Edit employee";
+    ViewData["Title"] = "Sửa thông tin nhân viên";
     var image = @ViewBag.image;
 }
 
@@ -12,7 +12,7 @@
         <div class="row">
             <div class="col-md-7">
                 <div class="row form-group">
-                    <div class="col-md-2 offset-2">
+                    <div class="col-md-4">
                         <label asp-for="Name" class="control-label"></label>
                     </div>
                     <div class="col-md-7">
@@ -21,7 +21,7 @@
                     </div>
                 </div>
                 <div class="row form-group">
-                    <div class="col-md-2 offset-2">
+                    <div class="col-md-4">
                         <label asp-for="DateOfBirth" class="control-label"></label>
                     </div>
                     <div class="col-md-7">
@@ -30,7 +30,7 @@
                     </div>
                 </div>
                 <div class="row form-group">
-                    <div class="col-md-2 offset-2">
+                    <div class="col-md-4">
                         <label asp-for="ContractStartDate" class="control-label"></label>
                     </div>
                     <div class="col-md-7">
@@ -39,7 +39,7 @@
                     </div>
                 </div>
                 <div class="row form-group">
-                    <div class="col-md-2 offset-2">
+                    <div class="col-md-4">
                         <label asp-for="Salary" class="control-label"></label>
                     </div>
                     <div class="col-md-7">
@@ -48,7 +48,7 @@
                     </div>
                 </div>
                 <div class="row form-group">
-                    <div class="col-md-2 offset-2">
+                    <div class="col-md-4">
                         <label asp-for="Phone" class="control-label"></label>
                     </div>
                     <div class="col-md-7">
@@ -57,7 +57,7 @@
                     </div>
                 </div>
                 <div class="row form-group">
-                    <div class="col-md-2 offset-2">
+                    <div class="col-md-4">
                         <label asp-for="Address" class="control-label"></label>
                     </div>
                     <div class="col-md-7">
@@ -66,7 +66,7 @@
                     </div>
                 </div>
                 <div class="row form-group">
-                    <div class="col-md-2 offset-2">
+                    <div class="col-md-4">
                         <label asp-for="IdentityCardNumber" class="control-label"></label>
                     </div>
                     <div class="col-md-7">
@@ -75,7 +75,7 @@
                     </div>
                 </div>
                 <div class="row form-group">
-                    <div class="col-md-2 offset-2">
+                    <div class="col-md-4">
                         <label asp-for="Department" class="control-label"></label>
                     </div>
                     <div class="col-md-7">
@@ -102,7 +102,7 @@
                 </div>
                 <div class="row form-group">
                     <div class="col-md-12">
-                        <input asp-for="Image" class="form-control image-input">
+                        <input type="hidden" asp-for="Image" class="form-control image-input">
                         <span asp-validation-for="Image" class="text-danger"></span>
                     </div>
                 </div>

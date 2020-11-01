@@ -1,4 +1,8 @@
-﻿/* Xử lý style cho bảng*/
+﻿/*xử lý chung*/
+.title{
+    color:whitesmoke;
+}
+/* Xử lý style cho bảng*/
 .action-button {
     text-align: center;
 }
@@ -129,7 +133,9 @@ i.fas.fa-edit {
 #createModal {
     position: absolute;
 }
-
+#editModal {
+    position: absolute;
+}
 .modal-dialog {
     max-width: 60%;
 }
@@ -141,8 +147,10 @@ i.fas.fa-edit {
 .btn-action {
     text-align: right;
 }
-
-form{
+body.modal-open{
+    padding:0 !important;
+}
+form {
     margin: 0;
 }
 /* fiel image */

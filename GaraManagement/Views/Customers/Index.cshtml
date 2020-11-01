@@ -2,12 +2,12 @@
 
 @{
     ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <link href="~/assets/css/customStyleLayout.css" rel="stylesheet" />
 
 <div class="container-fluid">
+    <h2 class="title">Khách hàng</h2>
     <div class="row custyle">
         <a class="btn btn-success create-btn" data-toggle='modal' data-target='#createModal'>Add New Customer</a>
         <div class="input-group no-border">
@@ -66,7 +66,7 @@
                             <a class="btn btn-warning edit-btn" data-toggle='modal' data-target='#editModal' data-id="@item.Id">Edit</a> |
                             <a class="btn btn-info" asp-action="Details" asp-route-id="@item.Id">Details</a> |
                             <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a> |
-                            <a class="btn btn-primary car" name="@item.Name" style="width:40px;"><i class="fas fa-car"></i></a>
+                            <a class="btn btn-primary car-customer" name="@item.Name" style="width:40px;"><i class="fas fa-car"></i></a>
                         </td>
                     </tr>
                 }
@@ -150,6 +150,16 @@
     $(document).ready(function () {
         $('.nav .subCustomer').toggleClass("show");
         $('.sidebar-wrapper .nav li a .customer').toggleClass("rotate");
+
+        if ('@ViewBag.SuccessMessage' != "")
+        {
+            $.bootstrapGrowl('@ViewBag.SuccessMessage', {
+                type: 'success',
+                align: 'center',
+                delay: 2000,
+                stackup_spacing: 30
+            });
+        }
     });
 
     //$(document).on('shown.bs.modal', '#createModal', function (event) {
@@ -189,7 +199,7 @@
         window.location = "Supplies";
     });
 
-    $(".car").click(function () {
+    $(".car-customer").click(function () {
         var nameCus = $(this).attr('name');
         console.log("name Customer:", nameCus);
         $.ajax({
@@ -206,4 +216,6 @@
             }
         });
     });
+
+
 </script>

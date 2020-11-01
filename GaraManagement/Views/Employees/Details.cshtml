@@ -6,76 +6,75 @@
     var path = "../";
 }
 
-<div class="view-detail">
-    <h1>Details</h1>
-    <h4>Employee</h4>
-    <hr />
-    <div class="row">
-        <div class="col-md-4">
-            <dl class="row">
-                <dt class="col-md-5">
-                    @Html.DisplayNameFor(model => model.Name)
-                </dt>
-                <dd class="col-md-7">
-                    @Html.DisplayFor(model => model.Name)
-                </dd>
-                <dt class="col-md-5">
-                    @Html.DisplayNameFor(model => model.DateOfBirth)
-                </dt>
-                <dd class="col-md-7">
-                    @Html.DisplayFor(model => model.DateOfBirth)
-                </dd>
-                <dt class="col-md-5">
-                    @Html.DisplayNameFor(model => model.ContractStartDate)
-                </dt>
-                <dd class="col-md-7">
-                    @Html.DisplayFor(model => model.ContractStartDate)
-                </dd>
-                <dt class="col-md-5">
-                    @Html.DisplayNameFor(model => model.Salary)
-                </dt>
-                <dd class="col-md-7">
-                    @Html.DisplayFor(model => model.Salary)
-                </dd>
-                <dt class="col-md-5">
-                    @Html.DisplayNameFor(model => model.Phone)
-                </dt>
-                <dd class="col-md-7">
-                    @Html.DisplayFor(model => model.Phone)
-                </dd>
-                <dt class="col-md-5">
-                    @Html.DisplayNameFor(model => model.Address)
-                </dt>
-                <dd class="col-md-7">
-                    @Html.DisplayFor(model => model.Address)
-                </dd>
-                <dt class="col-md-5">
-                    @Html.DisplayNameFor(model => model.IdentityCardNumber)
-                </dt>
-                <dd class="col-md-7">
-                    @Html.DisplayFor(model => model.IdentityCardNumber)
-                </dd>
-                <dt class="col-md-5">
-                    @Html.DisplayNameFor(model => model.Department)
-                </dt>
-                <dd class="col-md-7">
-                    @Html.DisplayFor(model => model.Department)
-                </dd>
-            </dl>
+    <div class="view-detail">
+        <h2 class="title">Chi tiết nhân viên</h2>
+        <hr />
+        <div class="row">
+            <div class="col-md-4">
+                <dl class="row">
+                    <dt class="col-md-5">
+                        @Html.DisplayNameFor(model => model.Name)
+                    </dt>
+                    <dd class="col-md-7">
+                        @Html.DisplayFor(model => model.Name)
+                    </dd>
+                    <dt class="col-md-5">
+                        @Html.DisplayNameFor(model => model.DateOfBirth)
+                    </dt>
+                    <dd class="col-md-7">
+                        @Html.DisplayFor(model => model.DateOfBirth)
+                    </dd>
+                    <dt class="col-md-5">
+                        @Html.DisplayNameFor(model => model.ContractStartDate)
+                    </dt>
+                    <dd class="col-md-7">
+                        @Html.DisplayFor(model => model.ContractStartDate)
+                    </dd>
+                    <dt class="col-md-5">
+                        @Html.DisplayNameFor(model => model.Salary)
+                    </dt>
+                    <dd class="col-md-7">
+                        @Html.DisplayFor(model => model.Salary)
+                    </dd>
+                    <dt class="col-md-5">
+                        @Html.DisplayNameFor(model => model.Phone)
+                    </dt>
+                    <dd class="col-md-7">
+                        @Html.DisplayFor(model => model.Phone)
+                    </dd>
+                    <dt class="col-md-5">
+                        @Html.DisplayNameFor(model => model.Address)
+                    </dt>
+                    <dd class="col-md-7">
+                        @Html.DisplayFor(model => model.Address)
+                    </dd>
+                    <dt class="col-md-5">
+                        @Html.DisplayNameFor(model => model.IdentityCardNumber)
+                    </dt>
+                    <dd class="col-md-7">
+                        @Html.DisplayFor(model => model.IdentityCardNumber)
+                    </dd>
+                    <dt class="col-md-5">
+                        @Html.DisplayNameFor(model => model.Department)
+                    </dt>
+                    <dd class="col-md-7">
+                        @Html.DisplayFor(model => model.Department)
+                    </dd>
+                </dl>
+            </div>
+            <div class="col-md-6">
+                <dl class="row">
+                    <dt class="col-sm-4">
+                        @Html.DisplayNameFor(model => model.Image)
+                    </dt>
+                    <dd class="col-sm-8 image-detail">
+                        <img src=@path@Html.DisplayFor(model => model.Image) alt="Alternate Text" />
+                    </dd>
+                </dl>
+            </div>
         </div>
-        <div class="col-md-6">
-            <dl class="row">
-                <dt class="col-sm-4">
-                    @Html.DisplayNameFor(model => model.Image)
-                </dt>
-                <dd class="col-sm-8 image-detail">
-                    <img src=@path@Html.DisplayFor(model => model.Image) alt="Alternate Text" />
-                </dd>
-            </dl>
-        </div>
-    </div>
 
-</div>
+    </div>
 <div class="footer-detail">
     <hr />
     <a asp-action="Index">Back to List</a>

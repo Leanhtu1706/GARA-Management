@@ -121,6 +121,16 @@
     $(document).ready(function () {
         $('.nav .subCustomer').toggleClass("show");
         $('.sidebar-wrapper .nav li a .customer').toggleClass("rotate");
+
+        if ('@ViewBag.SuccessMessage' != "")
+        {
+            $.bootstrapGrowl('@ViewBag.SuccessMessage', {
+                type: 'success',
+                align: 'center',
+                delay: 2000,
+                stackup_spacing: 30
+            });
+        }
     });
 
     $(".fa-backspace").click(function () {
@@ -137,7 +147,7 @@
             type: "GET",
             data: { id: carId },
             success: function (data) {
-                $("#deleteConfirmModal").modal('show');     
+                $("#deleteConfirmModal").modal('show');
                 console.log("ViewData:", data);
                 $("#delete-input").val(data);
             }

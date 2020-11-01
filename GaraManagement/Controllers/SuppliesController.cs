@@ -36,6 +36,7 @@ namespace GaraManagement.Controllers
             if (pageNumber == null) pageNumber = 1;
             int pageSize = 10;
             ViewData["GetTextSearch"] = search;
+            ViewBag.SuccessMessage = TempData["SuccessMessage"];
             if (!string.IsNullOrEmpty(search))
             {
                 var garaContext = _context.Supplies.Include(s => s.IdTypeNavigation).Where(a => a.Name.Contains(search));
@@ -74,6 +75,7 @@ namespace GaraManagement.Controllers
             var type = _context.TypeOfSupplies.Select(i => i.Name).ToList();
             ViewData["Layout"] = layout == "_" ? "" : layout;
             ViewData["TypeName"] = new SelectList(_context.TypeOfSupplies, "Id", "Name", type);
+            TempData["SuccessMessage"] = "Thêm mới thành công!";
             return View();
         }
 
@@ -147,6 +149,7 @@ namespace GaraManagement.Controllers
                         throw;
                     }
                 }
+                TempData["SuccessMessage"] = "Sửa thành công!";
                 return RedirectToAction(nameof(Index));
             }
             var type = _context.TypeOfSupplies.Select(i => i.Name).ToList();
@@ -181,6 +184,7 @@ namespace GaraManagement.Controllers
             var supply = await _context.Supplies.FindAsync(id);
             _context.Supplies.Remove(supply);
             await _context.SaveChangesAsync();
+            TempData["SuccessMessage"] = "Xóa thành công!";
             return RedirectToAction(nameof(Index));
         }
 

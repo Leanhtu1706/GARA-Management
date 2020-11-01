@@ -22,6 +22,7 @@ namespace GaraManagement.Controllers
         public async Task<IActionResult> Index(string search)
         {
             ViewData["GetTextSearch"] = search;
+            ViewBag.SuccessMessage = TempData["SuccessMessage"];
             if (!string.IsNullOrEmpty(search))
             {
                 var carData = _context.Cars.Include(i => i.IdCustomerNavigation).Where(a => a.CarName.Contains(search) || a.Manufacturer.Contains(search) || a.IdCustomerNavigation.Name.Contains(search));
@@ -76,6 +77,7 @@ namespace GaraManagement.Controllers
             {
                 _context.Add(car);
                 await _context.SaveChangesAsync();
+                TempData["SuccessMessage"] = "Thêm mới thành công!";
                 return RedirectToAction(nameof(Index));
             }
             ViewData["Customer"] = new SelectList(_context.Customers, "Id", "Id", car.IdCustomer);
@@ -132,6 +134,7 @@ namespace GaraManagement.Controllers
                         throw;
                     }
                 }
+                TempData["SuccessMessage"] = "Sửa thành công!";
                 return RedirectToAction(nameof(Index));
             }
             ViewData["IdCustomer"] = new SelectList(_context.Customers, "Id", "Id", car.IdCustomer);
@@ -165,6 +168,7 @@ namespace GaraManagement.Controllers
             var car = await _context.Cars.FindAsync(id);
             _context.Cars.Remove(car);
             await _context.SaveChangesAsync();
+            TempData["SuccessMessage"] = "Xóa thành công!";
             return RedirectToAction(nameof(Index));
         }
 

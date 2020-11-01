@@ -1,4 +1,4 @@
-﻿@{ 
+﻿@{
     Layout = null;
 }
 <!DOCTYPE html>
@@ -53,7 +53,7 @@
                             <p>QL nhân viên <span class="fas fa-caret-down user"></span></p>
                         </a>
                         <ul class="nav subUser">
-                            <li class="nav-item employee"><a class="nav-link"  asp-controller="Employees" asp-action="Index"><i class="far fa-id-badge"></i><p>Cập nhật hồ sơ</p></a></li>
+                            <li class="nav-item employee"><a class="nav-link" asp-controller="Employees" asp-action="Index"><i class="far fa-id-badge"></i><p>Cập nhật hồ sơ</p></a></li>
                         </ul>
                     </li>
                     <li class="nav-item ">
@@ -97,14 +97,14 @@
                         <a class="nav-link" href="#">
                             <i class="far fa-user-circle"></i>
                             <p>Quản lý tài khoản</p>
-                        </a>                       
+                        </a>
                     </li>
                     @*<li class="nav-item ">
-            <a class="nav-link" href="./notifications.html">
-                <i class="material-icons">notifications</i>
-                <p>Notifications</p>
-            </a>
-        </li>*@
+                            <a class="nav-link" href="./notifications.html">
+                                <i class="material-icons">notifications</i>
+                                <p>Notifications</p>
+                            </a>
+                        </li>*@
                 </ul>
             </div>
             <div class="sidebar-background" style="background-image: url(../assets/img/sidebar-1.jpg)"></div>
@@ -113,7 +113,7 @@
             <!-- Navbar -->
             <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
                 <div class="container-fluid">
-                    
+
                     <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="sr-only">Toggle navigation</span>
                         <span class="navbar-toggler-icon icon-bar"></span>
@@ -166,7 +166,7 @@
             <div class="content">
                 @RenderBody()
             </div>
-            <!--End Content-->           
+            <!--End Content-->
         </div>
     </div>
     <!--   Core JS Files   -->
@@ -174,30 +174,31 @@
     <script src="~/assets/js/core/popper.min.js"></script>
     <script src="~/assets/js/core/bootstrap-material-design.min.js"></script>
     <script src="~/assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-growl/1.0.0/jquery.bootstrap-growl.min.js"></script>
     @RenderSection("Scripts", required: false);
 
-<script>
-    //show submenu
+    <script>
+        //show submenu
 
-    $('.user-btn').click(function () {
-        $('.nav .subUser').toggleClass("show");
-        $('.sidebar-wrapper .nav li a .user').toggleClass("rotate");
-    });
-    $('.customer-btn').click(function () {
-        $('.nav .subCustomer').toggleClass("show");
-        $('.sidebar-wrapper .nav li a .customer').toggleClass("rotate");
-    });
-    $('.repair-btn').click(function () {
-        $('.nav .subRepair').toggleClass("show");
-        $('.sidebar-wrapper .nav li a .repair').toggleClass("rotate");
-    });
-    $('.warehouse-btn').click(function () {
-        $('.nav .subWarehouse').toggleClass("show");
-        $('.sidebar-wrapper .nav li a .warehouse').toggleClass("rotate");
-    });
+        $('.user-btn').click(function () {
+            $('.nav .subUser').toggleClass("show");
+            $('.sidebar-wrapper .nav li a .user').toggleClass("rotate");
+        });
+        $('.customer-btn').click(function () {
+            $('.nav .subCustomer').toggleClass("show");
+            $('.sidebar-wrapper .nav li a .customer').toggleClass("rotate");
+        });
+        $('.repair-btn').click(function () {
+            $('.nav .subRepair').toggleClass("show");
+            $('.sidebar-wrapper .nav li a .repair').toggleClass("rotate");
+        });
+        $('.warehouse-btn').click(function () {
+            $('.nav .subWarehouse').toggleClass("show");
+            $('.sidebar-wrapper .nav li a .warehouse').toggleClass("rotate");
+        });
 
 
-</script>
+    </script>
 </body>
 </html>
 

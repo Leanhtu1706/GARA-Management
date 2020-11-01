@@ -24,6 +24,7 @@ namespace GaraManagement.Controllers
         {
             if (pageNumber == null) pageNumber = 1;
             int pageSize = 10;
+            ViewBag.SuccessMessage = TempData["SuccessMessage"];
             return View( _context.TypeOfSupplies.ToList().ToPagedList((int)pageNumber, pageSize));
         }
 
@@ -63,6 +64,7 @@ namespace GaraManagement.Controllers
             {
                 _context.Add(typeOfSupply);
                 await _context.SaveChangesAsync();
+                TempData["SuccessMessage"] = "Thêm mới thành công!";
                 return RedirectToAction(nameof(Index));
             }
             return View(typeOfSupply);
@@ -114,6 +116,7 @@ namespace GaraManagement.Controllers
                         throw;
                     }
                 }
+                TempData["SuccessMessage"] = "Sửa thành công!";
                 return RedirectToAction(nameof(Index));
             }
             return View(typeOfSupply);
@@ -145,6 +148,7 @@ namespace GaraManagement.Controllers
             var typeOfSupply = await _context.TypeOfSupplies.FindAsync(id);
             _context.TypeOfSupplies.Remove(typeOfSupply);
             await _context.SaveChangesAsync();
+            TempData["SuccessMessage"] = "Xóa thành công!";
             return RedirectToAction(nameof(Index));
         }
 

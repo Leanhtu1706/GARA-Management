@@ -6,6 +6,7 @@
 <link href="~/assets/css/customStyleLayout.css" rel="stylesheet" />
 
 <div class="container-fluid">
+    <h2 class="title">Danh mục vật tư</h2>
     <div class="row custyle">
         <a class="btn btn-success create-btn" data-toggle='modal' data-target='#createModal'>Add New Supplies</a>
         <div class="input-group no-border">
@@ -156,6 +157,16 @@
     $(document).ready(function () {
         $('.nav .subWarehouse').toggleClass("show");
         $('.sidebar-wrapper .nav li a .warehouse').toggleClass("rotate");
+
+        if ('@ViewBag.SuccessMessage' != "")
+        {
+            $.bootstrapGrowl('@ViewBag.SuccessMessage', {
+                type: 'success',
+                align: 'center',
+                delay: 2000,
+                stackup_spacing: 30
+            });
+        }
     });
 
     //$(document).on('shown.bs.modal', '#createModal', function (event) {
@@ -169,6 +180,7 @@
             type: "GET",
             data: { layout: "_ModalLayout" },
             success: function (data) {
+                console.log("Data nè:", data);
                 $(".modal-content").html(data);
             }
         });
