@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GaraManagement.Models;
 using X.PagedList;
+using GaraManagement.ViewModels;
 
 namespace GaraManagement.Controllers
 {
@@ -25,6 +26,7 @@ namespace GaraManagement.Controllers
             if (pageNumber == null) pageNumber = 1;
             int pageSize = 10;
             ViewBag.SuccessMessage = TempData["SuccessMessage"];
+            ViewBag.ErrorMessage = TempData["ErrorMessage"];
             return View( _context.TypeOfSupplies.ToList().ToPagedList((int)pageNumber, pageSize));
         }
 
@@ -130,14 +132,25 @@ namespace GaraManagement.Controllers
                 return NotFound();
             }
 
-            var typeOfSupply = await _context.TypeOfSupplies
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var typeOfSupply = await _context.TypeOfSupplies.FirstOrDefaultAsync(m => m.Id == id);
+            var existSupplies = _context.Supplies.Include(a => a.IdTypeNavigation).Where(a => a.IdType == id);
+            var typeOfSupplyViewModel = new TypeOfSupplyViewModel();
+            typeOfSupplyViewModel.supplies = existSupplies;
+            typeOfSupplyViewModel.Id = typeOfSupply.Id;
+            typeOfSupplyViewModel.Name = typeOfSupply.Name;
+            typeOfSupplyViewModel.Description = typeOfSupply.Description;
+
             if (typeOfSupply == null)
             {
                 return NotFound();
             }
+            //if(existSupplies.Any())
+            //{
+            //    TempData["ErrorMessage"] = "Thực hiện xóa không thành công vì DANH MỤC đang tồn tại trong bảng VẬT TƯ!";
+            //    return RedirectToAction(nameof(Index));
+            //}
 
-            return View(typeOfSupply);
+            return View(typeOfSupplyViewModel);
         }
 
         // POST: TypeOfSupplies/Delete/5
@@ -146,7 +159,12 @@ namespace GaraManagement.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var typeOfSupply = await _context.TypeOfSupplies.FindAsync(id);
+            var supplies = _context.Supplies.Where(a => a.IdType == id);
             _context.TypeOfSupplies.Remove(typeOfSupply);
+            foreach(var item in supplies)
+            {
+                _context.Supplies.Remove(item);
+            }    
             await _context.SaveChangesAsync();
             TempData["SuccessMessage"] = "Xóa thành công!";
             return RedirectToAction(nameof(Index));

@@ -1,4 +1,4 @@
-﻿@model GaraManagement.Models.TypeOfSupply
+﻿@model GaraManagement.ViewModels.TypeOfSupplyViewModel
 
 @{
     ViewData["Title"] = "Xóa danh mục vật tư";
@@ -6,7 +6,7 @@
 
     <div class="view-delete">
         <h2 class="title">Xóa danh mục vật tư</h2>
-        <h3>Bạn có chắc chắn muốn xóa không?</h3>
+        <h3><i class="fas fa-exclamation-triangle"></i>&emsp; Bạn có chắc chắn muốn xóa danh mục này không?</h3>
         <div>
             <hr />
             <dl class="row">
@@ -23,6 +23,33 @@
                     @Html.DisplayFor(model => model.Description)
                 </dd>
             </dl>
+            <h3><i class="fas fa-exclamation-triangle"></i>&emsp;Những vật tư này sẽ bị xóa cùng với danh mục</h3>
+            <table class="table table-striped custab">
+                <thead>
+                    <tr>
+                        <th>
+                            Tên vật tư
+                        </th>
+                        <th>
+                            Mô tả
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.supplies)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Description)
+                            </td>                         
+                        </tr>
+                    }                   
+                </tbody>
+            </table>
+
             <div>
                 <a icon-name="action-delete" class="btn btn-danger" data-target="#deleteConfirmModal" data-toggle="modal">Delete</a> |
                 <a asp-action="Index">Back to List</a>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 #nullable disable
 
@@ -13,6 +14,7 @@ namespace GaraManagement.Models
         }
 
         public int Id { get; set; }
+        [DisplayName("Loại")]
         public string Name { get; set; }
         public string Description { get; set; }
 
