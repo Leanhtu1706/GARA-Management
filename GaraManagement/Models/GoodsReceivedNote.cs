@@ -16,6 +16,7 @@ namespace GaraManagement.Models
         public DateTime? ImportDate { get; set; }
         public int? IdSupplier { get; set; }
         public string Description { get; set; }
+        public DateTime? UpdateAt { get; set; }
 
         public virtual Supplier IdSupplierNavigation { get; set; }
         public virtual ICollection<DetailGoodsReceivedNote> DetailGoodsReceivedNotes { get; set; }

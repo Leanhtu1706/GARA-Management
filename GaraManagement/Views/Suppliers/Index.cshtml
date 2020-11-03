@@ -1,0 +1,173 @@
+﻿@model IEnumerable<GaraManagement.Models.Supplier>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<link href="~/assets/css/customStyleLayout.css" rel="stylesheet" />
+<div class="container-fluid">
+    <h2 class="title">Nhà cung cấp</h2>
+    <div class="row custyle">
+        <a class="btn btn-success create-btn" data-toggle='modal' data-target='#createModal'>Add New Customer</a>
+        <div class="input-group no-border">
+            <form asp-action="Index" method="get">
+                <input id="search" type="text" name="search" class="form-control" value="@ViewData["GetTextSearch"]" placeholder="Search...">
+            </form>
+            <i class="fas fa-backspace"></i>
+        </div>
+        <table class="table table-striped custab">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Name)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Phone)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Email)
+                    </th>                    
+                    <th>
+                        @Html.DisplayNameFor(model => model.Address)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Description)
+                    </th>
+
+                    <th class="col-action">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Phone)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Address)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td class="action-button">
+                        <a class="btn btn-warning edit-btn" data-toggle='modal' data-target='#editModal' data-id="@item.Id">Edit</a> |                       
+                        <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+                }
+                <!-- Phân trang -->
+                <tr>
+                    <td colspan="6" align="center">
+                        @Html.PagedListPager((IPagedList)Model, pageNumber => Url.Action("Index",
+                       new { pageNumber }),
+                       new PagedListRenderOptions
+                       {
+                           LiElementClasses = new string[] { "page-item" },
+                           PageClasses = new string[] { "page-link" }
+                       })
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@* View Modal*@
+<div id="createModal" class="modal fade col-md-12" tabindex="-1" role="dialog">
+    <div class="modal-dialog w-full" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>Create New Type</h4>
+            </div>
+            <div class="modal-body">
+                <div class="spinner overlay-loading">
+                    <span></span>
+                    <span class="rect2"></span>
+                    <span class="rect3"></span>
+                    <span class="rect4"></span>
+                    <span class="rect5"></span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="modal-actions col-md-offset-3 col-md-9">
+                    <button icon-name="action-cancel" name="close" class="btn btn-default" data-dismiss="modal">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="editModal" class="modal fade col-md-12" tabindex="-1" role="dialog">
+    <div class="modal-dialog w-full" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>Edit Type</h4>
+            </div>
+            <div class="modal-body">
+                <div class="spinner overlay-loading">
+                    <span></span>
+                    <span class="rect2"></span>
+                    <span class="rect3"></span>
+                    <span class="rect4"></span>
+                    <span class="rect5"></span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="modal-actions col-md-offset-3 col-md-9">
+                    <button icon-name="action-cancel" name="close" class="btn btn-default" data-dismiss="modal">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .supplier {
+        background-color: #29a6c8;
+        border-radius: 4px;
+    }
+</style>
+<script src="~/assets/js/core/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('.nav .subWarehouse').toggleClass("show");
+        $('.sidebar-wrapper .nav li a .warehouse').toggleClass("rotate");
+    });
+
+    $(".create-btn").click(function () {
+        console.log("shown modal event", event);
+
+        $.ajax({
+            /**/
+            url: '@Url.Action("Create")',
+            /**/
+            type: "GET",
+            data: { layout: "_ModalLayout" },
+            success: function (data) {
+                $("#createModal .modal-content").html(data);
+            }
+        });
+    });
+      $(".edit-btn").click(function () {
+        console.log("shown modal event", event);
+        var supId = $(this).attr("data-id");
+        $.ajax({
+            /**/
+            url: '@Url.Action("Edit")',
+            /**/
+            type: "GET",
+            data: { id: supId, layout: "_ModalLayout" },
+            success: function (data) {
+                $("#editModal .modal-content").html(data);
+            }
+        });
+      });
+</script>

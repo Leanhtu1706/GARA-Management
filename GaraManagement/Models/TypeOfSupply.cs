@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 
 #nullable disable
 
@@ -10,14 +9,15 @@ namespace GaraManagement.Models
     {
         public TypeOfSupply()
         {
-            Supplies = new HashSet<Supply>();
+            Materials = new HashSet<Material>();
         }
 
         public int Id { get; set; }
-        [DisplayName("Loại")]
         public string Name { get; set; }
         public string Description { get; set; }
+        public DateTime? CreateAt { get; set; }
+        public DateTime? UpdateAt { get; set; }
 
-        public virtual ICollection<Supply> Supplies { get; set; }
+        public virtual ICollection<Material> Materials { get; set; }
     }
 }

@@ -20,33 +20,45 @@
                 <tr>
                     <th>
                         @Html.DisplayNameFor(model => model.Name)
-                    </th>                
+                    </th>
                     <th>
                         @Html.DisplayNameFor(model => model.Description)
                     </th>
-                    <th></th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CreateAt)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.UpdateAt)
+                    </th>
+                    <th class="col-action">Action</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var item in Model)
                 {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Name)
-                        </td>                   
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Description)
-                        </td>
-                        <td class="action-button">
-                            <a class="btn btn-warning edit-btn" data-toggle='modal' data-target='#editModal' data-id="@item.Id">Edit</a> |
-                            <a class="btn btn-info" asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                            <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a> |
-                        </td>
-                    </tr>
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CreateAt)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UpdateAt)
+                    </td>
+                    <td class="action-button">
+                        <a class="btn btn-warning edit-btn" data-toggle='modal' data-target='#editModal' data-id="@item.Id">Edit</a> |
+                        <a class="btn btn-info" asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a> |
+                    </td>
+                </tr>
                 }
                 <!-- Phân trang -->
                 <tr>
-                    <td colspan="3" align="center">
+                    <td colspan="5" align="center">
                         @Html.PagedListPager((IPagedList)Model, pageNumber => Url.Action("Index",
                        new { pageNumber }),
                        new PagedListRenderOptions
@@ -154,7 +166,7 @@
             type: "GET",
             data: { layout: "_ModalLayout" },
             success: function (data) {
-                $(".modal-content").html(data);
+                $("#createModal .modal-content").html(data);
             }
         });
     });
@@ -168,7 +180,7 @@
             type: "GET",
             data: { id: supId, layout: "_ModalLayout" },
             success: function (data) {
-                $(".modal-content").html(data);
+                $("#editModal .modal-content").html(data);
             }
         });
       });

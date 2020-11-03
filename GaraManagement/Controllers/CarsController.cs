@@ -80,6 +80,7 @@ namespace GaraManagement.Controllers
                 TempData["SuccessMessage"] = "Thêm mới thành công!";
                 return RedirectToAction(nameof(Index));
             }
+           
             ViewData["Customer"] = new SelectList(_context.Customers, "Id", "Id", car.IdCustomer);
             return View(car);
         }

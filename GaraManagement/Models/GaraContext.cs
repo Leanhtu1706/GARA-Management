@@ -25,11 +25,12 @@ namespace GaraManagement.Models
         public virtual DbSet<Employee> Employees { get; set; }
         public virtual DbSet<GoodsDeliveryNote> GoodsDeliveryNotes { get; set; }
         public virtual DbSet<GoodsReceivedNote> GoodsReceivedNotes { get; set; }
+        public virtual DbSet<Material> Materials { get; set; }
         public virtual DbSet<Repair> Repairs { get; set; }
         public virtual DbSet<Service> Services { get; set; }
         public virtual DbSet<Supplier> Suppliers { get; set; }
-        public virtual DbSet<Supply> Supplies { get; set; }
         public virtual DbSet<TypeOfSupply> TypeOfSupplies { get; set; }
+        public virtual DbSet<Work> Works { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -71,6 +72,10 @@ namespace GaraManagement.Models
 
                 entity.Property(e => e.Color).HasMaxLength(10);
 
+                entity.Property(e => e.Image)
+                    .HasMaxLength(200)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.LicensePlates)
                     .HasMaxLength(20)
                     .IsUnicode(false);
@@ -105,7 +110,7 @@ namespace GaraManagement.Models
 
             modelBuilder.Entity<DetailGoodsDeliveryNote>(entity =>
             {
-                entity.HasKey(e => new { e.IdGoodsDeliveryNote, e.IdSupplies });
+                entity.HasKey(e => new { e.IdGoodsDeliveryNote, e.IdMaterial });
 
                 entity.ToTable("DetailGoodsDeliveryNote");
 
@@ -115,16 +120,16 @@ namespace GaraManagement.Models
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_DetailGoodsDeliveryNote_GoodsDeliveryNote");
 
-                entity.HasOne(d => d.IdSuppliesNavigation)
+                entity.HasOne(d => d.IdMaterialNavigation)
                     .WithMany(p => p.DetailGoodsDeliveryNotes)
-                    .HasForeignKey(d => d.IdSupplies)
+                    .HasForeignKey(d => d.IdMaterial)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_DetailGoodsDeliveryNote_Supplies");
             });
 
             modelBuilder.Entity<DetailGoodsReceivedNote>(entity =>
             {
-                entity.HasKey(e => new { e.IdGoodsReceivedNote, e.IdSupplies });
+                entity.HasKey(e => new { e.IdGoodsReceivedNote, e.IdMaterial });
 
                 entity.ToTable("DetailGoodsReceivedNote");
 
@@ -134,9 +139,9 @@ namespace GaraManagement.Models
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_DetailGoodsReceivedNote_GoodsReceivedNote");
 
-                entity.HasOne(d => d.IdSuppliesNavigation)
+                entity.HasOne(d => d.IdMaterialNavigation)
                     .WithMany(p => p.DetailGoodsReceivedNotes)
-                    .HasForeignKey(d => d.IdSupplies)
+                    .HasForeignKey(d => d.IdMaterial)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_DetailGoodsReceivedNote_Supplies");
             });
@@ -177,7 +182,11 @@ namespace GaraManagement.Models
 
                 entity.Property(e => e.Description).HasMaxLength(100);
 
-                entity.Property(e => e.ExportDate).HasColumnType("date");
+                entity.Property(e => e.ExportDate).HasColumnType("datetime");
+
+                entity.Property(e => e.UpdateAt)
+                    .HasColumnType("datetime")
+                    .HasColumnName("Update_at");
 
                 entity.HasOne(d => d.IdRepairNavigation)
                     .WithMany(p => p.GoodsDeliveryNotes)
@@ -191,12 +200,44 @@ namespace GaraManagement.Models
 
                 entity.Property(e => e.Description).HasMaxLength(100);
 
-                entity.Property(e => e.ImportDate).HasColumnType("date");
+                entity.Property(e => e.ImportDate).HasColumnType("datetime");
+
+                entity.Property(e => e.UpdateAt)
+                    .HasColumnType("datetime")
+                    .HasColumnName("Update_at");
 
                 entity.HasOne(d => d.IdSupplierNavigation)
                     .WithMany(p => p.GoodsReceivedNotes)
                     .HasForeignKey(d => d.IdSupplier)
                     .HasConstraintName("FK_GoodsReceivedNote_Supplier");
+            });
+
+            modelBuilder.Entity<Material>(entity =>
+            {
+                entity.ToTable("Material");
+
+                entity.Property(e => e.CreateAt)
+                    .HasColumnType("datetime")
+                    .HasColumnName("Create_at");
+
+                entity.Property(e => e.Description).HasMaxLength(50);
+
+                entity.Property(e => e.Image)
+                    .HasMaxLength(200)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Name).HasMaxLength(20);
+
+                entity.Property(e => e.Unit).HasMaxLength(10);
+
+                entity.Property(e => e.UpdateAt)
+                    .HasColumnType("datetime")
+                    .HasColumnName("Update_at");
+
+                entity.HasOne(d => d.IdTypeNavigation)
+                    .WithMany(p => p.Materials)
+                    .HasForeignKey(d => d.IdType)
+                    .HasConstraintName("FK_Material_TypeOfSupplies");
             });
 
             modelBuilder.Entity<Repair>(entity =>
@@ -216,6 +257,11 @@ namespace GaraManagement.Models
                     .WithMany(p => p.Repairs)
                     .HasForeignKey(d => d.IdService)
                     .HasConstraintName("FK_Repair_Service");
+
+                entity.HasOne(d => d.IdWorkNavigation)
+                    .WithMany(p => p.Repairs)
+                    .HasForeignKey(d => d.IdWork)
+                    .HasConstraintName("FK_Repair_Work");
             });
 
             modelBuilder.Entity<Service>(entity =>
@@ -245,29 +291,32 @@ namespace GaraManagement.Models
                     .IsFixedLength(true);
             });
 
-            modelBuilder.Entity<Supply>(entity =>
-            {
-                entity.Property(e => e.Description).HasMaxLength(50);
-
-                entity.Property(e => e.Image)
-                    .HasMaxLength(200)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.Name).HasMaxLength(20);
-
-                entity.Property(e => e.Unit).HasMaxLength(10);
-
-                entity.HasOne(d => d.IdTypeNavigation)
-                    .WithMany(p => p.Supplies)
-                    .HasForeignKey(d => d.IdType)
-                    .HasConstraintName("FK_Supplies_TypeOfSupplies");
-            });
-
             modelBuilder.Entity<TypeOfSupply>(entity =>
             {
+                entity.Property(e => e.CreateAt)
+                    .HasColumnType("datetime")
+                    .HasColumnName("Create_at");
+
                 entity.Property(e => e.Description).HasMaxLength(50);
 
                 entity.Property(e => e.Name).HasMaxLength(50);
+
+                entity.Property(e => e.UpdateAt)
+                    .HasColumnType("datetime")
+                    .HasColumnName("Update_at");
+            });
+
+            modelBuilder.Entity<Work>(entity =>
+            {
+                entity.ToTable("Work");
+
+                entity.Property(e => e.Description)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.WorkName)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
             });
 
             OnModelCreatingPartial(modelBuilder);

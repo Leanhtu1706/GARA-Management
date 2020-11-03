@@ -86,10 +86,10 @@
                             <p>Kho vật tư <span class="fas fa-caret-down warehouse"></span></p>
                         </a>
                         <ul class="nav subWarehouse">
-                            <li class="nav-item supplies"><a class="nav-link" asp-controller="Supplies" asp-action="Index"><i class="far fa-id-badge"></i><p>Thông tin vật tư</p></a></li>
+                            <li class="nav-item material"><a class="nav-link" asp-controller="Materials" asp-action="Index"><i class="far fa-id-badge"></i><p>Thông tin vật tư</p></a></li>
                             <li class="nav-item typeOfSupplies"><a class="nav-link" asp-controller="TypeOfSupplies" asp-action="Index"><i class="fas fa-layer-group"></i><p>Loại vật tư</p></a></li>
-                            <li class="nav-item "><a class="nav-link" href="#"><i class="fas fa-boxes"></i><p>Nhà cung cấp</p></a></li>
-                            <li class="nav-item "><a class="nav-link" href="#"><i class="fas fa-people-carry"></i><p>Nhập xuất vật tư</p></a></li>
+                            <li class="nav-item supplier"><a class="nav-link" asp-controller="Suppliers" asp-action="Index"><i class="fas fa-boxes"></i><p>Nhà cung cấp</p></a></li>
+                            <li class="nav-item import-export"><a class="nav-link" asp-controller="GoodsReceivedNotes" asp-action="Index"><i class="fas fa-people-carry"></i><p>Nhập xuất vật tư</p></a></li>
                         </ul>
                     </li>
                     <li class="nav-item ">
@@ -174,6 +174,7 @@
     <script src="~/assets/js/core/popper.min.js"></script>
     <script src="~/assets/js/core/bootstrap-material-design.min.js"></script>
     <script src="~/assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+    <script type="text/javascript" src="~/assets/js/MDB/js/addons/datatables.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-growl/1.0.0/jquery.bootstrap-growl.min.js"></script>
     @RenderSection("Scripts", required: false);
 

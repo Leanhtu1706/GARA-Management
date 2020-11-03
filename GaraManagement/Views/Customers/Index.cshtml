@@ -37,7 +37,7 @@
                     <th>
                         @Html.DisplayNameFor(model => model.IdentityCardNumber)
                     </th>
-                    <th></th>
+                    <th class="col-action">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -74,12 +74,12 @@
                 <tr>
                     <td colspan="7" align="center">
                         @Html.PagedListPager((IPagedList)Model, pageNumber => Url.Action("Index",
-                       new { pageNumber }),
-                       new PagedListRenderOptions
-                       {
-                           LiElementClasses = new string[] { "page-item" },
-                           PageClasses = new string[] { "page-link" }
-                       })
+    new { pageNumber }),
+    new PagedListRenderOptions
+    {
+        LiElementClasses = new string[] { "page-item" },
+        PageClasses = new string[] { "page-link" }
+    })
                     </td>
                 </tr>
             </tbody>
@@ -146,26 +146,33 @@
     }
 </style>
 <script src="~/assets/js/core/jquery.min.js"></script>
-<script>
-    $(document).ready(function () {
-        $('.nav .subCustomer').toggleClass("show");
-        $('.sidebar-wrapper .nav li a .customer').toggleClass("rotate");
-
-        if ('@ViewBag.SuccessMessage' != "")
+@{ 
+    if (TempData["SuccessMessage"] != null)
         {
-            $.bootstrapGrowl('@ViewBag.SuccessMessage', {
+    <script>
+        $(document).ready(function () {
+            var message = "@TempData["SuccessMessage"]";
+            $.bootstrapGrowl(message, {
                 type: 'success',
                 align: 'center',
                 delay: 2000,
                 stackup_spacing: 30
             });
-        }
+        });
+    </script>
+        TempData["SuccessMessage"] = "" ;
+    }
+}
+<script>
+    $(document).ready(function () {
+        $('.nav .subCustomer').toggleClass("show");
+        $('.sidebar-wrapper .nav li a .customer').toggleClass("rotate");
+
     });
 
     //$(document).on('shown.bs.modal', '#createModal', function (event) {
     $(".create-btn").click(function () {
         console.log("shown modal event", event);
-
         $.ajax({
             /**/
             url: '@Url.Action("Create")',
@@ -173,13 +180,13 @@
             type: "GET",
             data: { layout: "_ModalLayout" },
             success: function (data) {
-                $(".modal-content").html(data);
+                $("#createModal .modal-content").html(data);
             }
         });
     });
       $(".edit-btn").click(function () {
         console.log("shown modal event", event);
-        var supId = $(this).attr("data-id");
+          var supId = $(this).attr("data-id");
         $.ajax({
             /**/
             url: '@Url.Action("Edit")',
@@ -187,7 +194,7 @@
             type: "GET",
             data: { id: supId, layout: "_ModalLayout" },
             success: function (data) {
-                $(".modal-content").html(data);
+                $("#editModal .modal-content").html(data);
             }
         });
       });
@@ -216,6 +223,5 @@
             }
         });
     });
-
 
 </script>

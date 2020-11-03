@@ -5831,7 +5831,6 @@ button.close {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  padding: 1rem;
   border-top: 1px solid #e9ecef;
 }
 
@@ -15317,7 +15316,7 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
 }
 
 .sidebar .nav i {
-  font-size: 24px;
+  font-size: 18px;
   float: left;
   margin-right: 15px;
   line-height: 30px;
@@ -15564,7 +15563,7 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
 
 .main-panel>.content {
   margin-top: 50px;
-  padding: 30px 15px;
+  padding: 10px 15px;
   min-height: calc(100vh - 123px);
 }
 
@@ -16849,7 +16848,7 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
 .table > tfoot > tr > td {
     padding: 5px 10px;
     vertical-align: middle;
-    border-color: #7b7b7ba3;
+    border:1px solid #484b4f;
 }
 
 .table thead tr th {

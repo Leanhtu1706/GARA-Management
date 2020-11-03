@@ -6,7 +6,7 @@
 
 
 <div class="row divmodal">
-    <form asp-action="Edit">
+    <form asp-action="Edit" id="formEdit">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <input type="hidden" asp-for="Id" />
         <div class="row form-group">
@@ -27,15 +27,23 @@
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
         </div>
-        <div class="btn-action">
-            <button icon-name="action-cancel" name="close" class="btn btn-default closeBtn" data-dismiss="modal">Close</button>
-            <input type="submit" class="btn btn-warning" value="Save" />
-        </div>
+        <input type="hidden" asp-for="CreateAt" class="form-control" />
+        <input type="hidden" asp-for="UpdateAt" class="form-control" />
     </form>
 </div>
 
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+@section actions {
+    <div class="modal-actions col-md-offset-3 col-md-9">
+        <button icon-name="action-cancel" name="close" class="btn btn-default" data-dismiss="modal">
+            Close
+        </button>
+        <button icon-name="action-save" name="submit" form="formEdit" class="btn btn-warning">
+            Save
+        </button>
+    </div>
 }
 

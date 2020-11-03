@@ -1,12 +1,29 @@
 ﻿/*xử lý chung*/
 .title{
     color:whitesmoke;
+    margin-bottom:10px !important;
 }
 /* Xử lý style cho bảng*/
+div#dtTable_wrapper {
+    width: 100%;
+}
+div#dtTable_length {
+    display: none;
+}
+div#dtTable_filter {
+    display: none;
+}
+.table {
+    border-radius: 6px;
+    overflow: hidden;
+    perspective: 1px;
+}
 .action-button {
     text-align: center;
 }
-
+.col-action {
+    text-align: center;
+}
 tr:nth-child(odd) {
     background-color: #252830;
 }
@@ -24,7 +41,7 @@ thead > tr > th {
     color: aliceblue;
 }
 thead > tr {
-    background-image: linear-gradient(to right,#0ebee5, #10557d, #3481e8);
+    background: #748aca !important;
 }
 .nav-item:visited, .nav-item:focus {
     background-color: #29a6c8 !important;
@@ -78,7 +95,7 @@ thead > tr {
 
 /*Xử lý icon*/
 i.fas.fa-user-cog {
-    font-size: 20px;
+    
 }
 i.fas.fa-backspace {
     font-size: 20px;
@@ -140,9 +157,9 @@ i.fas.fa-edit {
     max-width: 60%;
 }
 
-.modal-footer {
+/*.modal-footer {
     display: none;
-}
+}*/
 
 .btn-action {
     text-align: right;

@@ -64,6 +64,7 @@ namespace GaraManagement.Controllers
         {
             if (ModelState.IsValid)
             {
+                typeOfSupply.CreateAt = DateTime.Now;
                 _context.Add(typeOfSupply);
                 await _context.SaveChangesAsync();
                 TempData["SuccessMessage"] = "Thêm mới thành công!";
@@ -104,6 +105,7 @@ namespace GaraManagement.Controllers
             {
                 try
                 {
+                    typeOfSupply.UpdateAt = DateTime.Now;
                     _context.Update(typeOfSupply);
                     await _context.SaveChangesAsync();
                 }
@@ -133,9 +135,9 @@ namespace GaraManagement.Controllers
             }
 
             var typeOfSupply = await _context.TypeOfSupplies.FirstOrDefaultAsync(m => m.Id == id);
-            var existSupplies = _context.Supplies.Include(a => a.IdTypeNavigation).Where(a => a.IdType == id);
+            var existSupplies = _context.Materials.Include(a => a.IdTypeNavigation).Where(a => a.IdType == id);
             var typeOfSupplyViewModel = new TypeOfSupplyViewModel();
-            typeOfSupplyViewModel.supplies = existSupplies;
+            typeOfSupplyViewModel.material = existSupplies;
             typeOfSupplyViewModel.Id = typeOfSupply.Id;
             typeOfSupplyViewModel.Name = typeOfSupply.Name;
             typeOfSupplyViewModel.Description = typeOfSupply.Description;
@@ -159,11 +161,11 @@ namespace GaraManagement.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var typeOfSupply = await _context.TypeOfSupplies.FindAsync(id);
-            var supplies = _context.Supplies.Where(a => a.IdType == id);
+            var supplies = _context.Materials.Where(a => a.IdType == id);
             _context.TypeOfSupplies.Remove(typeOfSupply);
             foreach(var item in supplies)
             {
-                _context.Supplies.Remove(item);
+                _context.Materials.Remove(item);
             }    
             await _context.SaveChangesAsync();
             TempData["SuccessMessage"] = "Xóa thành công!";

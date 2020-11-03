@@ -31,6 +31,9 @@
                         @Html.DisplayNameFor(model => model.ContractStartDate)
                     </th>
                     <th>
+                        @Html.DisplayNameFor(model => model.Gender)
+                    </th>
+                    <th>
                         @Html.DisplayNameFor(model => model.Salary)
                     </th>
                     <th>
@@ -45,50 +48,53 @@
                     <th>
                         @Html.DisplayNameFor(model => model.Department)
                     </th>
-                    <th></th>
+                    <th class="col-action">Action</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var item in Model)
                 {
-                    <tr>
-                        <td>
-                            <img class="image-field" src="@item.Image" alt="Alternate Text" />
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Name)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.DateOfBirth)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.ContractStartDate)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Salary)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Phone)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Address)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.IdentityCardNumber)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Department)
-                        </td>
-                        <td class="action-button">
-                            <a class="btn btn-warning edit-btn" data-toggle='modal' data-target='#editModal' data-id="@item.Id">Edit</a> |
-                            <a class="btn btn-info" asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                            <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                        </td>
-                    </tr>
+                <tr>
+                    <td>
+                        <img class="image-field" src="@item.Image" alt="Alternate Text" />
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DateOfBirth)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ContractStartDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Gender)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Salary)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Phone)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Address)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IdentityCardNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Department)
+                    </td>
+                    <td class="action-button">
+                        <a class="btn btn-warning edit-btn" data-toggle='modal' data-target='#editModal' data-id="@item.Id">Edit</a> |
+                        <a class="btn btn-info" asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                        <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
                 }
                 <!-- Phân trang -->
                 <tr>
-                    <td colspan="10" align="center">
+                    <td colspan="11" align="center">
                         @Html.PagedListPager((IPagedList)Model, pageNumber => Url.Action("Index",
                        new { pageNumber }),
                        new PagedListRenderOptions
@@ -188,9 +194,7 @@
             type: "GET",
             data: { layout: "_ModalLayout" },
             success: function (data) {
-                console.log("Data nè:", data);
-                debugger
-                $(".modal-content").html(data);
+                $("#createModal .modal-content").html(data);
             }
         });
     });
@@ -204,7 +208,7 @@
             type: "GET",
             data: { id: empId, layout: "_ModalLayout" },
             success: function (data) {
-                $(".modal-content").html(data);
+                $("#editModal .modal-content").html(data);
             }
         });
     });

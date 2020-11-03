@@ -17,7 +17,7 @@ namespace GaraManagement.ViewModels
                 Id = typeOfSupply.Id;
                 Name = typeOfSupply.Name;
                 Description = typeOfSupply.Description;
-                supplies = typeOfSupply.Supplies;
+                material = typeOfSupply.Materials;
             }
 
         }
@@ -26,6 +26,6 @@ namespace GaraManagement.ViewModels
         [DisplayName("Loại")]
         public string Name { get; set; }
         public string Description { get; set; }
-        public IEnumerable<Supply> supplies { get; set; }
+        public IEnumerable<Material> material { get; set; }
     }
 }

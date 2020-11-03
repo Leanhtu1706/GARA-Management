@@ -15,6 +15,8 @@ namespace GaraManagement.Models
         public int Id { get; set; }
         public int? IdService { get; set; }
         public int? IdCar { get; set; }
+        public int? IdWork { get; set; }
+        public int? NumberOfWork { get; set; }
         public DateTime? DateOfFactoryEntry { get; set; }
         public DateTime? DateFinished { get; set; }
         public int? Cost { get; set; }
@@ -23,6 +25,7 @@ namespace GaraManagement.Models
 
         public virtual Car IdCarNavigation { get; set; }
         public virtual Service IdServiceNavigation { get; set; }
+        public virtual Work IdWorkNavigation { get; set; }
         public virtual ICollection<GoodsDeliveryNote> GoodsDeliveryNotes { get; set; }
     }
 }

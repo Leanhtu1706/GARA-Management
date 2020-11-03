@@ -10,6 +10,9 @@
         @RenderBody()
     </div>
 </div>
+<div class="modal-footer">
+    @RenderSection("actions")
+</div>
 <style>
     @@media only screen and (max-width : 1280px) {
         .col-lg-push-1 {
@@ -39,4 +42,4 @@
     }
 </style>
 
-@RenderSection("Scripts", required: false);
+@RenderSection("Scripts", required: false)

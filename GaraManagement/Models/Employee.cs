@@ -16,6 +16,7 @@ namespace GaraManagement.Models
         public string Name { get; set; }
         public DateTime? DateOfBirth { get; set; }
         public DateTime? ContractStartDate { get; set; }
+        public int? Gender { get; set; }
         public int? Salary { get; set; }
         public string Phone { get; set; }
         public string Address { get; set; }
@@ -23,6 +24,10 @@ namespace GaraManagement.Models
         public string Image { get; set; }
         public string Department { get; set; }
 
+        public enum GenderType
+        {
+            FeMale,Male
+        }
         public virtual ICollection<Account> Accounts { get; set; }
     }
 }

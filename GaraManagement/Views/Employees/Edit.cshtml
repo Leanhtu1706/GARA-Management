@@ -10,7 +10,7 @@
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <input asp-for="Id" type="hidden" />
         <div class="row">
-            <div class="col-md-7">
+            <div class="col-md-6">
                 <div class="row form-group">
                     <div class="col-md-4">
                         <label asp-for="Name" class="control-label"></label>
@@ -40,6 +40,15 @@
                 </div>
                 <div class="row form-group">
                     <div class="col-md-4">
+                        <label asp-for="Gender" class="control-label"></label>
+                    </div>
+                    <div class="col-md-8">
+                        <select asp-for="Gender" asp-items="Enum.GetValues(typeof(Employee.GenderType)).Cast<Employee.GenderType>().Select(o => new SelectListItem { Text = o.ToString(), Value = ((int)o).ToString() })" class="form-control"></select>
+                        <span asp-validation-for="Gender" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-md-4">
                         <label asp-for="Salary" class="control-label"></label>
                     </div>
                     <div class="col-md-7">
@@ -65,6 +74,8 @@
                         <span asp-validation-for="Address" class="text-danger"></span>
                     </div>
                 </div>
+            </div>
+            <div class="col-md-6">
                 <div class="row form-group">
                     <div class="col-md-4">
                         <label asp-for="IdentityCardNumber" class="control-label"></label>
@@ -83,8 +94,6 @@
                         <span asp-validation-for="Department" class="text-danger"></span>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-5">
                 <div class="row form-group">
                     <div class="col-md-2">
                         <label asp-for="Image" class="control-label"></label>
@@ -106,11 +115,10 @@
                         <span asp-validation-for="Image" class="text-danger"></span>
                     </div>
                 </div>
-                <hr />
-                <div class="btn-action">
+                @*<div class="btn-action">
                     <button icon-name="action-cancel" name="close" class="btn btn-default closeBtn" data-dismiss="modal">Close</button>
                     <input type="submit" class="btn btn-warning" value="Save" />
-                </div>
+                </div>*@
             </div>
         </div>
 
@@ -127,4 +135,14 @@
 </script>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+@section actions {
+    <div class="modal-actions col-md-offset-3 col-md-9">
+        <button icon-name="action-cancel" name="close" class="btn btn-default" data-dismiss="modal">
+            Close
+        </button>
+        <button icon-name="action-save" name="submit" form="formEdit" class="btn btn-warning" id="saveBtn">
+            Save
+        </button>
+    </div>
 }

@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using GaraManagement.Models;
 using X.PagedList;
 
+
 namespace GaraManagement.Controllers
 {
     public class EmployeesController : Controller

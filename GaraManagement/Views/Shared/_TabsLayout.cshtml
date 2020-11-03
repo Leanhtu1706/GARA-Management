@@ -1,0 +1,44 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/assets/css/customStyleLayout.css" rel="stylesheet" />
+<div class="container-fluid">
+    <h2 class="title-tab">Nhập xuất vật tư</h2>
+    <div class="">
+        <div class="tab-action">
+            <ul class="nav nav-pills">
+                <li class="import"><a class="btn btn-default" asp-controller="GoodsReceivedNotes" asp-action="Index">Phiếu nhập vật tư</a></li>
+                <li class="export"><a class="btn btn-default" asp-controller="GoodsDeliveryNotes" asp-action="Index">Phiếu xuất vật tư</a></li>
+            </ul>
+        </div>
+        <div class="tab-content">
+            @RenderBody()
+        </div>
+    </div>
+</div>
+<style>
+.tab-content {
+    background: white;
+    height: 600px;
+    border-radius: 5px;
+}
+.title-tab{
+    text-align:center;
+    color: whitesmoke;
+}
+i.fas.fa-backspace {
+    color: #eb0000 !important;
+}
+i.fas.fa-search {
+    font-size: 20px;
+    padding-top: 12px;
+    padding-right: 10px;
+}
+#search {
+    color: black;
+}
+</style>
+
+@RenderSection("Scripts", required: false);

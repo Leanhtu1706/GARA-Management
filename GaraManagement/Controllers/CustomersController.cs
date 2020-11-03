@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using GaraManagement.Models;
 using X.PagedList;
 
+
 namespace GaraManagement.Controllers
 {
     public class CustomersController : Controller
@@ -25,7 +26,6 @@ namespace GaraManagement.Controllers
             if (pageNumber == null) pageNumber = 1;
             int pageSize = 10;
             ViewData["GetTextSearch"] = search;
-            ViewBag.SuccessMessage = TempData["SuccessMessage"];
             if (!string.IsNullOrEmpty(search))
             {
                 var garaContext = _context.Customers.Where(a => a.Name.Contains(search));
@@ -35,7 +35,7 @@ namespace GaraManagement.Controllers
             {
                 var garaContext = _context.Customers;
                 return View(garaContext.ToList().ToPagedList((int)pageNumber, pageSize));
-            }
+            }           
         }
 
         // GET: Customers/Details/5
@@ -127,6 +127,7 @@ namespace GaraManagement.Controllers
                     }
                 }
                 TempData["SuccessMessage"] = "Sửa thành công!";
+                
                 return RedirectToAction(nameof(Index));
             }
             return View(customer);
