@@ -4,8 +4,9 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_TabsLayout.cshtml";
 }
-
+    <link href="~/assets/js/MDB/css/addons/datatables.min.css" rel="stylesheet">
 <link href="~/assets/css/customStyleLayout.css" rel="stylesheet" />
+
 <div class="container-fluid">
     <div class="row custyle">
         <a class="btn btn-success create-btn" data-toggle='modal' data-target='#createModal'>Thêm mới phiếu xuất</a>
@@ -16,7 +17,7 @@
             </form>
             <i class="fas fa-backspace"></i>
         </div>
-        <table class="table table-striped custab">
+        <table id="dtTable" class="table table-striped table-bordered"  cellspacing="0" width="100%">
             <thead>
                 <tr>
                     <th>
@@ -58,18 +59,7 @@
                         </td>
                     </tr>
                 }
-                <!-- Phân trang -->
-                <tr>
-                    <td colspan="5" align="center">
-                        @Html.PagedListPager((IPagedList)Model, pageNumber => Url.Action("Index",
-                       new { pageNumber }),
-                       new PagedListRenderOptions
-                       {
-                           LiElementClasses = new string[] { "page-item" },
-                           PageClasses = new string[] { "page-link" }
-                       })
-                    </td>
-                </tr>
+              
             </tbody>
         </table>
     </div>
@@ -144,6 +134,8 @@
     $(document).ready(function () {
         $('.nav .subWarehouse').toggleClass("show");
         $('.sidebar-wrapper .nav li a .warehouse').toggleClass("rotate");
+
+        $('#dtTable').DataTable();
     });
 
     $(".create-btn").click(function () {

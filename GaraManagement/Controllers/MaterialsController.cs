@@ -20,12 +20,7 @@ namespace GaraManagement.Controllers
         {
             _context = context;
         }
-        [HttpGet]
-        public IActionResult testSortTable()
-        {
-            var garaContext = _context.Materials.Include(s => s.IdTypeNavigation);
-            return View(garaContext.ToList());
-        }
+
             // GET: Material
             //public  IActionResult Index(int? pageNumber)
             //{
@@ -36,10 +31,9 @@ namespace GaraManagement.Controllers
             //    return View(garaContext.ToList().ToPagedList((int)pageNumber,pageSize));
             //}
             [HttpGet]
-        public IActionResult Index(string search, int? pageNumber)
+        public IActionResult Index(string search)
         {
-            if (pageNumber == null) pageNumber = 1;
-            int pageSize = 10;
+
             ViewData["GetTextSearch"] = search;
             ViewBag.SuccessMessage = TempData["SuccessMessage"];
             if (!string.IsNullOrEmpty(search))

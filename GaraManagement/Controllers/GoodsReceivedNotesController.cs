@@ -20,20 +20,19 @@ namespace GaraManagement.Controllers
         }
 
         // GET: GoodsReceivedNotes
-        public IActionResult Index(string search, int? pageNumber)
+        public IActionResult Index(string search)
         {
-            if (pageNumber == null) pageNumber = 1;
-            int pageSize = 10;
+
             ViewData["GetTextSearch"] = search;
             if (!string.IsNullOrEmpty(search))
             {
                 var garaContext = _context.GoodsReceivedNotes.Include(g => g.IdSupplierNavigation).Where(a => a.IdSupplierNavigation.Name.Contains(search));
-                return View(garaContext.ToList().ToPagedList((int)pageNumber, pageSize));
+                return View(garaContext.ToList());
             }
             else
             {
                 var garaContext = _context.GoodsReceivedNotes.Include(g => g.IdSupplierNavigation);
-                return View(garaContext.ToList().ToPagedList((int)pageNumber, pageSize));
+                return View(garaContext.ToList());
             }
         }
         // GET: GoodsReceivedNotes/Details/5

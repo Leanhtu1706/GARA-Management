@@ -1,0 +1,53 @@
+﻿@model GaraManagement.Models.DetailGoodsReceivedNote
+
+@{
+    ViewData["Title"] = "Sửa thông tin vật tư nhập vào";
+}
+
+<div class="row divmodal">
+    <form asp-action="Edit" id="formEdit">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="IdGoodsReceivedNote" />
+        <div class="row form-group">
+            <div class="col-sm-2">
+                <label asp-for="IdMaterialNavigation.Name" class="control-label" name="IdMaterial"></label>
+            </div>
+            <div class="col-sm-8">
+                <select disabled asp-for="IdMaterial" class="form-control" asp-items="ViewBag.MaterialName"></select>
+                <span asp-validation-for="IdMaterial" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-sm-2">
+                <label asp-for="Amount" class="control-label" name="Amount"></label>
+            </div>
+            <div class="col-sm-8">
+                <input asp-for="Amount" class="form-control" />
+                <span asp-validation-for="Amount" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-sm-2">
+                <label asp-for="Price" class="control-label" name="Price"></label>
+            </div>
+            <div class="col-sm-8">
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+        </div>
+    </form>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+@section actions {
+    <div class="modal-actions col-md-offset-3 col-md-9">
+        <button icon-name="action-cancel" name="close" class="btn btn-default" data-dismiss="modal">
+            Close
+        </button>
+        <button icon-name="action-save" name="submit" form="formEdit" class="btn btn-warning" id="saveBtn">
+            Save
+        </button>
+    </div>
+}
