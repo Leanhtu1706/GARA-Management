@@ -48,26 +48,26 @@
                         <hr class="m-0" />
                         <div class="card-body p-2 p-lg-2 p-xl-2">
                             <div class="row">
-                                <div class="col-md-3 offset-1">
+                                <div class="col-md-3 left">
                                     <p>Chủ xe:</p>
                                 </div>
-                                <div class="col-md-8">
+                                <div class="col-md-8 right">
                                     <h4>@item.IdCustomerNavigation.Name</h4>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-3 offset-1">
+                                <div class="col-md-3 left">
                                     <p>Hãng:</p>
                                 </div>
-                                <div class="col-md-8">
+                                <div class="col-md-8 right">
                                     <h4>@item.Manufacturer</h4>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-3 offset-1">
+                                <div class="col-md-3 left">
                                     <p>Màu:</p>
                                 </div>
-                                <div class="col-md-8">
+                                <div class="col-md-8 right">
                                     <h4>@item.Color</h4>
                                 </div>
                             </div>
@@ -89,7 +89,7 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-action">
-                <div class="modal-actions col-md-6 offset-6">
+                <div class="modal-actions col-md-7 offset-5">
 
                     <form class="form-horizontal" asp-action="DeleteConfirmed">
                         <input id="delete-input" name="Id" type="hidden"  />
@@ -114,6 +114,12 @@
 
     .main-panel {
         overflow: scroll;
+    }
+    .left{
+        padding: 0 0 0 20px;
+    }
+    .right{
+        padding:0;
     }
 </style>
 

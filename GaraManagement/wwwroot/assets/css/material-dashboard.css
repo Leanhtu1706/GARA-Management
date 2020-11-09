@@ -15253,7 +15253,6 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
 }
 
 .sidebar .nav {
-  margin-top: 20px;
   display: block;
 }
 
@@ -15360,11 +15359,14 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
 }
 
 .sidebar .logo {
-  padding: 15px 0px;
-  margin: 0;
-  display: block;
-  position: relative;
-  z-index: 4;
+    padding: 15px 20px;
+    margin: 0;
+    display: block;
+    position: relative;
+    z-index: 4;
+    color: white;
+    font-weight: 600;
+    font-size: 25px;
 }
 
 .sidebar .logo:after {

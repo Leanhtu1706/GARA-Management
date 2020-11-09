@@ -1,4 +1,4 @@
-﻿@model IEnumerable<GaraManagement.Models.DetailGoodsReceivedNote>
+﻿@model IEnumerable<GaraManagement.Models.DetailGoodsDeliveryNote>
 
 @{
     ViewData["Title"] = "Index";
@@ -13,11 +13,11 @@
     <div class="row custyle">
         <div class="col-md-7">
             <div class="row ">
-                <h3 class="title">Chi tiết phiếu nhập</h3>
+                <h3 class="title">Chi tiết phiếu xuất</h3>
             </div>
             <div class="row ">
-                <a class="back-btn" asp-controller="GoodsReceivedNotes" asp-action="Index"><i class="fas fa-arrow-circle-left"></i>&ensp; Back</a>
-                <a class="btn btn-success create-btn" data-id-create="@ViewBag.IdGoodReceivedNotes" data-toggle='modal' data-target='#createModal'>Thêm chi tiết phiếu nhập</a>
+                <a class="back-btn" asp-controller="GoodsDeliveryNotes" asp-action="Index"><i class="fas fa-arrow-circle-left"></i>&ensp; Back</a>
+                <a class="btn btn-success create-btn" data-id-create="@ViewBag.IdGoodDeliveryNotes" data-toggle='modal' data-target='#createModal'>Thêm chi tiết phiếu xuất</a>
                 <div class="input-group no-border">
                     <i class="fas fa-search"></i>
                     <form asp-action="Index" method="get">
@@ -29,12 +29,12 @@
         </div>
         <div class="col-md-5">
             <div class="row">
-                <p>Ngày nhập:&ensp;</p>
-                <h4>@ViewBag.ImportDate</h4>
+                <p>Ngày xuất:&ensp;</p>
+                <h4>@ViewBag.ExportDate</h4>
             </div>
             <div class="row">
-                <p>Nhà cung cấp:&ensp;</p>
-                <h4>@ViewBag.SupplierName</h4>
+                <p>Id sửa chữa:&ensp;</p>
+                <h4>@ViewBag.IdRepair</h4>
             </div>
             <div class="row">
                 <p>Mô tả:&ensp;</p>
@@ -56,10 +56,7 @@
                         @Html.DisplayNameFor(model => model.Amount)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.Price)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.IdGoodsReceivedNoteNavigation.Id)
+                        @Html.DisplayNameFor(model => model.IdGoodsDeliveryNoteNavigation.Id)
                     </th>
 
                     <th class="col-action">Action</th>
@@ -76,14 +73,11 @@
                             @Html.DisplayFor(modelItem => item.Amount)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Price)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.IdGoodsReceivedNoteNavigation.Id)
+                            @Html.DisplayFor(modelItem => item.IdGoodsDeliveryNoteNavigation.Id)
                         </td>
                         <td class="action-button">
-                            <a class="btn btn-warning edit-btn" data-toggle='modal' data-target='#editModal' data-id-edit="@item.IdGoodsReceivedNote" data-idMaterial-edit="@item.IdMaterial">Edit</a> |
-                            <a class="btn btn-danger delete-btn" data-toggle='modal' data-target='#deleteConfirmModal' data-id-delete="@item.IdGoodsReceivedNote" data-idMaterial-delete="@item.IdMaterial">Delete</a>
+                            <a class="btn btn-warning edit-btn" data-toggle='modal' data-target='#editModal' data-id-edit="@item.IdGoodsDeliveryNote" data-idMaterial-edit="@item.IdMaterial">Edit</a> |
+                            <a class="btn btn-danger delete-btn" data-toggle='modal' data-target='#deleteConfirmModal' data-id-delete="@item.IdGoodsDeliveryNote" data-idMaterial-delete="@item.IdMaterial">Delete</a>
                         </td>
                     </tr>
                 }
@@ -194,6 +188,7 @@
     .tab-content {
         height: 700px !important;
     }
+
     .title {
         padding: 0 20px;
         background: #4cacff;
@@ -216,14 +211,14 @@
 
     $(".create-btn").click(function () {
         console.log("shown modal event", event);
-        var receivedId = $(this).attr("data-id-create");
-        console.log("id create: ", receivedId);
+        var DeliveryId = $(this).attr("data-id-create");
+        console.log("id create: ", DeliveryId);
         $.ajax({
             /**/
             url: '@Url.Action("Create")',
             /**/
             type: "GET",
-            data: { id: receivedId, layout: "_ModalLayout" },
+            data: { id: DeliveryId, layout: "_ModalLayout" },
             success: function (data) {
                 $("#createModal .modal-content").html(data);
             }

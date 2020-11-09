@@ -50,7 +50,7 @@ Author URL: http://w3layouts.com
                             </div>
                         </div>
                         <div class="bottom-content">
-                            <form  id="formlogin">
+                            <form  id="formlogin" asp-action="Login" method="post">
                                 <input name="username" class="input-form" placeholder="UserName"
                                        required="required" />
                                 <input type="password" name="password" class="input-form"
@@ -85,11 +85,11 @@ Author URL: http://w3layouts.com
                     console.log(data);
                     if (data == "error") {
                         alert("Đăng nhập thất bại mời thử lại!");
-                        window.location.href = "Login/Login";
+                        //window.location.href = "Login";
                         console.log("Error");
                     }
                     else {
-                        window.location.href = "/Home/Index";
+                        window.location.href = data.redirectToUrl;
                         console.log("Success");
                     }
                 }

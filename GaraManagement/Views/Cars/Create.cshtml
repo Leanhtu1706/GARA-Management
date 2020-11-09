@@ -13,7 +13,7 @@
     <form asp-action="Create" id="formCreate">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="row">
-            <h2>Create new car</h2>
+            <h2>Thêm mới xe</h2>
         </div>
         <hr />
         <div class="btn-action">
@@ -24,7 +24,7 @@
             <div class="col-md-5">
                 <div class="row form-group">
                     <div class="col-sm-4">
-                        <label asp-for="IdCustomer" class="control-label">Customer</label>
+                        <label asp-for="IdCustomer" class="control-label">Khách hàng</label>
                     </div>
                     <div class="col-sm-8">
                         <select id="select-customer" class="custom-select" asp-for="IdCustomer" asp-items="ViewBag.Customer"></select>

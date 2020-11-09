@@ -1,5 +1,7 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Http;
+@{
     Layout = null;
+
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -27,16 +29,15 @@
 
 <body class="">
     <div class="wrapper ">
-        <div class="sidebar" data-color="azure" data-background-color="black" data-image="../assets/img/sidebar-1.jpg">
+        <div class="sidebar" data-color="azure" data-background-color="black" data-image="../../assets/img/sidebar-1.jpg">
             <!--
                 Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
 
                 Tip 2: you can also add an image using data-image tag
             -->
             <div class="logo">
-                <a href="http://www.creative-tim.com" class="simple-text logo-normal">
-                    UserName and Photo
-                </a>
+                <img src= "../../img/@Context.Session.GetString("SessionAvatar")" alt="Avatar" />
+                @Context.Session.GetString("SessionName")
             </div>
             <div class="sidebar-wrapper">
                 <ul class="nav">
@@ -93,11 +94,16 @@
                         </ul>
                     </li>
                     <li class="nav-item ">
-                        <!--sub menu quản lý kho vật tư-->
-                        <a class="nav-link" href="#">
+                        <!--sub menu quản lý Tài khoản-->
+                        <a class="nav-link account-btn" href="#">
                             <i class="far fa-user-circle"></i>
-                            <p>Quản lý tài khoản</p>
+                            <p>Quản lý tài khoản <span class="fas fa-caret-down account"></span></p>
                         </a>
+                        <ul class="nav subAccount">
+                            <li class="nav-item profile_info"><a class="nav-link" asp-controller="Profile" asp-action="Index"><i class="far fa-id-badge"></i><p>Thông tin tài khoản</p></a></li>
+                            <li class="nav-item typeOfSupplies"><a class="nav-link" asp-controller="TypeOfSupplies" asp-action="Index"><i class="fas fa-layer-group"></i><p>Đổi mật khẩu</p></a></li>
+                           
+                        </ul>
                     </li>
                     @*<li class="nav-item ">
                             <a class="nav-link" href="./notifications.html">
@@ -154,7 +160,7 @@
                                     <a class="dropdown-item" href="#">Profile</a>
                                     <a class="dropdown-item" href="#">Settings</a>
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="#">Log out</a>
+                                    <a class="dropdown-item" asp-controller="LogOut" asp-action="Index">Log out</a>
                                 </div>
                             </li>
                         </ul>
@@ -197,7 +203,10 @@
             $('.nav .subWarehouse').toggleClass("show");
             $('.sidebar-wrapper .nav li a .warehouse').toggleClass("rotate");
         });
-
+        $('.account-btn').click(function () {
+            $('.nav .subAccount').toggleClass("show");
+            $('.sidebar-wrapper .nav li a .account').toggleClass("rotate");
+        });
 
     </script>
 </body>

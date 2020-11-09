@@ -161,9 +161,9 @@ namespace GaraManagement.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var typeOfSupply = await _context.TypeOfSupplies.FindAsync(id);
-            var supplies = _context.Materials.Where(a => a.IdType == id);
+            var materials = _context.Materials.Where(a => a.IdType == id);
             _context.TypeOfSupplies.Remove(typeOfSupply);
-            foreach(var item in supplies)
+            foreach(var item in materials)
             {
                 _context.Materials.Remove(item);
             }    

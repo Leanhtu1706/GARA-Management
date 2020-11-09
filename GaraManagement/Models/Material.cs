@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 #nullable disable
 
@@ -22,9 +21,7 @@ namespace GaraManagement.Models
         public int? Amount { get; set; }
         public string Image { get; set; }
         public string Description { get; set; }
-        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd HH:mm}", ApplyFormatInEditMode = true)]
         public DateTime? CreateAt { get; set; }
-        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd HH:mm}", ApplyFormatInEditMode = true)]
         public DateTime? UpdateAt { get; set; }
 
         public virtual TypeOfSupply IdTypeNavigation { get; set; }

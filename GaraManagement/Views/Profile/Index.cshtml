@@ -1,0 +1,204 @@
+﻿@model GaraManagement.Models.Employee
+
+@{
+    ViewData["Title"] = "Sửa thông tin tài khoản";
+    var image = @ViewBag.image;
+}
+<link href="~/assets/css/customStyleLayout.css" rel="stylesheet" />
+
+<div class="page container">
+    <div class="page-content row">
+        <form asp-controller="Profile" asp-action="Edit" method="post" id="formEdit" role="form">
+            <div class="row">
+                <div class="col-md-4 left">
+                    <div class="avatar">
+                        <div class="row form-group">
+                            <div class="col-md-12">
+                                <img class="image-edit" src="@image" alt="Alternate Text" />
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-md-12">
+                                <input type="file" id="uploadFile">
+                            </div>
+                        </div>
+                        <div class="row form-group">
+                            <div class="col-md-12">
+                                <input type="hidden" asp-for="Image" class="form-control image-input">
+                                <span asp-validation-for="Image" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8 right">
+                    <div class="row"><h3>Thông tin tài khoản</h3></div>
+                    <div class="row">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input asp-for="Id" type="hidden" />
+                        <div class="row" style="width:100%;">
+                            <div class="col-md-10 offset-1">
+                                <div class="row form-group">
+                                    <div class="col-md-4">
+                                        <label asp-for="Name" class="control-label"></label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <input asp-for="Name" class="form-control" />
+                                        <span asp-validation-for="Name" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-md-4">
+                                        <label asp-for="DateOfBirth" class="control-label"></label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <input asp-for="DateOfBirth" class="form-control" />
+                                        <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-md-4">
+                                        <label asp-for="ContractStartDate" class="control-label"></label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <input asp-for="ContractStartDate" class="form-control" />
+                                        <span asp-validation-for="ContractStartDate" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-md-4">
+                                        <label asp-for="Gender" class="control-label"></label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <select asp-for="Gender" asp-items="Enum.GetValues(typeof(GenderType)).Cast<GenderType>().Select(o => new SelectListItem { Text = o.ToString(), Value = ((int)o).ToString() })" class="form-control"></select>
+                                        <span asp-validation-for="Gender" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-md-4">
+                                        <label asp-for="Salary" class="control-label"></label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <input asp-for="Salary" class="form-control" />
+                                        <span asp-validation-for="Salary" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-md-4">
+                                        <label asp-for="Phone" class="control-label"></label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <input asp-for="Phone" class="form-control" />
+                                        <span asp-validation-for="Phone" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-md-4">
+                                        <label asp-for="Address" class="control-label"></label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <input asp-for="Address" class="form-control" />
+                                        <span asp-validation-for="Address" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-md-4">
+                                        <label asp-for="IdentityCardNumber" class="control-label"></label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <input asp-for="IdentityCardNumber" class="form-control" />
+                                        <span asp-validation-for="IdentityCardNumber" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-md-4">
+                                        <label asp-for="Department" class="control-label"></label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <input asp-for="Department" class="form-control" />
+                                        <span asp-validation-for="Department" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col-md-4 offset-3 btn-action">
+                                        <input type="submit" class="btn update" value="Cập nhật" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          
+        </form>
+    </div>
+</div>
+
+
+
+<!-- Style and Js-->
+<style>
+
+    .profile_info {
+        background-color: #29a6c8;
+        border-radius: 4px;
+    }
+
+    .update {
+        background: linear-gradient(#fe6d72,#fea621);
+    }
+
+    .page-content {
+        border-radius: 25px;
+        background: linear-gradient(#fe6d72,#fea621);
+    }
+
+    .right {
+        border-radius: 25px;
+        height: 660px;
+        background-color: whitesmoke;
+    }
+
+    .avatar {
+        width: 250px;
+        height: 250px;
+        margin: 20px auto;
+    }
+
+    .image-edit {
+        width: 200px;
+        height: 200px;
+        border-radius: 250px;
+    }
+
+    .right h3 {
+        margin: 10px auto;
+    }
+</style>
+<script src="~/assets/js/core/jquery.min.js"></script>
+<script>
+
+    $(document).ready(function () {
+        $('.nav .subAccount').toggleClass("show");
+        $('.sidebar-wrapper .nav li a .account').toggleClass("rotate");
+    });
+    $('input[type="file"]').change(function (e) {
+        var path = "../assets/img/" + e.target.files[0].name;
+        $(".image-edit").attr("src", path);
+        $('.image-input').attr('value', path);
+    });
+
+
+</script>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+@*@section actions {
+        <div class="modal-actions col-md-offset-3 col-md-9">
+            <button icon-name="action-cancel" name="close" class="btn btn-default" data-dismiss="modal">
+                Close
+            </button>
+            <button icon-name="action-save" name="submit" form="formEdit" class="btn btn-warning" id="saveBtn">
+                Save
+            </button>
+        </div>
+    }*@

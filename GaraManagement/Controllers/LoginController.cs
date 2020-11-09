@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GaraManagement.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace GaraManagement.Controllers
 {
@@ -19,10 +20,8 @@ namespace GaraManagement.Controllers
         }
 
         // GET: Login
-        public IActionResult Login()
+        public IActionResult Index()
         {
-            var loginResult = _context.Accounts.Include(a => a.IdEmployeeNavigation);
-            //return View(await garaContext.ToListAsync());
             return View();
         }
         [HttpPost]
@@ -30,10 +29,14 @@ namespace GaraManagement.Controllers
         {
             var username = account.UserName;
             var password = account.Password;
-            var loginResult =  _context.Accounts.Include(a => a.IdEmployeeNavigation).Where(a=>(a.UserName == username && a.Password== password));
-            if (loginResult.Any())
+            var loginResult =  _context.Accounts.Include(a=>a.IdEmployeeNavigation).Where(a=>(a.UserName == username && a.Password == password)).FirstOrDefault();
+            if (loginResult != null)
             {
-                return Json("success");
+                HttpContext.Session.SetString("SessionUserName", loginResult.UserName);
+                HttpContext.Session.SetString("SessionPassword", loginResult.Password);
+                HttpContext.Session.SetString("SessionName",loginResult.IdEmployeeNavigation.Name);
+                HttpContext.Session.SetString("SessionAvatar", loginResult.IdEmployeeNavigation.Image);
+                return Json(new { redirectToUrl = Url.Action("Index", "Home")});
 
             }
 

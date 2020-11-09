@@ -124,7 +124,7 @@ namespace GaraManagement.Models
                     .WithMany(p => p.DetailGoodsDeliveryNotes)
                     .HasForeignKey(d => d.IdMaterial)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_DetailGoodsDeliveryNote_Supplies");
+                    .HasConstraintName("FK_DetailGoodsDeliveryNote_Material");
             });
 
             modelBuilder.Entity<DetailGoodsReceivedNote>(entity =>
@@ -143,7 +143,7 @@ namespace GaraManagement.Models
                     .WithMany(p => p.DetailGoodsReceivedNotes)
                     .HasForeignKey(d => d.IdMaterial)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_DetailGoodsReceivedNote_Supplies");
+                    .HasConstraintName("FK_DetailGoodsReceivedNote_Material");
             });
 
             modelBuilder.Entity<Employee>(entity =>

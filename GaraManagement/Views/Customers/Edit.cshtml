@@ -31,7 +31,7 @@
                 <label asp-for="Gender" class="control-label"></label>
             </div>
             <div class="col-md-8">
-                <select asp-for="Gender" asp-items="Enum.GetValues(typeof(Employee.GenderType)).Cast<Employee.GenderType>().Select(o => new SelectListItem { Text = o.ToString(), Value = ((int)o).ToString() })" class="form-control"></select>
+                <select asp-for="Gender" asp-items="Enum.GetValues(typeof(GenderType)).Cast<GenderType>().Select(o => new SelectListItem { Text = o.ToString(), Value = ((int)o).ToString() })" class="form-control"></select>
                 <span asp-validation-for="Gender" class="text-danger"></span>
             </div>
         </div>

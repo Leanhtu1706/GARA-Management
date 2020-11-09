@@ -3,6 +3,12 @@
     color:whitesmoke;
     margin-bottom:10px !important;
 }
+.logo img {
+    margin-right: 10px;
+    width: 50px;
+    height: 50px;
+    border-radius: 55px;
+}
 /* Xử lý style cho bảng*/
 
 div#dtTable_wrapper {
@@ -163,6 +169,15 @@ i.fas.fa-edit {
 }
 
 .sidebar-wrapper .nav li a .warehouse.rotate {
+    transform: rotate(0deg);
+}
+/* Xử lý submenu Tài khoản*/
+.nav .subAccount.show {
+    max-height: 8em;
+    margin-top: 5px;
+}
+
+.sidebar-wrapper .nav li a .account.rotate {
     transform: rotate(0deg);
 }
 

@@ -21,7 +21,7 @@ namespace GaraManagement.Controllers
         // GET: DetailGoodsReceivedNotes
         public async Task<IActionResult> Index(int id)
         {
-            var goodsReceivedNotes = _context.GoodsReceivedNotes.Include(a=>a.IdSupplierNavigation).Where(a => a.Id == id).First();
+            var goodsReceivedNotes = _context.GoodsReceivedNotes.Include(a=>a.IdSupplierNavigation).Where(a => a.Id == id).FirstOrDefault();
             ViewBag.ImportDate = goodsReceivedNotes.ImportDate;
             ViewBag.SupplierName = goodsReceivedNotes.IdSupplierNavigation.Name;
             ViewBag.Description = goodsReceivedNotes.Description;
@@ -92,7 +92,7 @@ namespace GaraManagement.Controllers
                 return NotFound();
             }
             ViewData["IdGoodsReceivedNote"] = new SelectList(_context.GoodsReceivedNotes, "Id", "Id", detailGoodsReceivedNote.IdGoodsReceivedNote);
-            ViewData["IdMaterial"] = new SelectList(_context.Materials, "Id", "Name", detailGoodsReceivedNote.IdMaterial);
+            ViewData["MaterialName"] = new SelectList(_context.Materials, "Id", "Name");
             return View(detailGoodsReceivedNote);
         }
 
@@ -101,9 +101,9 @@ namespace GaraManagement.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, DetailGoodsReceivedNote detailGoodsReceivedNote)
+        public async Task<IActionResult> Edit(int idGoodsReceivedNote, DetailGoodsReceivedNote detailGoodsReceivedNote)
         {
-            if (id != detailGoodsReceivedNote.IdGoodsReceivedNote)
+            if (idGoodsReceivedNote != detailGoodsReceivedNote.IdGoodsReceivedNote)
             {
                 return NotFound();
             }
@@ -126,42 +126,41 @@ namespace GaraManagement.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), new { id = detailGoodsReceivedNote.IdGoodsReceivedNote });
             }
             ViewData["IdGoodsReceivedNote"] = new SelectList(_context.GoodsReceivedNotes, "Id", "Id", detailGoodsReceivedNote.IdGoodsReceivedNote);
-            ViewData["IdMaterial"] = new SelectList(_context.Materials, "Id", "Name", detailGoodsReceivedNote.IdMaterial);
+            ViewData["MaterialName"] = new SelectList(_context.Materials, "Id", "Name");
             return View(detailGoodsReceivedNote);
         }
 
         // GET: DetailGoodsReceivedNotes/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //public async Task<IActionResult> Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var detailGoodsReceivedNote = await _context.DetailGoodsReceivedNotes
-                .Include(d => d.IdGoodsReceivedNoteNavigation)
-                .Include(d => d.IdMaterialNavigation)
-                .FirstOrDefaultAsync(m => m.IdGoodsReceivedNote == id);
-            if (detailGoodsReceivedNote == null)
-            {
-                return NotFound();
-            }
+        //    var detailGoodsReceivedNote = await _context.DetailGoodsReceivedNotes
+        //        .Include(d => d.IdGoodsReceivedNoteNavigation)
+        //        .Include(d => d.IdMaterialNavigation)
+        //        .FirstOrDefaultAsync(m => m.IdGoodsReceivedNote == id);
+        //    if (detailGoodsReceivedNote == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return View(detailGoodsReceivedNote);
-        }
+        //    return View(detailGoodsReceivedNote);
+        //}
 
         // POST: DetailGoodsReceivedNotes/Delete/5
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int id, int idMaterial)
         {
-            var detailGoodsReceivedNote = await _context.DetailGoodsReceivedNotes.FindAsync(id);
+            var detailGoodsReceivedNote =  _context.DetailGoodsReceivedNotes.Where(a=>a.IdGoodsReceivedNote == id && a.IdMaterial == idMaterial).FirstOrDefault();
             _context.DetailGoodsReceivedNotes.Remove(detailGoodsReceivedNote);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return Json(new { redirectToUrl = Url.Action("Index", "DetailGoodsReceivedNotes", new {id = id }) });
         }
 
         private bool DetailGoodsReceivedNoteExists(int id)

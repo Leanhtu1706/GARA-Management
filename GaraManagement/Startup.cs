@@ -28,6 +28,9 @@ namespace GaraManagement
             services.AddControllersWithViews();
             var connection = "Server=DELL-LAT\\SQLEXPRESS;Database=Gara;Trusted_Connection=True;";
             services.AddDbContext<GaraContext>(Options => Options.UseSqlServer(connection));
+            services.AddSession(o => { 
+                o.IdleTimeout = TimeSpan.FromSeconds(1800); 
+            });
             //    services.AddMvc()
             //    .AddViewLocalization(options => options.ResourcesPath = "Resources")
             //    .AddDataAnnotationsLocalization();
@@ -52,13 +55,14 @@ namespace GaraManagement
             app.UseRouting();
 
             app.UseAuthorization();
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
                     //pattern: "{controller=Login}/{action=Login}/{id?}");
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Login}/{action=Index}/{id?}");
 
             });         
         }
