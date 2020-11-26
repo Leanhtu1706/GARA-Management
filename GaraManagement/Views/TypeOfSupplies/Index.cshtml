@@ -6,70 +6,79 @@
 <link href="~/assets/css/customStyleLayout.css" rel="stylesheet" />
 
 <div class="container-fluid">
-    <h2 class="title">Danh mục vật tư</h2>
-    <div class="row custyle">
-        <a class="btn btn-success create-btn" data-toggle='modal' data-target='#createModal'>Add New Customer</a>
-        <div class="input-group no-border">
-            <form asp-action="Index" method="get">
-                <input id="search" type="text" name="search" class="form-control" value="@ViewData["GetTextSearch"]" placeholder="Search...">
-            </form>
-            <i class="fas fa-backspace"></i>
+    <div class="c-subheader justify-content-between px-3">
+        <ol class="breadcrumb border-0 m-0 px-0 px-md-3">
+            <li class="breadcrumb-item">Home</li>
+            <li class="breadcrumb-item"><a href="#">Admin</a></li>
+            <li class="breadcrumb-item">Kho vật tư</li>
+            <li class="breadcrumb-item active">Danh mục vật tư</li>
+        </ol>
+    </div>
+    <div class="table-area">
+        <div class="row custyle">
+            <a class="btn btn-sm  btn-success create-btn" data-toggle='modal' data-target='#createModal'>Add New Customer</a>
+            <div class="input-group no-border">
+                <form asp-action="Index" method="get">
+                    <input id="search" type="text" name="search" class="form-control" value="@ViewData["GetTextSearch"]" placeholder="Search...">
+                </form>
+                <i class="fas fa-backspace"></i>
+            </div>
+            <table class="table table-striped custab">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Name)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Description)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CreateAt)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.UpdateAt)
+                        </th>
+                        <th class="col-action">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Description)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CreateAt)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.UpdateAt)
+                            </td>
+                            <td class="action-button">
+                                <a class="btn btn-sm btn-warning edit-btn" data-toggle='modal' data-target='#editModal' data-id="@item.Id">Edit</a> |
+                                <a class="btn btn-sm btn-info" asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                                <a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a> |
+                            </td>
+                        </tr>
+                    }
+                    <!-- Phân trang -->
+                    <tr>
+                        <td colspan="5" align="center">
+                            @Html.PagedListPager((IPagedList)Model, pageNumber => Url.Action("Index",
+                           new { pageNumber }),
+                           new PagedListRenderOptions
+                           {
+                               LiElementClasses = new string[] { "page-item" },
+                               PageClasses = new string[] { "page-link" }
+                           })
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
-        <table class="table table-striped custab">
-            <thead>
-                <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Name)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Description)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.CreateAt)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.UpdateAt)
-                    </th>
-                    <th class="col-action">Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Description)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CreateAt)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.UpdateAt)
-                    </td>
-                    <td class="action-button">
-                        <a class="btn btn-warning edit-btn" data-toggle='modal' data-target='#editModal' data-id="@item.Id">Edit</a> |
-                        <a class="btn btn-info" asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                        <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a> |
-                    </td>
-                </tr>
-                }
-                <!-- Phân trang -->
-                <tr>
-                    <td colspan="5" align="center">
-                        @Html.PagedListPager((IPagedList)Model, pageNumber => Url.Action("Index",
-                       new { pageNumber }),
-                       new PagedListRenderOptions
-                       {
-                           LiElementClasses = new string[] { "page-item" },
-                           PageClasses = new string[] { "page-link" }
-                       })
-                    </td>
-                </tr>
-            </tbody>
-        </table>
     </div>
 </div>
 

@@ -13,7 +13,7 @@
                 <label asp-for="IdMaterialNavigation.Name" class="control-label" name="IdMaterial"></label>
             </div>
             <div class="col-sm-8">
-                <select asp-for="IdMaterial" class="form-control" asp-items="ViewBag.MaterialName"></select>
+                <select asp-for="IdMaterial" class="form-control" asp-items="@ViewBag.MaterialName"></select>
                 <span asp-validation-for="IdMaterial" class="text-danger"></span>
             </div>
         </div>

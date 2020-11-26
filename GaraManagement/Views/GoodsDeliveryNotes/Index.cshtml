@@ -7,9 +7,9 @@
     <link href="~/assets/js/MDB/css/addons/datatables.min.css" rel="stylesheet">
 <link href="~/assets/css/customStyleLayout.css" rel="stylesheet" />
 
-<div class="container-fluid">
+<div class="table-area">
     <div class="row custyle">
-        <a class="btn btn-success create-btn" data-toggle='modal' data-target='#createModal'>Thêm mới phiếu xuất</a>
+        <a class="btn btn-sm btn-success create-btn" data-toggle='modal' data-target='#createModal'>Thêm mới phiếu xuất</a>
         <div class="input-group no-border">
             <i class="fas fa-search"></i>
             <form asp-action="Index" method="get">
@@ -53,9 +53,9 @@
                             @Html.DisplayFor(modelItem => item.UpdateAt)
                         </td>
                         <td class="action-button">
-                            <a class="btn btn-warning edit-btn" data-toggle='modal' data-target='#editModal' data-id="@item.Id">Edit</a> |
-                            <a class="btn btn-info"  asp-controller="DetailGoodsDeliveryNotes" asp-action="Index" asp-route-id="@item.Id">Details</a> |
-                            <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                            <a class="btn btn-sm btn-warning edit-btn" data-toggle='modal' data-target='#editModal' data-id="@item.Id">Edit</a> |
+                            <a class="btn btn-sm btn-info"  asp-controller="DetailGoodsDeliveryNotes" asp-action="Index" asp-route-id="@item.Id">Details</a> |
+                            <a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                         </td>
                     </tr>
                 }

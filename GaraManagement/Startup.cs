@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -25,7 +25,7 @@ namespace GaraManagement
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            services.AddControllersWithViews();  // addController chỉ  để viết Controller API vì k có View.
             var connection = "Server=DELL-LAT\\SQLEXPRESS;Database=Gara;Trusted_Connection=True;";
             services.AddDbContext<GaraContext>(Options => Options.UseSqlServer(connection));
             services.AddSession(o => { 

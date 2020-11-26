@@ -5,14 +5,26 @@
 
 <link href="~/assets/css/customStyleLayout.css" rel="stylesheet" />
 <div class="container-fluid">
-    <h2 class="title-tab">Nhập xuất vật tư</h2>
-    <div class="">
-        <div class="tab-action">
-            <ul class="nav nav-pills">
-                <li class="import"><a class="btn btn-default" asp-controller="GoodsReceivedNotes" asp-action="Index">Phiếu nhập vật tư</a></li>
-                <li class="export"><a class="btn btn-default" asp-controller="GoodsDeliveryNotes" asp-action="Index">Phiếu xuất vật tư</a></li>
-            </ul>
+    <div class="c-subheader justify-content-between px-3 row">
+        <div class="col-md-8">
+            <ol class="breadcrumb border-0 m-0 px-0 px-md-3">
+                <li class="breadcrumb-item">Home</li>
+                <li class="breadcrumb-item"><a href="#">Admin</a></li>
+                <li class="breadcrumb-item">Kho vật tư</li>
+                <li class="breadcrumb-item active">Nhập xuất vật tư</li>
+            </ol>
         </div>
+        <div class="col-md-4">
+            <div class="tab-action" style="">
+                <ul class="nav nav-pills">
+                    <li class="import"><a class="btn btn-default" href="/GoodsReceivedNotes">Phiếu nhập vật tư</a></li>
+                    <li class="export"><a class="btn btn-default" href="/GoodsDeliveryNotes">Phiếu xuất vật tư</a></li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+    <div class="">
         <div class="tab-content">
             @RenderBody()
         </div>

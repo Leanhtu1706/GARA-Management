@@ -7,23 +7,27 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GaraManagement.Models;
 using X.PagedList;
-
+using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
 
 namespace GaraManagement.Controllers
 {
     public class EmployeesController : Controller
     {
         private readonly GaraContext _context;
+        private readonly IWebHostEnvironment _hostEnvironment;
 
-        public EmployeesController(GaraContext context)
+        public EmployeesController(GaraContext context, IWebHostEnvironment hostEnvironment)
         {
             _context = context;
+            this._hostEnvironment = hostEnvironment;
         }
 
         [HttpGet]
         public IActionResult Index(string search)
         {
-            
+
             ViewData["GetTextSearch"] = search;
             ViewBag.SuccessMessage = TempData["SuccessMessage"];
             if (!string.IsNullOrEmpty(search))
@@ -71,6 +75,25 @@ namespace GaraManagement.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Employee employee)
         {
+            //-------------------------------------------
+            if (ModelState.IsValid)
+            {
+                //Save image to wwwroot/image
+                string wwwRootPath = _hostEnvironment.WebRootPath;
+                string fileName = Path.GetFileNameWithoutExtension(employee.ImageFile.FileName);
+                string extension = Path.GetExtension(employee.ImageFile.FileName);
+                fileName =  fileName + DateTime.Now.ToString("yymmssfff") + extension;
+                employee.Image = "../assets/img/" + fileName;
+                string path = Path.Combine(wwwRootPath + "/assets/img/", fileName);
+                using (var fileStream = new FileStream(path, FileMode.Create))
+                {
+                    await employee.ImageFile.CopyToAsync(fileStream);
+                }
+
+            }
+            //-------------------------------------------
+
+
             if (ModelState.IsValid)
             {
                 _context.Add(employee);
@@ -116,6 +139,18 @@ namespace GaraManagement.Controllers
             {
                 try
                 {
+                    //Save image to wwwroot/image
+                    string wwwRootPath = _hostEnvironment.WebRootPath;
+                    string fileName = Path.GetFileNameWithoutExtension(employee.ImageFile.FileName);
+                    string extension = Path.GetExtension(employee.ImageFile.FileName);
+                    fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
+                    employee.Image = "../assets/img/" + fileName;
+                    string path = Path.Combine(wwwRootPath + "/assets/img/", fileName);
+                    using (var fileStream = new FileStream(path, FileMode.Create))
+                    {
+                        await employee.ImageFile.CopyToAsync(fileStream);
+                    }
+                    //===============================
                     _context.Update(employee);
                     await _context.SaveChangesAsync();
                 }

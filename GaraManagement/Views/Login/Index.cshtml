@@ -57,7 +57,7 @@ Author URL: http://w3layouts.com
                                        placeholder="Password" required="required" />
 
                             </form>
-                            <button id="createBtn" class="loginhny-btn btn">Login</button>
+                            <button id="loginBtn" class="loginhny-btn btn">Login</button>
                         </div>
                     </div>
                 </div>
@@ -71,7 +71,7 @@ Author URL: http://w3layouts.com
     </section>
     <!-- //login-section -->
     <script>
-        $('#createBtn').click(function (e) {
+        $('#loginBtn').click(function (e) {
             var username = $('#formlogin').find("input[name='username']").val();
             var password = $('#formlogin').find("input[name='password']").val();          
             var dataObj = {};

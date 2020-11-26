@@ -20,13 +20,11 @@ namespace GaraManagement.Controllers
         }
 
         // GET: Suppliers
-        public IActionResult Index(int? pageNumber)
+        public IActionResult Index()
         {
-            if (pageNumber == null) pageNumber = 1;
-            int pageSize = 10;
             ViewBag.SuccessMessage = TempData["SuccessMessage"];
             ViewBag.ErrorMessage = TempData["ErrorMessage"];
-            return View(_context.Suppliers.ToList().ToPagedList((int)pageNumber, pageSize));
+            return View(_context.Suppliers.ToList());
         }
 
         // GET: Suppliers/Details/5

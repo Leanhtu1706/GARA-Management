@@ -21,20 +21,18 @@ namespace GaraManagement.Controllers
         }
 
         [HttpGet]
-        public  IActionResult Index(string search,int? pageNumber)
+        public  IActionResult Index(string search)
         {
-            if (pageNumber == null) pageNumber = 1;
-            int pageSize = 10;
             ViewData["GetTextSearch"] = search;
             if (!string.IsNullOrEmpty(search))
             {
                 var garaContext = _context.Customers.Where(a => a.Name.Contains(search));
-                return View(garaContext.ToList().ToPagedList((int)pageNumber, pageSize));
+                return View(garaContext.ToList());
             }
             else
             {
                 var garaContext = _context.Customers;
-                return View(garaContext.ToList().ToPagedList((int)pageNumber, pageSize));
+                return View(garaContext.ToList());
             }           
         }
 

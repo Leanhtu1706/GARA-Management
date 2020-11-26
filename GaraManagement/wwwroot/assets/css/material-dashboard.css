@@ -2025,7 +2025,7 @@ pre code {
 }
 
 .table {
-    color: whitesmoke;
+    color: #23282c;
     width: 100%;
     max-width: 100%;
     margin-bottom: 1rem;
@@ -4344,7 +4344,7 @@ tbody.collapse.show {
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  padding: 0.5rem 1rem;
+  padding: 5px 1rem;
 }
 
 .navbar>.container,
@@ -5036,7 +5036,7 @@ tbody.collapse.show {
   padding: 0.75rem 1rem;
   margin-bottom: 1rem;
   list-style: none;
-  background-color: #e9ecef;
+  background-color: #fff;
   border-radius: 0.25rem;
 }
 
@@ -7877,7 +7877,7 @@ button.bg-dark:focus {
 
 .pr-3,
 .px-3 {
-  padding-right: 1rem !important;
+  /*padding-right: 1rem !important;*/
 }
 
 .pb-3,
@@ -7887,7 +7887,7 @@ button.bg-dark:focus {
 
 .pl-3,
 .px-3 {
-  padding-left: 1rem !important;
+  /*padding-left: 1rem !important;*/
 }
 
 .p-4 {
@@ -13706,7 +13706,6 @@ fieldset[disabled] .form-group .form-control {
 .navbar {
   border: 0;
   border-radius: 4px;
-  padding: 0.625rem 0;
   margin-bottom: 20px;
   height: auto !important;
   color: #555;
@@ -13817,7 +13816,6 @@ fieldset[disabled] .form-group .form-control {
 .navbar.navbar-absolute {
   position: absolute;
   width: 100%;
-  padding-top: 10px;
   z-index: 1029;
 }
 
@@ -15157,7 +15155,7 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
   bottom: 0;
   left: 0;
   z-index: 2;
-  width: 260px;
+  width: 240px;
   background: #fff;
   box-shadow: 0 16px 38px -12px rgba(0, 0, 0, 0.56), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
 }
@@ -15182,7 +15180,7 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
   position: relative;
   height: calc(100vh - 75px);
   overflow: auto;
-  width: 260px;
+  width: 240px;
   z-index: 4;
   padding-bottom: 30px;
 }
@@ -15443,8 +15441,8 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
 }
 
 .sidebar[data-background-color="black"] .sidebar-background:after {
-  background: #000;
-  opacity: .8;
+    background: #1c2022;
+    opacity: 0.9;
 }
 
 .sidebar[data-background-color="black"] .nav li .dropdown-menu .dropdown-item {
@@ -15555,16 +15553,16 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
 }
 
 .main-panel {
-    background-color: #252830;
+    background-color: #c8ced3;
     height: 100%;
     position: relative;
     float: right;
-    width: calc(100% - 260px);
+    width: calc(100% - 240px);
     transition: 0.33s, cubic-bezier(0.685, 0.0473, 0.346, 1);
 }
 
 .main-panel>.content {
-  margin-top: 50px;
+  margin-top: 35px;
   padding: 10px 15px;
   min-height: calc(100vh - 123px);
 }
@@ -16850,7 +16848,7 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
 .table > tfoot > tr > td {
     padding: 5px 10px;
     vertical-align: middle;
-    border:1px solid #484b4f;
+    border: 1px solid #d0d0d0;
 }
 
 .table thead tr th {
@@ -16964,7 +16962,7 @@ thead.thead-inverse th,
 }
 
 .table-striped > tbody > tr:nth-of-type(odd) {
-    background-color: #252830;
+    background-color: #e1e4e7;
 }
 
 .table.table-hover tbody tr:hover {
@@ -16977,7 +16975,7 @@ thead.thead-inverse th,
 .dataTable>thead>tr>td,
 .dataTable>tbody>tr>td,
 .dataTable>tfoot>tr>td {
-  padding: 5px !important;
+  padding: 1px 5px !important;
 }
 
 body {
@@ -17693,7 +17691,7 @@ html[dir="rtl"] .form-check .form-check-sign .check:before {
 }
 
 .card {
-  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.14);
+    box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.14);
 }
 
 .card .table tr:first-child td {

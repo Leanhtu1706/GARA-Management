@@ -5,7 +5,7 @@
 }
 
 <div class="row divmodal">
-    <form asp-action="Create" id="formCreate">
+    <form asp-action="Create" id="formCreate" enctype="multipart/form-data">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="row">
             <div class="col-md-6">
@@ -97,26 +97,32 @@
                         <label asp-for="Image" class="control-label"></label>
                     </div>
                 </div>
-                <div class="row form-group">
+                @*<div class="row form-group">
                     <div class="col-md-12">
                         <input type="file" id="uploadFile">
                     </div>
+                </div>*@
+                <div class="row form-group">
+                    <div class="col-md-12">
+                        <input asp-for="ImageFile" accept="image/*" />
+                    </div>
                 </div>
+                
                 <div class="row form-group">
                     <div class="col-md-12">
                         <img class="image-edit" src="" alt="Alternate Text" />
                     </div>
                 </div>
-                <div class="row form-group">
+                @*<div class="row form-group">
                     <div class="col-md-12">
                         <input type="hidden" asp-for="Image" class="form-control image-input">
                         <span asp-validation-for="Image" class="text-danger"></span>
                     </div>
-                </div>
+                </div>*@
                 @*<div class="btn-action">
-                        <button icon-name="action-cancel" name="close" class="btn btn-default closeBtn" data-dismiss="modal">Close</button>
-                        <input id="submit-btn" type="submit" class="btn btn-success" value="Save" />
-                    </div>*@
+            <button icon-name="action-cancel" name="close" class="btn btn-default closeBtn" data-dismiss="modal">Close</button>
+            <input id="submit-btn" type="submit" class="btn btn-success" value="Save" />
+        </div>*@
             </div>
         </div>
 
@@ -127,7 +133,7 @@
     $('input[type="file"]').change(function (e) {
         var path = "../assets/img/" + e.target.files[0].name;
         $(".image-edit").attr("src", path);
-        $('.image-input').attr('value', path);
+        //$('.image-input').attr('value', path);
     });
 
 </script>

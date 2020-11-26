@@ -101,20 +101,14 @@
                 </div>
                 <div class="row form-group">
                     <div class="col-md-12">
-                        <input type="file" id="uploadFile">
+                        <input asp-for="ImageFile" accept="image/*" id="uploadFile">
                     </div>
                 </div>
                 <div class="row form-group">
                     <div class="col-md-12">
                         <img class="image-edit" src="@image" alt="Alternate Text" />
                     </div>
-                </div>
-                <div class="row form-group">
-                    <div class="col-md-12">
-                        <input type="hidden" asp-for="Image" class="form-control image-input">
-                        <span asp-validation-for="Image" class="text-danger"></span>
-                    </div>
-                </div>
+                </div>                
                 @*<div class="btn-action">
                     <button icon-name="action-cancel" name="close" class="btn btn-default closeBtn" data-dismiss="modal">Close</button>
                     <input type="submit" class="btn btn-warning" value="Save" />
@@ -127,10 +121,9 @@
 </div>
 <script src="~/assets/js/core/jquery.min.js"></script>
 <script>
-    $('input[type="file"]').change(function (e) {
+    $('#uploadFile').change(function (e) {
         var path = "../assets/img/" + e.target.files[0].name;
         $(".image-edit").attr("src", path);
-        $('.image-input').attr('value', path);
     });
 </script>
 @section Scripts {
