@@ -6,7 +6,7 @@
 }
 
 <div class="row divmodal">
-    <form asp-controller="Employees" asp-action="Edit" method="post" id="formEdit" role="form">
+    <form asp-controller="Employees" asp-action="Edit" method="post" id="formEdit" role="form" enctype="multipart/form-data">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <input asp-for="Id" type="hidden" />
         <div class="row">

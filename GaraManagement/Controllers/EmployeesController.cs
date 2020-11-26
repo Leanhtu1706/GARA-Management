@@ -82,20 +82,19 @@ namespace GaraManagement.Controllers
                 string wwwRootPath = _hostEnvironment.WebRootPath;
                 string fileName = Path.GetFileNameWithoutExtension(employee.ImageFile.FileName);
                 string extension = Path.GetExtension(employee.ImageFile.FileName);
-                fileName =  fileName + DateTime.Now.ToString("yymmssfff") + extension;
+                fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
                 employee.Image = "../assets/img/" + fileName;
                 string path = Path.Combine(wwwRootPath + "/assets/img/", fileName);
-                using (var fileStream = new FileStream(path, FileMode.Create))
+                //Save image to wwwroot/image
+                if (!System.IO.File.Exists(employee.ImageFile.FileName))
                 {
-                    await employee.ImageFile.CopyToAsync(fileStream);
+                    using (var fileStream = new FileStream(path, FileMode.Create))
+                    {
+                        await employee.ImageFile.CopyToAsync(fileStream);
+                    }
                 }
-
-            }
             //-------------------------------------------
 
-
-            if (ModelState.IsValid)
-            {
                 _context.Add(employee);
                 await _context.SaveChangesAsync();
                 TempData["SuccessMessage"] = "Thêm mới thành công!";
@@ -139,16 +138,21 @@ namespace GaraManagement.Controllers
             {
                 try
                 {
-                    //Save image to wwwroot/image
                     string wwwRootPath = _hostEnvironment.WebRootPath;
                     string fileName = Path.GetFileNameWithoutExtension(employee.ImageFile.FileName);
                     string extension = Path.GetExtension(employee.ImageFile.FileName);
-                    fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
-                    employee.Image = "../assets/img/" + fileName;
-                    string path = Path.Combine(wwwRootPath + "/assets/img/", fileName);
-                    using (var fileStream = new FileStream(path, FileMode.Create))
-                    {
-                        await employee.ImageFile.CopyToAsync(fileStream);
+                    employee.Image = "../assets/img/" + fileName + extension;
+                    var checkFile = @"D:\Tài liệu\Đồ án Chuyên ngành\Gara clone\GaraManagement\wwwroot\assets\img\" + employee.ImageFile.FileName;
+                    //Save image to wwwroot/image
+                    if (!System.IO.File.Exists(checkFile))
+                    {                       
+                        fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
+                        string path = Path.Combine(wwwRootPath + "/assets/img/", fileName);
+                        employee.Image = "../assets/img/" + fileName;
+                        using (var fileStream = new FileStream(path, FileMode.Create))
+                        {
+                            await employee.ImageFile.CopyToAsync(fileStream);
+                        }
                     }
                     //===============================
                     _context.Update(employee);
