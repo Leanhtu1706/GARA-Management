@@ -11,14 +11,14 @@
 <link href="~/assets/css/customStyleLayout.css" rel="stylesheet" />
 
 <div class="row create-edit">
-    <form asp-action="Edit" id="formEdit">
+    <form asp-action="Edit" id="formEdit" enctype="multipart/form-data">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="row">
             <h2>Edit car</h2>
         </div>
         <hr />
         <div class="btn-action">
-            <button icon-name="action-cancel" name="close" class="btn btn-default closeBtn" data-dismiss="modal">Close</button>
+            <button icon-name="action-cancel" name="close" class="btn btn-default closeBtn" asp-action="Index">Close</button>
             <input type="submit" class="btn btn-warning save" value="Save" />
         </div>
         <input type="hidden" asp-for="Id" />
@@ -76,34 +76,22 @@
                         <label asp-for="Image" class="control-label"></label>
                     </div>
                     <div class="col-md-4">
-                        <input type="file" id="uploadFile">
+                        <input asp-for="ImageFile" accept="image/*" id="uploadFile">
                     </div>
                 </div>
                 <div class="row thumbnail">
                     <img class="image-edit" src="@image" alt="Logo" />
-                </div>
-                <div class="row form-group">
-                    <div class="col-md-12">
-                        <input type="hidden" asp-for="Image" class="form-control image-input">
-                        <span asp-validation-for="Image" class="text-danger"></span>
-                    </div>
-                </div>
+                </div>     
             </div>
         </div>
 
     </form>
 </div>
 
-@*<script src="~/assets/js/core/jquery.min.js"></script>*@
 <script>
-    $('input[type="file"]').change(function (e) {
+    $('#uploadFile').change(function (e) {
         var path = "../assets/img/logoCar/" + e.target.files[0].name;
         $(".image-edit").attr("src", "../" + path);
-    });
-    $(".save").click(function () {
-        var path = $(".image-edit").attr("src");
-        console.log("path", path);
-        $('.image-input').attr('value', path);
     });
 
     $("#select").select2();

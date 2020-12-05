@@ -9,16 +9,20 @@ using GaraManagement.Models;
 using Kendo.Mvc.UI;
 using Kendo.Mvc.Extensions;
 using X.PagedList;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
 
 namespace GaraManagement.Controllers
 {
     public class MaterialsController : Controller
     {
         private readonly GaraContext _context;
+        private readonly IWebHostEnvironment _hostEnvironment;
 
-        public MaterialsController(GaraContext context)
+        public MaterialsController(GaraContext context, IWebHostEnvironment hostEnvironment)
         {
             _context = context;
+            _hostEnvironment = hostEnvironment;
         }
 
             // GET: Material
@@ -88,6 +92,24 @@ namespace GaraManagement.Controllers
             var type = _context.TypeOfSupplies.Select(i => i.Name).ToList();
             if (ModelState.IsValid)
             {
+                //Save image to wwwroot/image
+                string wwwRootPath = _hostEnvironment.WebRootPath;
+                string fileName = Path.GetFileNameWithoutExtension(material.ImageFile.FileName);
+                string extension = Path.GetExtension(material.ImageFile.FileName);
+                material.Image = "../assets/img/" + fileName + extension;
+                var checkFile = @"D:\Tài liệu\Đồ án Chuyên ngành\Gara clone\GaraManagement\wwwroot\assets\img\" + material.ImageFile.FileName;
+                //Save image to wwwroot/image
+                if (!System.IO.File.Exists(checkFile))
+                {
+                    fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
+                    string path = Path.Combine(wwwRootPath + "/assets/img/", fileName);
+                    material.Image = "../assets/img/" + fileName;
+                    using (var fileStream = new FileStream(path, FileMode.Create))
+                    {
+                        await material.ImageFile.CopyToAsync(fileStream);
+                    }
+                }
+
                 material.CreateAt = DateTime.Now;
                 _context.Add(material);
                 await _context.SaveChangesAsync();
@@ -135,6 +157,23 @@ namespace GaraManagement.Controllers
             {
                 try
                 {
+                    string wwwRootPath = _hostEnvironment.WebRootPath;
+                    string fileName = Path.GetFileNameWithoutExtension(material.ImageFile.FileName);
+                    string extension = Path.GetExtension(material.ImageFile.FileName);
+                    material.Image = "../assets/img/" + fileName + extension;
+                    var checkFile = @"D:\Tài liệu\Đồ án Chuyên ngành\Gara clone\GaraManagement\wwwroot\assets\img\" + material.ImageFile.FileName;
+                    //Save image to wwwroot/image
+                    if (!System.IO.File.Exists(checkFile))
+                    {
+                        fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
+                        string path = Path.Combine(wwwRootPath + "/assets/img/", fileName);
+                        material.Image = "../assets/img/" + fileName;
+                        using (var fileStream = new FileStream(path, FileMode.Create))
+                        {
+                            await material.ImageFile.CopyToAsync(fileStream);
+                        }
+                    }
+
                     material.UpdateAt = DateTime.Now;       
                     _context.Update(material);
                     await _context.SaveChangesAsync();

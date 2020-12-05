@@ -10,7 +10,7 @@
 
 <div class="row create-edit">
 
-    <form asp-action="Create" id="formCreate">
+    <form asp-action="Create" id="formCreate" enctype="multipart/form-data">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="row">
             <h2>Thêm mới xe</h2>
@@ -75,17 +75,11 @@
                         <label asp-for="Image" class="control-label"></label>
                     </div>
                     <div class="col-md-4">
-                        <input type="file" id="uploadFile">
+                        <input asp-for="ImageFile" accept="image/*" id="uploadFile">
                     </div>
                 </div>
                 <div class="row thumbnail">
                     <img class="image-edit" src="" alt="Logo" />
-                </div>
-                <div class="row form-group">
-                    <div class="col-md-12">
-                        <input type="hidden" asp-for="Image" class="form-control image-input">
-                        <span asp-validation-for="Image" class="text-danger"></span>
-                    </div>
                 </div>
             </div>
         </div>
@@ -98,7 +92,6 @@
     $('input[type="file"]').change(function (e) {
         var path = "../assets/img/logoCar/" + e.target.files[0].name;
         $(".image-edit").attr("src", path);
-        $('.image-input').attr('value', path);
     });
 
     $("#select-customer").select2();

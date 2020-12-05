@@ -6,16 +6,20 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using GaraManagement.Models;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
 
 namespace GaraManagement.Controllers
 {
     public class ProfileController : Controller
     {
         private readonly GaraContext _context;
+        private readonly IWebHostEnvironment _hostEnvironment;
 
-        public ProfileController(GaraContext context)
+        public ProfileController(GaraContext context, IWebHostEnvironment hostEnvironment)
         {
             _context = context;
+            this._hostEnvironment = hostEnvironment;
         }
         public IActionResult Index()
         {
@@ -50,6 +54,23 @@ namespace GaraManagement.Controllers
             {
                 try
                 {
+                    string wwwRootPath = _hostEnvironment.WebRootPath;
+                    string fileName = Path.GetFileNameWithoutExtension(employee.ImageFile.FileName);
+                    string extension = Path.GetExtension(employee.ImageFile.FileName);
+                    employee.Image = "../assets/img/" + fileName + extension;
+                    var checkFile = @"D:\Tài liệu\Đồ án Chuyên ngành\Gara clone\GaraManagement\wwwroot\assets\img\" + employee.ImageFile.FileName;
+                    //Save image to wwwroot/image
+                    if (!System.IO.File.Exists(checkFile))
+                    {
+                        fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
+                        string path = Path.Combine(wwwRootPath + "/assets/img/", fileName);
+                        employee.Image = "../assets/img/" + fileName;
+                        using (var fileStream = new FileStream(path, FileMode.Create))
+                        {
+                            await employee.ImageFile.CopyToAsync(fileStream);
+                        }
+                    }
+
                     _context.Update(employee);
                     await _context.SaveChangesAsync();
                 }

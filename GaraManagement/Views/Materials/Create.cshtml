@@ -5,7 +5,7 @@
 }
 
 <div class="row divmodal">
-    <form asp-action="Create" id="formCreate">
+    <form asp-action="Create" id="formCreate" enctype="multipart/form-data">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="row">
             <div class="col-md-7">
@@ -72,7 +72,7 @@
                 </div>
                 <div class="row form-group">
                     <div class="col-md-12">
-                        <input type="file" id="uploadFile">
+                        <input asp-for="ImageFile" accept="image/*" id="uploadFile">
                     </div>
                 </div>
                 <div class="row form-group">
@@ -80,12 +80,7 @@
                         <img class="image-edit" src="" alt="Alternate Text" />
                     </div>
                 </div>
-                <div class="row form-group">
-                    <div class="col-md-12">
-                        <input asp-for="Image" class="form-control image-input">
-                        <span asp-validation-for="Image" class="text-danger"></span>
-                    </div>
-                </div>
+            
             </div>
         </div>
 
@@ -96,7 +91,6 @@
     $('input[type="file"]').change(function (e) {
         var path = "../assets/img/" + e.target.files[0].name;
         $(".image-edit").attr("src", path);
-        $('.image-input').attr('value', path);
     });
 </script>
 @section Scripts {

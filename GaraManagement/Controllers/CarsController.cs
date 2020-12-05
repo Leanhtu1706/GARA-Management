@@ -6,16 +6,20 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GaraManagement.Models;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
+
 
 namespace GaraManagement.Controllers
 {
     public class CarsController : Controller
     {
         private readonly GaraContext _context;
-
-        public CarsController(GaraContext context)
+        private readonly IWebHostEnvironment _hostEnvironment;
+        public CarsController(GaraContext context, IWebHostEnvironment hostEnvironment)
         {
             _context = context;
+            this._hostEnvironment = hostEnvironment;
         }
 
         // GET: Cars
@@ -75,6 +79,25 @@ namespace GaraManagement.Controllers
         {
             if (ModelState.IsValid)
             {
+                //-------------------------------------------
+                string wwwRootPath = _hostEnvironment.WebRootPath;
+                string fileName = Path.GetFileNameWithoutExtension(car.ImageFile.FileName);
+                string extension = Path.GetExtension(car.ImageFile.FileName);
+                car.Image = "../../assets/img/logoCar/" + fileName + extension;
+                var checkFile = @"D:\Tài liệu\Đồ án Chuyên ngành\Gara clone\GaraManagement\wwwroot\assets\img\logoCar\" + car.ImageFile.FileName;
+                //Save image to wwwroot/image
+                if (!System.IO.File.Exists(checkFile))
+                {
+                    fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
+                    string path = Path.Combine(wwwRootPath + "/assets/img/logoCar/", fileName);
+                    car.Image = "../../assets/img/logoCar/" + fileName;
+                    using (var fileStream = new FileStream(path, FileMode.Create))
+                    {
+                        await car.ImageFile.CopyToAsync(fileStream);
+                    }
+                }
+                //-------------------------------------------
+
                 _context.Add(car);
                 await _context.SaveChangesAsync();
                 TempData["SuccessMessage"] = "Thêm mới thành công!";
@@ -121,6 +144,23 @@ namespace GaraManagement.Controllers
             {
                 try
                 {
+                    string wwwRootPath = _hostEnvironment.WebRootPath;
+                    string fileName = Path.GetFileNameWithoutExtension(car.ImageFile.FileName);
+                    string extension = Path.GetExtension(car.ImageFile.FileName);  
+                    car.Image = "../../assets/img/logoCar/" + fileName + extension;
+                    var checkFile = @"D:\Tài liệu\Đồ án Chuyên ngành\Gara clone\GaraManagement\wwwroot\assets\img\logoCar\" + car.ImageFile.FileName;
+                    //Save image to wwwroot/image
+                    if (!System.IO.File.Exists(checkFile))
+                    {
+                        fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
+                        string path = Path.Combine(wwwRootPath + "/assets/img/logoCar/", fileName);
+                        car.Image = "../../assets/img/logoCar/" + fileName;
+                        using (var fileStream = new FileStream(path, FileMode.Create))
+                        {
+                            await car.ImageFile.CopyToAsync(fileStream);
+                        }
+                    }
+
                     _context.Update(car);
                     await _context.SaveChangesAsync();
                 }
