@@ -25,6 +25,7 @@ namespace GaraManagement.Models
         public string Description { get; set; }
         public DateTime? CreateAt { get; set; }
         public DateTime? UpdateAt { get; set; }
+
         [NotMapped]
         public IFormFile ImageFile { get; set; }
 

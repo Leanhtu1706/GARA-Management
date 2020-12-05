@@ -9,13 +9,13 @@ namespace GaraManagement.Models
     {
         public Service()
         {
-            Repairs = new HashSet<Repair>();
+            Works = new HashSet<Work>();
         }
 
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
 
-        public virtual ICollection<Repair> Repairs { get; set; }
+        public virtual ICollection<Work> Works { get; set; }
     }
 }

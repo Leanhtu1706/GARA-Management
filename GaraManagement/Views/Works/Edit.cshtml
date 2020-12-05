@@ -1,0 +1,47 @@
+﻿@model GaraManagement.Models.Work
+
+@{
+    ViewData["Title"] = "Sửa thông tin khách hàng";
+}
+
+<div class="row divmodal">
+    <form  asp-action="Edit" method="post" id="formEdit" role="form">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="Id" />
+        <div class="form-group">
+            <label asp-for="IdService" class="control-label"></label>
+            <select asp-for="IdService" class="form-control" asp-items="ViewBag.IdService"></select>
+            <span asp-validation-for="IdService" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="WorkName" class="control-label"></label>
+            <input asp-for="WorkName" class="form-control" />
+            <span asp-validation-for="WorkName" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Cost" class="control-label"></label>
+            <input asp-for="Cost" class="form-control" />
+            <span asp-validation-for="Cost" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Description" class="control-label"></label>
+            <input asp-for="Description" class="form-control" />
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+    </form>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+@section actions {
+    <div class="modal-actions col-md-offset-3 col-md-9">
+        <button icon-name="action-cancel" name="close" class="btn btn-default" data-dismiss="modal">
+            Close
+        </button>
+        <button icon-name="action-save" name="submit" form="formEdit" class="btn btn-warning" id="saveBtn">
+            Save
+        </button>
+    </div>
+}

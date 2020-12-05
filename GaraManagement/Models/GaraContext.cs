@@ -22,6 +22,7 @@ namespace GaraManagement.Models
         public virtual DbSet<Customer> Customers { get; set; }
         public virtual DbSet<DetailGoodsDeliveryNote> DetailGoodsDeliveryNotes { get; set; }
         public virtual DbSet<DetailGoodsReceivedNote> DetailGoodsReceivedNotes { get; set; }
+        public virtual DbSet<DetailRepair> DetailRepairs { get; set; }
         public virtual DbSet<Employee> Employees { get; set; }
         public virtual DbSet<GoodsDeliveryNote> GoodsDeliveryNotes { get; set; }
         public virtual DbSet<GoodsReceivedNote> GoodsReceivedNotes { get; set; }
@@ -146,6 +147,26 @@ namespace GaraManagement.Models
                     .HasConstraintName("FK_DetailGoodsReceivedNote_Material");
             });
 
+            modelBuilder.Entity<DetailRepair>(entity =>
+            {
+                entity.HasKey(e => new { e.IdRepair, e.IdWork })
+                    .HasName("PK_DetailRepair_1");
+
+                entity.ToTable("DetailRepair");
+
+                entity.HasOne(d => d.IdRepairNavigation)
+                    .WithMany(p => p.DetailRepairs)
+                    .HasForeignKey(d => d.IdRepair)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_DetailRepair_Repair");
+
+                entity.HasOne(d => d.IdWorkNavigation)
+                    .WithMany(p => p.DetailRepairs)
+                    .HasForeignKey(d => d.IdWork)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_DetailRepair_Work");
+            });
+
             modelBuilder.Entity<Employee>(entity =>
             {
                 entity.ToTable("Employee");
@@ -252,16 +273,6 @@ namespace GaraManagement.Models
                     .WithMany(p => p.Repairs)
                     .HasForeignKey(d => d.IdCar)
                     .HasConstraintName("FK_Repair_Car");
-
-                entity.HasOne(d => d.IdServiceNavigation)
-                    .WithMany(p => p.Repairs)
-                    .HasForeignKey(d => d.IdService)
-                    .HasConstraintName("FK_Repair_Service");
-
-                entity.HasOne(d => d.IdWorkNavigation)
-                    .WithMany(p => p.Repairs)
-                    .HasForeignKey(d => d.IdWork)
-                    .HasConstraintName("FK_Repair_Work");
             });
 
             modelBuilder.Entity<Service>(entity =>
@@ -311,12 +322,15 @@ namespace GaraManagement.Models
                 entity.ToTable("Work");
 
                 entity.Property(e => e.Description)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                    .HasMaxLength(50);
 
                 entity.Property(e => e.WorkName)
-                    .HasMaxLength(50)
-                    .IsUnicode(false);
+                    .HasMaxLength(50);
+
+                entity.HasOne(d => d.IdServiceNavigation)
+                    .WithMany(p => p.Works)
+                    .HasForeignKey(d => d.IdService)
+                    .HasConstraintName("FK_Work_Service");
             });
 
             OnModelCreatingPartial(modelBuilder);

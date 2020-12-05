@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 
 #nullable disable
@@ -32,5 +31,4 @@ namespace GaraManagement.Models
 
         public virtual ICollection<Account> Accounts { get; set; }
     }
-
 }

@@ -9,23 +9,19 @@ namespace GaraManagement.Models
     {
         public Repair()
         {
+            DetailRepairs = new HashSet<DetailRepair>();
             GoodsDeliveryNotes = new HashSet<GoodsDeliveryNote>();
         }
 
         public int Id { get; set; }
-        public int? IdService { get; set; }
         public int? IdCar { get; set; }
         public int? IdWork { get; set; }
-        public int? NumberOfWork { get; set; }
         public DateTime? DateOfFactoryEntry { get; set; }
         public DateTime? DateFinished { get; set; }
-        public int? Cost { get; set; }
-        public int? Paid { get; set; }
         public int? State { get; set; }
 
         public virtual Car IdCarNavigation { get; set; }
-        public virtual Service IdServiceNavigation { get; set; }
-        public virtual Work IdWorkNavigation { get; set; }
+        public virtual ICollection<DetailRepair> DetailRepairs { get; set; }
         public virtual ICollection<GoodsDeliveryNote> GoodsDeliveryNotes { get; set; }
     }
 }

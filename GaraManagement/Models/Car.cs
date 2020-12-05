@@ -21,6 +21,7 @@ namespace GaraManagement.Models
         public string LicensePlates { get; set; }
         public string Color { get; set; }
         public string Image { get; set; }
+
         [NotMapped]
         public IFormFile ImageFile { get; set; }
 

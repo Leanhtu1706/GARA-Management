@@ -1,9 +1,9 @@
-﻿@model IEnumerable<GaraManagement.Models.Customer>
+﻿@model IEnumerable<GaraManagement.Models.Work>
 
 @{
     ViewData["Title"] = "Index";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<link href="~/assets/js/MDB/css/addons/datatables.min.css" rel="stylesheet">
 <link href="~/assets/css/customStyleLayout.css" rel="stylesheet" />
 
 <div class="container-fluid">
@@ -11,13 +11,13 @@
         <ol class="breadcrumb border-0 m-0 px-0 px-md-3">
             <li class="breadcrumb-item">Home</li>
             <li class="breadcrumb-item"><a href="#">Admin</a></li>
-            <li class="breadcrumb-item">QL khách hàng</li>
-            <li class="breadcrumb-item active">Hồ sơ khách hàng</li>
+            <li class="breadcrumb-item">Sửa chữa</li>
+            <li class="breadcrumb-item active">Công việc</li>
         </ol>
     </div>
     <div class="table-area">
         <div class="row custyle">
-            <a class="btn btn-sm btn-success create-btn" data-toggle='modal' data-target='#createModal'>Add New Customer</a>
+            <a class="btn btn-sm  btn-success create-btn" data-toggle='modal' data-target='#createModal'>Add New work</a>
             <div class="input-group no-border">
                 <form asp-action="Index" method="get">
                     <input id="search" type="text" name="search" class="form-control" value="@ViewData["GetTextSearch"]" placeholder="Search...">
@@ -28,24 +28,18 @@
                 <thead>
                     <tr>
                         <th>
-                            @Html.DisplayNameFor(model => model.Name)
+                            @Html.DisplayNameFor(model => model.WorkName)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.DateOfBirth)
+                            @Html.DisplayNameFor(model => model.Cost)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.Gender)
+                            @Html.DisplayNameFor(model => model.Description)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.Phone)
+                            @Html.DisplayNameFor(model => model.IdServiceNavigation)
                         </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Address)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.IdentityCardNumber)
-                        </th>
-                        <th class="col-action">Action</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -53,43 +47,24 @@
                     {
                         <tr>
                             <td>
-                                @Html.DisplayFor(modelItem => item.Name)
+                                @Html.DisplayFor(modelItem => item.WorkName)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.DateOfBirth)
+                                @Html.DisplayFor(modelItem => item.Cost)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.Gender)
+                                @Html.DisplayFor(modelItem => item.Description)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.Phone)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Address)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.IdentityCardNumber)
+                                @Html.DisplayFor(modelItem => item.IdServiceNavigation.Id)
                             </td>
                             <td class="action-button">
                                 <a class="btn btn-sm btn-warning edit-btn" data-toggle='modal' data-target='#editModal' data-id="@item.Id">Edit</a> |
                                 <a class="btn btn-sm btn-info" asp-action="Details" asp-route-id="@item.Id">Details</a> |
                                 <a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a> |
-                                <a class="btn btn-sm btn-primary car-customer" name="@item.Id" style="width:40px;"><i class="fas fa-car"></i></a>
                             </td>
                         </tr>
                     }
-                    <!-- Phân trang -->
-                    @*<tr>
-                        <td colspan="7" align="center">
-                            @Html.PagedListPager((IPagedList)Model, pageNumber => Url.Action("Index",
-                            new { pageNumber }),
-                            new PagedListRenderOptions
-                            {
-                                LiElementClasses = new string[] { "page-item" },
-                                PageClasses = new string[] { "page-link" }
-                            })
-                        </td>
-                    </tr>*@
                 </tbody>
             </table>
         </div>
@@ -147,31 +122,19 @@
         </div>
     </div>
 </div>
-<!-- Style and Js-->
+
 <style>
-    .customer-profile {
+    .work {
         background-color: #29a6c8;
         border-radius: 4px;
     }
+
+    #save-btn, #cancel-btn {
+        display: none;
+    }
 </style>
 <script src="~/assets/js/core/jquery.min.js"></script>
-@{
-    if (TempData["SuccessMessage"] != null)
-    {
-        <script>
-        $(document).ready(function () {
-            var message = "@TempData["SuccessMessage"]";
-            $.bootstrapGrowl(message, {
-                type: 'success',
-                align: 'center',
-                delay: 2000,
-                stackup_spacing: 30
-            });
-        });
-        </script>
-        TempData["SuccessMessage"] = "";
-    }
-}
+
 <script>
     $(document).ready(function () {
         $('.nav .subCustomer').toggleClass("show");
@@ -183,7 +146,6 @@
             });
     });
 
-    //$(document).on('shown.bs.modal', '#createModal', function (event) {
     $(".create-btn").click(function () {
         console.log("shown modal event", event);
         $.ajax({
@@ -211,27 +173,9 @@
             }
         });
       });
-    $(".create-btn").on('hide.bs.modal', function () {
-        alert('The modal is about to be hidden.');
-    });
 
     $(".fa-backspace").click(function () {
-        window.location = "Customers";
-    });
-
-    $(".car-customer").click(function () {
-        var idCus = $(this).attr('name');
-        console.log("id Customer:", idCus);
-        $.ajax({
-            /**/
-            url: '@Url.Action("Index","Cars")',
-            type: "GET",
-            data: { idCustomer: idCus},
-            success: function (data) {
-                console.log("Redirect to Cars:", data);
-                window.location.href = '/Cars/Index?idCustomer=' + idCus;
-            }
-        });
+        window.location = "Works";
     });
 
 </script>

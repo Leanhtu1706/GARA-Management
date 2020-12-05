@@ -1,0 +1,45 @@
+﻿@model GaraManagement.Models.Work
+
+@{
+    ViewData["Title"] = "Thêm mới công việc";
+}
+
+<div class="row divmodal">
+    <form asp-action="Create" id="formCreate">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="IdService" class="control-label"></label>
+            <select asp-for="IdService" class="form-control" asp-items="ViewBag.IdService"></select>
+        </div>
+        <div class="form-group">
+            <label asp-for="WorkName" class="control-label"></label>
+            <input asp-for="WorkName" class="form-control" />
+            <span asp-validation-for="WorkName" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Cost" class="control-label"></label>
+            <input asp-for="Cost" class="form-control" />
+            <span asp-validation-for="Cost" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Description" class="control-label"></label>
+            <input asp-for="Description" class="form-control" />
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+    </form>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+@section actions {
+    <div class="modal-actions col-md-offset-3 col-md-9">
+        <button icon-name="action-cancel" name="close" class="btn btn-default" data-dismiss="modal">
+            Close
+        </button>
+        <button icon-name="action-save" name="submit" form="formCreate" class="btn btn-success">
+            Create
+        </button>
+    </div>
+}

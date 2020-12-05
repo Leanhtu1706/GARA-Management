@@ -23,9 +23,14 @@ namespace GaraManagement.Controllers
         }
 
         // GET: Cars
-        public async Task<IActionResult> Index(string search)
+        public async Task<IActionResult> Index(string search, int? idCustomer)
         {
-            ViewData["GetTextSearch"] = search;
+            ViewData["GetTextSearch"] = search; // vẫn hiển thị tên search khi load lại index
+            if (idCustomer != null)
+            {
+                var carData = _context.Cars.Include(i => i.IdCustomerNavigation).Where(a => a.IdCustomerNavigation.Id == idCustomer);
+                return View(carData.ToList());
+            }    
             ViewBag.SuccessMessage = TempData["SuccessMessage"];
             if (!string.IsNullOrEmpty(search))
             {
@@ -35,8 +40,8 @@ namespace GaraManagement.Controllers
             else
             {
                 //Tí nhớ xóa 2 dòng này nha
-                var customer = _context.Customers.Select(i => i.Name).ToList();
-                ViewData["Customer"] = new SelectList(_context.Customers, "Id", "Name", customer);
+                //var customer = _context.Customers.Select(i => i.Name).ToList();
+                //ViewData["Customer"] = new SelectList(_context.Customers, "Id", "Name", customer);
                 var carData = _context.Cars.Include(c => c.IdCustomerNavigation);
                 return View(await carData.ToListAsync());
             }
