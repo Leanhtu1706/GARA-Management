@@ -55,10 +55,12 @@ namespace GaraManagement.Controllers
         }
 
         // GET: GoodsDeliveryNotes/Create
-        public IActionResult Create(string layout = "_")
+        public IActionResult Create(int? idRepair , string layout = "_", string title = "")
         {
-            ViewData["IdRepair"] = new SelectList(_context.Repairs, "Id", "Id");
+      
+            ViewData["IdRepair"] = new SelectList(_context.Repairs.Where(r=>r.Id == idRepair), "Id", "Id");
             ViewData["Layout"] = layout == "_" ? "" : layout;
+            ViewData["Title"] = title;
             return View();
         }
 
@@ -73,7 +75,7 @@ namespace GaraManagement.Controllers
             {
                 _context.Add(goodsDeliveryNote);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "DetailGoodsDeliveryNotes", new { @id = goodsDeliveryNote.Id });
             }
             ViewData["IdRepair"] = new SelectList(_context.Repairs, "Id", "Id", goodsDeliveryNote.IdRepair);
             return View(goodsDeliveryNote);

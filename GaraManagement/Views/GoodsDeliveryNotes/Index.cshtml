@@ -146,7 +146,7 @@
             url: '@Url.Action("Create")',
             /**/
             type: "GET",
-            data: { layout: "_ModalLayout" },
+            data: { layout: "_ModalLayout" , title:"Thêm mới phiếu xuất vật tư"},
             success: function (data) {
                 $("#createModal .modal-content").html(data);
             }

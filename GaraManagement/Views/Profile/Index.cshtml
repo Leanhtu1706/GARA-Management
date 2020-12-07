@@ -22,7 +22,7 @@
                                 <input asp-for="ImageFile" accept="image/*" id="uploadFile">
                             </div>
                         </div>
-                        
+                        @Html.HiddenFor(m => m.Image)
                     </div>
                 </div>
                 <div class="col-md-8 right">

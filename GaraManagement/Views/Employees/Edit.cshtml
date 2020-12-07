@@ -108,7 +108,8 @@
                     <div class="col-md-12">
                         <img class="image-edit" src="@image" alt="Alternate Text" />
                     </div>
-                </div>                
+                </div>
+                @Html.HiddenFor(m => m.Image)
                 @*<div class="btn-action">
                     <button icon-name="action-cancel" name="close" class="btn btn-default closeBtn" data-dismiss="modal">Close</button>
                     <input type="submit" class="btn btn-warning" value="Save" />

@@ -70,19 +70,20 @@
                 </div>
             </div>
             @* Image *@
-            <div class="col-md-5">
-                <div class="row form-group">
-                    <div class="col-sm-2">
-                        <label asp-for="Image" class="control-label"></label>
-                    </div>
-                    <div class="col-md-4">
-                        <input asp-for="ImageFile" accept="image/*" id="uploadFile">
-                    </div>
+        <div class="col-md-5">
+            <div class="row form-group">
+                <div class="col-sm-2">
+                    <label asp-for="Image" class="control-label"></label>
                 </div>
-                <div class="row thumbnail">
-                    <img class="image-edit" src="@image" alt="Logo" />
-                </div>     
+                <div class="col-md-4">
+                    <input asp-for="ImageFile" accept="image/*" id="uploadFile">
+                </div>
             </div>
+            <div class="row thumbnail">
+                <img class="image-edit" src="@image" alt="Logo" />
+            </div>
+            @Html.HiddenFor(m => m.Image)
+        </div>
         </div>
 
     </form>

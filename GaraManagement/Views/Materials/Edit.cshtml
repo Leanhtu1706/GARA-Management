@@ -83,18 +83,19 @@
                         <img class="image-edit" src="@image" alt="Alternate Text" />
                     </div>
                 </div>
-              
+                @Html.HiddenFor(m => m.Image)
+
                 @*<div class="btn-action">
-                        <button icon-name="action-cancel" name="close" class="btn btn-default closeBtn" data-dismiss="modal">Close</button>
-                        <input type="submit" class="btn btn-warning" value="Save" />
-                    </div>*@
+            <button icon-name="action-cancel" name="close" class="btn btn-default closeBtn" data-dismiss="modal">Close</button>
+            <input type="submit" class="btn btn-warning" value="Save" />
+        </div>*@
             </div>
         </div>
     </form>
 </div>
 <script src="~/assets/js/core/jquery.min.js"></script>
 <script>
-    $('input[type="file"]').change(function (e) {
+    $('#uploadFile').change(function (e) {
         var path = "../assets/img/" + e.target.files[0].name;
         $(".image-edit").attr("src", path);
     });

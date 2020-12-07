@@ -1,0 +1,69 @@
+﻿@model GaraManagement.Models.Repair
+
+@{
+    ViewData["Title"] = "Create";
+}
+    <link href="~/assets/css/customStyleLayout.css" rel="stylesheet" />
+
+<hr />
+<div class="row createPartial">
+    <form asp-action="Create">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="IdCar" class="control-label"></label>
+                    <select id="IdCar" asp-for="IdCar" class="form-control" asp-items="ViewBag.IdCar"></select>
+                    @*<input asp-for="IdCar" value="ViewBag.Car" class="form-control"  />*@
+                </div>
+                <div class="form-group">
+                    <label asp-for="State" class="control-label"></label>
+                    <select asp-for="State" asp-items="Enum.GetValues(typeof(StateType)).Cast<StateType>().Select(o => new SelectListItem { Text = o.GetEnumDisplayName(), Value = ((int)o).ToString() })" class="form-control"></select>
+                    <span asp-validation-for="State" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="DateOfFactoryEntry" class="control-label"></label>
+                    <input asp-for="DateOfFactoryEntry" class="form-control" />
+                    <span asp-validation-for="DateOfFactoryEntry" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="DateFinished" class="control-label"></label>
+                    <input asp-for="DateFinished" class="form-control" />
+                    <span asp-validation-for="DateFinished" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="button">
+            <div class="form-group">
+                <input type="submit" value="Nhập xưởng" class="btn btn-sm btn-success" />
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<style>
+    .createPartial {
+        background: #fff;
+        box-shadow: 0px 0px 5px 5px #ededed;
+        border-radius: 5px;
+    }
+    form{
+        width: 100%;
+    }
+    .form-control{
+        height: 36px !important;
+    }
+</style>
+
+
+<script src="~/assets/js/core/jquery.min.js"></script>
+<script>
+   
+</script>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

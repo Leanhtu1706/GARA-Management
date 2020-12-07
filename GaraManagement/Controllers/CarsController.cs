@@ -85,20 +85,22 @@ namespace GaraManagement.Controllers
             if (ModelState.IsValid)
             {
                 //-------------------------------------------
-                string wwwRootPath = _hostEnvironment.WebRootPath;
-                string fileName = Path.GetFileNameWithoutExtension(car.ImageFile.FileName);
-                string extension = Path.GetExtension(car.ImageFile.FileName);
-                car.Image = "../../assets/img/logoCar/" + fileName + extension;
-                var checkFile = @"D:\Tài liệu\Đồ án Chuyên ngành\Gara clone\GaraManagement\wwwroot\assets\img\logoCar\" + car.ImageFile.FileName;
-                //Save image to wwwroot/image
-                if (!System.IO.File.Exists(checkFile))
+                if (car.ImageFile != null)
                 {
-                    fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
-                    string path = Path.Combine(wwwRootPath + "/assets/img/logoCar/", fileName);
-                    car.Image = "../../assets/img/logoCar/" + fileName;
-                    using (var fileStream = new FileStream(path, FileMode.Create))
+                    string wwwRootPath = _hostEnvironment.WebRootPath;
+                    string fileName = Path.GetFileNameWithoutExtension(car.ImageFile.FileName);
+                    string extension = Path.GetExtension(car.ImageFile.FileName);
+                    fileName = fileName + extension;
+                    car.Image = "../assets/img/" + fileName;
+                    var checkFile = Path.Combine(wwwRootPath + "/assets/img/", car.ImageFile.FileName);
+                    //Save image to wwwroot/image
+                    if (!System.IO.File.Exists(checkFile))
                     {
-                        await car.ImageFile.CopyToAsync(fileStream);
+                        string path = Path.Combine(wwwRootPath + "/assets/img/", fileName);
+                        using (var fileStream = new FileStream(path, FileMode.Create))
+                        {
+                            await car.ImageFile.CopyToAsync(fileStream);
+                        }
                     }
                 }
                 //-------------------------------------------
@@ -149,22 +151,26 @@ namespace GaraManagement.Controllers
             {
                 try
                 {
-                    string wwwRootPath = _hostEnvironment.WebRootPath;
-                    string fileName = Path.GetFileNameWithoutExtension(car.ImageFile.FileName);
-                    string extension = Path.GetExtension(car.ImageFile.FileName);  
-                    car.Image = "../../assets/img/logoCar/" + fileName + extension;
-                    var checkFile = @"D:\Tài liệu\Đồ án Chuyên ngành\Gara clone\GaraManagement\wwwroot\assets\img\logoCar\" + car.ImageFile.FileName;
-                    //Save image to wwwroot/image
-                    if (!System.IO.File.Exists(checkFile))
+                    //-------------------------------------------
+                    if (car.ImageFile != null)
                     {
-                        fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
-                        string path = Path.Combine(wwwRootPath + "/assets/img/logoCar/", fileName);
-                        car.Image = "../../assets/img/logoCar/" + fileName;
-                        using (var fileStream = new FileStream(path, FileMode.Create))
+                        string wwwRootPath = _hostEnvironment.WebRootPath;
+                        string fileName = Path.GetFileNameWithoutExtension(car.ImageFile.FileName);
+                        string extension = Path.GetExtension(car.ImageFile.FileName);
+                        fileName = fileName + extension;
+                        car.Image = "../assets/img/" + fileName;
+                        var checkFile = Path.Combine(wwwRootPath + "/assets/img/", car.ImageFile.FileName);
+                        //Save image to wwwroot/image
+                        if (!System.IO.File.Exists(checkFile))
                         {
-                            await car.ImageFile.CopyToAsync(fileStream);
+                            string path = Path.Combine(wwwRootPath + "/assets/img/", fileName);
+                            using (var fileStream = new FileStream(path, FileMode.Create))
+                            {
+                                await car.ImageFile.CopyToAsync(fileStream);
+                            }
                         }
                     }
+                    //-------------------------------------------
 
                     _context.Update(car);
                     await _context.SaveChangesAsync();

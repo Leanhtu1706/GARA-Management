@@ -95,7 +95,7 @@ table.dataTable thead .sorting_desc_disabled:before {
 }
 .sidebar-wrapper .nav li{
     border-bottom: 1px solid;
-    margin: 5px 15px;
+    margin: 5px 5px 5px 15px;
 }
 .sidebar-wrapper .nav .nav li {
     border: none;
@@ -156,6 +156,11 @@ i.far.fa-trash-alt {
 i.fas.fa-edit {
     margin-right: 5px;
     color: #fd9500;
+}
+i.fas.fa-tools {
+    font-size: 20px;
+    margin-right: 10px;
+    color: #435ff9;
 }
 /* Xử lý submenu khách hàng*/
 .nav .subCustomer.show {

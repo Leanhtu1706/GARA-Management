@@ -93,20 +93,22 @@ namespace GaraManagement.Controllers
             if (ModelState.IsValid)
             {
                 //Save image to wwwroot/image
-                string wwwRootPath = _hostEnvironment.WebRootPath;
-                string fileName = Path.GetFileNameWithoutExtension(material.ImageFile.FileName);
-                string extension = Path.GetExtension(material.ImageFile.FileName);
-                material.Image = "../assets/img/" + fileName + extension;
-                var checkFile = @"D:\Tài liệu\Đồ án Chuyên ngành\Gara clone\GaraManagement\wwwroot\assets\img\" + material.ImageFile.FileName;
-                //Save image to wwwroot/image
-                if (!System.IO.File.Exists(checkFile))
+                if (material.ImageFile != null)
                 {
-                    fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
-                    string path = Path.Combine(wwwRootPath + "/assets/img/", fileName);
+                    string wwwRootPath = _hostEnvironment.WebRootPath;
+                    string fileName = Path.GetFileNameWithoutExtension(material.ImageFile.FileName);
+                    string extension = Path.GetExtension(material.ImageFile.FileName);
+                    fileName = fileName + extension;
                     material.Image = "../assets/img/" + fileName;
-                    using (var fileStream = new FileStream(path, FileMode.Create))
+                    var checkFile = Path.Combine(wwwRootPath + "/assets/img/", material.ImageFile.FileName);
+                    //Save image to wwwroot/image
+                    if (!System.IO.File.Exists(checkFile))
                     {
-                        await material.ImageFile.CopyToAsync(fileStream);
+                        string path = Path.Combine(wwwRootPath + "/assets/img/", fileName);
+                        using (var fileStream = new FileStream(path, FileMode.Create))
+                        {
+                            await material.ImageFile.CopyToAsync(fileStream);
+                        }
                     }
                 }
 
@@ -157,22 +159,24 @@ namespace GaraManagement.Controllers
             {
                 try
                 {
-                    string wwwRootPath = _hostEnvironment.WebRootPath;
-                    string fileName = Path.GetFileNameWithoutExtension(material.ImageFile.FileName);
-                    string extension = Path.GetExtension(material.ImageFile.FileName);
-                    material.Image = "../assets/img/" + fileName + extension;
-                    var checkFile = @"D:\Tài liệu\Đồ án Chuyên ngành\Gara clone\GaraManagement\wwwroot\assets\img\" + material.ImageFile.FileName;
-                    //Save image to wwwroot/image
-                    if (!System.IO.File.Exists(checkFile))
+                    if(material.ImageFile != null)
                     {
-                        fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
-                        string path = Path.Combine(wwwRootPath + "/assets/img/", fileName);
+                        string wwwRootPath = _hostEnvironment.WebRootPath;
+                        string fileName = Path.GetFileNameWithoutExtension(material.ImageFile.FileName);
+                        string extension = Path.GetExtension(material.ImageFile.FileName);
+                        fileName = fileName + extension;
                         material.Image = "../assets/img/" + fileName;
-                        using (var fileStream = new FileStream(path, FileMode.Create))
+                        var checkFile = Path.Combine(wwwRootPath + "/assets/img/", material.ImageFile.FileName);
+                        //Save image to wwwroot/image
+                        if (!System.IO.File.Exists(checkFile))
                         {
-                            await material.ImageFile.CopyToAsync(fileStream);
+                            string path = Path.Combine(wwwRootPath + "/assets/img/", fileName);
+                            using (var fileStream = new FileStream(path, FileMode.Create))
+                            {
+                                await material.ImageFile.CopyToAsync(fileStream);
+                            }
                         }
-                    }
+                    }    
 
                     material.UpdateAt = DateTime.Now;       
                     _context.Update(material);
