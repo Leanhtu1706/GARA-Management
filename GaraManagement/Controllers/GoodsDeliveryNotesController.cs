@@ -75,7 +75,7 @@ namespace GaraManagement.Controllers
             {
                 _context.Add(goodsDeliveryNote);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Index", "DetailGoodsDeliveryNotes", new { @id = goodsDeliveryNote.Id });
+                return RedirectToAction("Details", "Repairs", new { id = goodsDeliveryNote.IdRepair });
             }
             ViewData["IdRepair"] = new SelectList(_context.Repairs, "Id", "Id", goodsDeliveryNote.IdRepair);
             return View(goodsDeliveryNote);

@@ -1,0 +1,36 @@
+﻿@model GaraManagement.Models.DetailRepair
+
+@{
+    ViewData["Title"] = "Thêm công việc";
+}
+
+<div class="row">
+    <form asp-action="Create" id="formCreate">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        @Html.HiddenFor(m=>m.IdRepair)
+        <div class="row form-group">
+            <div class="col-sm-2">
+                <label asp-for="IdWork" class="control-label" name="Công việc"></label>
+            </div>
+            <div class="col-sm-8">
+                <select asp-for="IdWork" class="form-control" asp-items="ViewBag.IdWork"></select>
+                <span asp-validation-for="IdWork" class="text-danger"></span>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+@section actions {
+    <div class="modal-actions col-md-offset-3 col-md-9">
+        <button icon-name="action-cancel" name="close" class="btn btn-default" data-dismiss="modal">
+            Close
+        </button>
+        <button icon-name="action-save" name="submit" form="formCreate" class="btn btn-success">
+            Create
+        </button>
+    </div>
+}

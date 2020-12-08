@@ -27,7 +27,7 @@ namespace GaraManagement.Controllers
             ViewBag.Description = goodsDeliveryNotes.Description;
             ViewBag.IdGoodDeliveryNotes = id;
 
-            var garaContext = _context.DetailGoodsDeliveryNotes.Include(d => d.IdGoodsDeliveryNoteNavigation).Include(d => d.IdMaterialNavigation); 
+            var garaContext = _context.DetailGoodsDeliveryNotes.Include(d => d.IdGoodsDeliveryNoteNavigation).Include(d => d.IdMaterialNavigation).Where(d=>d.IdGoodsDeliveryNote == id); 
 
             return View(await garaContext.ToListAsync());
         }
@@ -55,10 +55,11 @@ namespace GaraManagement.Controllers
         // GET: DetailGoodsDeliveryNotes/Create
         public IActionResult Create(int id, string layout = "_")
         {
-            ViewData["IdGoodsDeliveryNote"] = new SelectList(_context.GoodsDeliveryNotes, "Id", "Id");
+            //ViewData["IdGoodsDeliveryNote"] = new SelectList(_context.GoodsDeliveryNotes, "Id", "Id");
             ViewData["MaterialName"] = new SelectList(_context.Materials, "Id", "Name");
             ViewData["Layout"] = layout == "_" ? "" : layout;
             ViewBag.IdGoodDeliveryNotes = id;
+       
             return View();
         }
 
@@ -73,7 +74,8 @@ namespace GaraManagement.Controllers
             {
                 _context.Add(detailGoodsDeliveryNote);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index), new { id = detailGoodsDeliveryNote.IdGoodsDeliveryNote });
+                var idRepair = _context.GoodsDeliveryNotes.Include(a => a.IdRepairNavigation).Where(a => a.Id == detailGoodsDeliveryNote.IdGoodsDeliveryNote).FirstOrDefault().IdRepair;
+                return RedirectToAction("Details","Repairs", new { id = idRepair });
             }
             ViewData["IdGoodsDeliveryNote"] = new SelectList(_context.GoodsDeliveryNotes, "Id", "Id", detailGoodsDeliveryNote.IdGoodsDeliveryNote);
             ViewData["MaterialName"] = new SelectList(_context.Materials, "Id", "Name");
@@ -162,7 +164,8 @@ namespace GaraManagement.Controllers
             var detailGoodsDeliveryNote = _context.DetailGoodsDeliveryNotes.Where(a => a.IdGoodsDeliveryNote == id && a.IdMaterial == idMaterial).FirstOrDefault();
             _context.DetailGoodsDeliveryNotes.Remove(detailGoodsDeliveryNote);
             await _context.SaveChangesAsync();
-            return Json(new { redirectToUrl = Url.Action("Index", "DetailGoodsDeliveryNotes", new { id = id }) });
+            var idRepair = _context.GoodsDeliveryNotes.Include(a => a.IdRepairNavigation).Where(a => a.Id == detailGoodsDeliveryNote.IdGoodsDeliveryNote).FirstOrDefault().IdRepair;
+            return Json(new { redirectToUrl = Url.Action("Details", "Repairs", new { id = idRepair }) });
         }
 
         private bool DetailGoodsDeliveryNoteExists(int id)

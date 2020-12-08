@@ -57,8 +57,7 @@
                                             <div id="drop-menu" class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                                                 <a class="dropdown-item" asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-edit"></i>Edit</a>
                                                 <a class="dropdown-item" asp-action="Details" asp-route-id="@item.Id"><i class="fas fa-edit"></i>Detail</a>
-                                                <a class="dropdown-item delete-btn" data-id="@item.Id"><i class="far fa-trash-alt"></i>Delete</a>
-                                                <a class="dropdown-item create-btn" name="@item.Id" data-toggle='modal' data-target='#createModal'><i class="far fa-trash-alt"></i>Y/c vật tư</a>
+                                                <a class="dropdown-item delete-btn" data-id="@item.Id"><i class="far fa-trash-alt"></i>Delete</a> 
                                             </div>
                                         </div>
                                     </div>
@@ -200,22 +199,6 @@
             $("#state").css("color", "orange");
         }
 
-    });
-      $(".create-btn").click(function () {
-          console.log("shown modal event", event);
-          var idRepair = $(this).attr('name');
-        console.log("Id Repair:", idRepair);
-        debugger;
-        $.ajax({
-            /**/
-            url: '@Url.Action("Create", "GoodsDeliveryNotes")',
-            /**/
-            type: "GET",
-            data: { idRepair: idRepair , layout: "_ModalLayout", title: "Yêu cầu vật tư" },
-            success: function (data) {
-                $("#createModal .modal-content").html(data);
-            }
-        });
     });
 
 

@@ -39,13 +39,28 @@ namespace GaraManagement.Controllers
             var repair = await _context.Repairs
                 .Include(r => r.IdCarNavigation)
                 .Include(r=>r.GoodsDeliveryNotes)
+                .ThenInclude(r=>r.DetailGoodsDeliveryNotes)
+                .ThenInclude(r=>r.IdMaterialNavigation)
+                .Include(r=>r.DetailRepairs)
+                .ThenInclude(r=>r.IdWorkNavigation)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (repair == null)
             {
                 return NotFound();
             }
-
-            return View(repair);
+            else
+            {
+                if (repair.GoodsDeliveryNotes.Count == 0)
+                {
+                    ViewData["checkGoodsDeliveryNotes"] = "Null";
+                }
+                else
+                {
+                    ViewData["checkGoodsDeliveryNotes"] = "notNull";
+                }
+                
+                return View(repair);
+            }      
         }
 
         // GET: Repairs/Create
