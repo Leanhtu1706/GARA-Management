@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GaraManagement.Models;
 using Microsoft.AspNetCore.Http;
+using System.Text;
+using System.Security.Cryptography;
 
 namespace GaraManagement.Controllers
 {
@@ -18,7 +20,18 @@ namespace GaraManagement.Controllers
         {
             _context = context;
         }
+        public static string MD5Hash(string input)
+        {
+            StringBuilder hash = new StringBuilder();
+            MD5CryptoServiceProvider md5provider = new MD5CryptoServiceProvider();
+            byte[] bytes = md5provider.ComputeHash(new UTF8Encoding().GetBytes(input));
 
+            for (int i = 0; i < bytes.Length; i++)
+            {
+                hash.Append(bytes[i].ToString("x2"));
+            }
+            return hash.ToString();
+        }
         // GET: Login
         public IActionResult Index()
         {
@@ -29,7 +42,7 @@ namespace GaraManagement.Controllers
         {
             var username = account.UserName;
             var password = account.Password;
-            var loginResult =  _context.Accounts.Include(a=>a.IdEmployeeNavigation).Where(a=>(a.UserName == username && a.Password == password)).FirstOrDefault();
+            var loginResult =  _context.Accounts.Include(a=>a.IdEmployeeNavigation).Where(a=>(a.UserName == username && a.Password == MD5Hash(password))).FirstOrDefault();
             if (loginResult != null)
             {
                 HttpContext.Session.SetString("SessionUserName", loginResult.UserName);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 #nullable disable
 
@@ -15,8 +16,11 @@ namespace GaraManagement.Models
 
         public int Id { get; set; }
         public int? IdCar { get; set; }
+        [DisplayName("Ngày nhập xưởng")]
         public DateTime? DateOfFactoryEntry { get; set; }
+        [DisplayName("Ngày hoàn thành")]
         public DateTime? DateFinished { get; set; }
+        [DisplayName("Trạng thái")]
         public StateType? State { get; set; }
 
         public virtual Car IdCarNavigation { get; set; }

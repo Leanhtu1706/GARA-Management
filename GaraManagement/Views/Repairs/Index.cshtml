@@ -18,7 +18,7 @@
         </ol>
     </div>
     <div class="row">
-        <div class="col-md-8 mainleft">
+        <div class="col-md-6 mainleft">
             <div class="table-area">
                 <div class="row custyle">
                     @*<a class="btn btn-sm btn-success create-btn" asp-action="Create">Nhập xưởng</a>*@
@@ -33,6 +33,22 @@
                     </div>
 
                 </div>
+            </div>
+        </div>
+        <div class="col-md-2 filter">
+            <div class="table-area">
+                <h4 style="text-align: center; background: #fbbb04; border-radius: 5px;">Lọc</h4>
+                <div style="text-align: center;">
+                    <h5>Theo ngày nhập xưởng</h5>
+                    <input id="date-filter" type="date" name="name" value="" />
+                    <br>
+                    <h5>Theo trạng thái</h5>
+                    <a class="btn btn-sm btn-outline-info preparing-btn">Đang chuẩn bị</a>
+                    <a class="btn btn-sm btn-outline-warning repairing-btn">Đang Sửa</a>
+                    <a class="btn btn-sm btn-outline-success success-btn">Hoàn thành</a>
+                    <hr />
+                    <h4><a class="btn btn-sm btn-outline-default all-btn">Tất cả</a></h4>
+                </div>    
             </div>
         </div>
         <div class="col-md-4">
@@ -57,7 +73,7 @@
                                             <div id="drop-menu" class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                                                 <a class="dropdown-item" asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-edit"></i>Edit</a>
                                                 <a class="dropdown-item" asp-action="Details" asp-route-id="@item.Id"><i class="fas fa-edit"></i>Detail</a>
-                                                <a class="dropdown-item delete-btn" data-id="@item.Id"><i class="far fa-trash-alt"></i>Delete</a> 
+                                                <a class="dropdown-item delete-btn" data-id="@item.Id"><i class="far fa-trash-alt"></i>Delete</a>
                                             </div>
                                         </div>
                                     </div>
@@ -136,14 +152,18 @@
         height: 650px;
     }
 
-    .table-area.scroll {
-        position: relative;
-        overflow: scroll;
-        height: 650px;
+        .table-area.scroll {
+            position: relative;
+            overflow: scroll;
+            height: 650px;
+        }
+
+    .mainleft, .filter {
+        padding-right: 0;
     }
 
-    .mainleft {
-        padding-right: 0;
+    h5 {
+        margin: 10px 0 0 0;
     }
 </style>
 
@@ -185,7 +205,7 @@
                 "pageLength": 7
             });
 
-        // xử lý icon state
+        // xử lý color state
 
 
         if ($("#state").val() == "completed") {
@@ -199,6 +219,69 @@
             $("#state").css("color", "orange");
         }
 
+    });
+
+    $("#date-filter").change(function () {
+        var date = $(this).val();
+        console.log("date:", date);
+        $.ajax({
+            /**/
+            url: '@Url.Action("Index")',
+            /**/
+            type: "GET",
+            data: { date: date },
+            success: function (data) {
+               $("body").html(data);
+            }
+        });
+    });
+
+    $(".preparing-btn").click(function () {
+       $.ajax({
+            /**/
+            url: '@Url.Action("Index")',
+            /**/
+            type: "GET",
+            data: { state: 0 },
+            success: function (data) {
+               $("body").html(data);
+            }
+        });
+    });
+    $(".repairing-btn").click(function () {
+        $.ajax({
+            /**/
+            url: '@Url.Action("Index")',
+            /**/
+            type: "GET",
+            data: { state: 1 },
+            success: function (data) {
+               $("body").html(data);
+            }
+        });
+    });
+    $(".success-btn").click(function () {
+        $.ajax({
+            /**/
+            url: '@Url.Action("Index")',
+            /**/
+            type: "GET",
+            data: { state: 2 },
+            success: function (data) {
+               $("body").html(data);
+            }
+        });
+    });
+    $(".all-btn").click(function () {
+       $.ajax({
+            /**/
+            url: '@Url.Action("Index")',
+            /**/
+            type: "GET",
+            success: function (data) {
+               $("body").html(data);
+            }
+        });
     });
 
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 #nullable disable
 
@@ -13,9 +14,12 @@ namespace GaraManagement.Models
         }
 
         public int Id { get; set; }
+        [DisplayName("Ngày xuất")]
         public DateTime? ExportDate { get; set; }
         public int? IdRepair { get; set; }
+        [DisplayName("Mô tả")]
         public string Description { get; set; }
+        [DisplayName("Thời gian cập nhật")]
         public DateTime? UpdateAt { get; set; }
 
         public virtual Repair IdRepairNavigation { get; set; }

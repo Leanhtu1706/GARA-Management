@@ -19,13 +19,27 @@ namespace GaraManagement.Controllers
         }
 
         // GET: Repairs
-        public async Task<IActionResult> Index(int? IdCar)
+        public async Task<IActionResult> Index(int? IdCar, string date, StateType? state)
         {
             //ViewData["Car"] = _context.Cars.Where(c => c.Id == IdCar).Select(c=>c.CarName);
             ViewData["IdCar"] = new SelectList(_context.Cars.Where(c => c.Id == IdCar), "Id", "CarName");
             //ViewData["LicensePlates"] = new SelectList(_context.Cars, "Id", "LicensePlates");
-            var garaContext = _context.Repairs.Include(r => r.IdCarNavigation).ThenInclude(r=>r.IdCustomerNavigation).OrderByDescending(r=>r.DateOfFactoryEntry);
-            return View(await garaContext.ToListAsync());
+            if (date != null)
+            {
+                var garaContext = _context.Repairs.Include(r => r.IdCarNavigation).ThenInclude(r => r.IdCustomerNavigation).Where(r => r.DateOfFactoryEntry.ToString().Contains(date)).OrderByDescending(r => r.DateOfFactoryEntry);
+                return View(await garaContext.ToListAsync());
+            }
+            else if (state != null)
+            {
+                var garaContext = _context.Repairs.Include(r => r.IdCarNavigation).ThenInclude(r => r.IdCustomerNavigation).Where(r => r.State == state).OrderByDescending(r => r.DateOfFactoryEntry);
+                return View(await garaContext.ToListAsync());
+            }
+            else
+            {
+                var garaContext = _context.Repairs.Include(r => r.IdCarNavigation).ThenInclude(r => r.IdCustomerNavigation).OrderByDescending(r => r.DateOfFactoryEntry);
+                return View(await garaContext.ToListAsync());
+            }
+
         }
 
         // GET: Repairs/Details/5
@@ -38,11 +52,12 @@ namespace GaraManagement.Controllers
 
             var repair = await _context.Repairs
                 .Include(r => r.IdCarNavigation)
-                .Include(r=>r.GoodsDeliveryNotes)
-                .ThenInclude(r=>r.DetailGoodsDeliveryNotes)
-                .ThenInclude(r=>r.IdMaterialNavigation)
-                .Include(r=>r.DetailRepairs)
-                .ThenInclude(r=>r.IdWorkNavigation)
+                .ThenInclude(r => r.IdCustomerNavigation)
+                .Include(r => r.GoodsDeliveryNotes)
+                .ThenInclude(r => r.DetailGoodsDeliveryNotes)
+                .ThenInclude(r => r.IdMaterialNavigation)
+                .Include(r => r.DetailRepairs)
+                .ThenInclude(r => r.IdWorkNavigation)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (repair == null)
             {
@@ -58,9 +73,9 @@ namespace GaraManagement.Controllers
                 {
                     ViewData["checkGoodsDeliveryNotes"] = "notNull";
                 }
-                
+
                 return View(repair);
-            }      
+            }
         }
 
         // GET: Repairs/Create
@@ -172,6 +187,19 @@ namespace GaraManagement.Controllers
         private bool RepairExists(int id)
         {
             return _context.Repairs.Any(e => e.Id == id);
+        }
+        public async Task<IActionResult> BaoGia(int? id)
+        {
+            var repair = await _context.Repairs
+                .Include(r => r.IdCarNavigation)
+                .ThenInclude(r => r.IdCustomerNavigation)
+                .Include(r => r.GoodsDeliveryNotes)
+                .ThenInclude(r => r.DetailGoodsDeliveryNotes)
+                .ThenInclude(r => r.IdMaterialNavigation)
+                .Include(r => r.DetailRepairs)
+                .ThenInclude(r => r.IdWorkNavigation)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            return View(repair);
         }
     }
 }

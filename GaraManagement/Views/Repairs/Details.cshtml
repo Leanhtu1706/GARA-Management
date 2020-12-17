@@ -12,7 +12,7 @@
             <li class="breadcrumb-item">Home</li>
             <li class="breadcrumb-item"><a href="#">Admin</a></li>
             <li class="breadcrumb-item">QL Sửa chữa</li>
-            <li class="breadcrumb-item">Nhập xuất xưởng</li>
+            <li class="breadcrumb-item"><a asp-action="Index">Nhập xuất xưởng</a></li>
             <li class="breadcrumb-item active">Sửa chữa</li>
 
         </ol>
@@ -21,6 +21,61 @@
         <div class="col-md-12">
             <div class="table-area">
                 <h4 class="title">Chi tiết phiếu sửa chữa</h4>
+                <div class="row">
+                    <div class="col-md-6 detail-Customer">
+                        <div class="row">
+                            <div class="col-md-4 left">
+                                <p>Chủ xe:</p>
+                            </div>
+                            <div class="col-md-8 right">
+                                <h4>@Model.IdCarNavigation.IdCustomerNavigation.Name</h4>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 left">
+                                <p>Địa chỉ:</p>
+                            </div>
+                            <div class="col-md-8 right">
+                                <h4>@Model.IdCarNavigation.IdCustomerNavigation.Address</h4>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 left">
+                                <p>Số điện thoại:</p>
+                            </div>
+                            <div class="col-md-8 right">
+                                <h4>@Model.IdCarNavigation.IdCustomerNavigation.Phone</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 detail-Car">
+                        <div class="row">
+                            <div class="col-md-4 left">
+                                <p>Tên xe:</p>
+                            </div>
+                            <div class="col-md-8 right">
+                                <h4>@Model.IdCarNavigation.CarName</h4>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 left">
+                                <p>Biển số:</p>
+                            </div>
+                            <div class="col-md-8 right">
+                                <h4>@Model.IdCarNavigation.LicensePlates</h4>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 left">
+                                <p>Màu:</p>
+                            </div>
+                            <div class="col-md-8 right">
+                                <h4>@Model.IdCarNavigation.Color</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <a class="btn btn-sm btn-warning" asp-action="BaoGia" asp-route-id="@Model.Id">Báo giá</a>
             </div>
         </div>
     </div>

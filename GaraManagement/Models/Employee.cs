@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 
 #nullable disable
@@ -15,15 +16,25 @@ namespace GaraManagement.Models
         }
 
         public int Id { get; set; }
+        [DisplayName("Họ tên")]
         public string Name { get; set; }
+        [DisplayName("Ngày sinh")]
         public DateTime? DateOfBirth { get; set; }
+        [DisplayName("Ngày BĐHĐ")]
         public DateTime? ContractStartDate { get; set; }
+        [DisplayName("Giới tính")]
         public GenderType? Gender { get; set; }
+        [DisplayName("Lương")]
         public int? Salary { get; set; }
+        [DisplayName("Điện thoại")]
         public string Phone { get; set; }
+        [DisplayName("Địa chỉ")]
         public string Address { get; set; }
+        [DisplayName("CMND")]
         public string IdentityCardNumber { get; set; }
+        [DisplayName("Ảnh")]
         public string Image { get; set; }
+        [DisplayName("Bộ phận")]
         public string Department { get; set; }
 
         [NotMapped]
