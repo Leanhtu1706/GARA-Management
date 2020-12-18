@@ -17,7 +17,7 @@
     </div>
     <div class="table-area">
         <div class="row custyle">
-            <a class="btn btn-sm btn-success create-btn" asp-action="Create">Add New Car</a>
+            <a class="btn btn-sm btn-success create-btn" asp-action="Create">Thêm mới xe</a>
             <div class="input-group no-border">
                 <form asp-action="Index" method="get">
                     <input id="search" type="text" name="search" class="form-control" value="@ViewData["GetTextSearch"]" placeholder="Search...">
@@ -48,9 +48,9 @@
                                             <i class="fas fa-ellipsis-h"></i>
                                         </button>
                                         <div id="drop-menu" class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                                            <a class="dropdown-item" asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-edit"></i>Edit</a>
-                                            <a class="dropdown-item delete-btn" data-id="@item.Id"><i class="far fa-trash-alt"></i>Delete</a>
-                                            <a class="dropdown-item repair-btn"  name="@item.Id"><i class="fas fa-tools"></i>Repair</a>
+                                            <a class="dropdown-item" asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-edit"></i>Sửa</a>
+                                            <a class="dropdown-item delete-btn" data-id="@item.Id"><i class="far fa-trash-alt"></i>Xóa</a>
+                                            <a class="dropdown-item repair-btn"  name="@item.Id"><i class="fas fa-tools"></i>Sửa chữa</a>
                                         </div>
                                     </div>
                                 </div>

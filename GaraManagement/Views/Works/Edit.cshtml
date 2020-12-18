@@ -9,7 +9,7 @@
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <input type="hidden" asp-for="Id" />
         <div class="form-group">
-            <label asp-for="IdService" class="control-label"></label>
+            <label asp-for="IdService" class="control-label">Loại dịch vụ</label>
             <select asp-for="IdService" class="form-control" asp-items="ViewBag.IdService"></select>
             <span asp-validation-for="IdService" class="text-danger"></span>
         </div>

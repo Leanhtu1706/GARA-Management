@@ -17,7 +17,7 @@
     </div>
     <div class="table-area">
         <div class="row custyle">
-            <a class="btn btn-sm btn-success create-btn" data-toggle='modal' data-target='#createModal'>Add New Customer</a>
+            <a class="btn btn-sm btn-success create-btn" data-toggle='modal' data-target='#createModal'>Thêm khách hàng</a>
             <div class="input-group no-border">
                 <form asp-action="Index" method="get">
                     <input id="search" type="text" name="search" class="form-control" value="@ViewData["GetTextSearch"]" placeholder="Search...">
@@ -71,9 +71,9 @@
                                 @Html.DisplayFor(modelItem => item.IdentityCardNumber)
                             </td>
                             <td class="action-button">
-                                <a class="btn btn-sm btn-warning edit-btn" data-toggle='modal' data-target='#editModal' data-id="@item.Id">Edit</a> |
-                                <a class="btn btn-sm btn-info" asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                                <a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a> |
+                                <a class="btn btn-sm btn-warning edit-btn" data-toggle='modal' data-target='#editModal' data-id="@item.Id">Sửa</a> |
+                                <a class="btn btn-sm btn-info" asp-action="Details" asp-route-id="@item.Id">Chi tiết</a> |
+                                <a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-id="@item.Id">Xóa</a> |
                                 <a class="btn btn-sm btn-primary car-customer" name="@item.Id" style="width:40px;"><i class="fas fa-car"></i></a>
                             </td>
                         </tr>

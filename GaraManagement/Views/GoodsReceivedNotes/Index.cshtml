@@ -53,9 +53,9 @@
                             @Html.DisplayFor(modelItem => item.UpdateAt)
                         </td>
                         <td class="action-button">
-                            <a class="btn btn-sm btn-warning edit-btn" data-toggle='modal' data-target='#editModal' data-id="@item.Id">Edit</a> |
-                            <a class="btn btn-sm btn-info" asp-controller="DetailGoodsReceivedNotes" asp-action="Index" asp-route-id="@item.Id">Details</a> |
-                            <a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                            <a class="btn btn-sm btn-warning edit-btn" data-toggle='modal' data-target='#editModal' data-id="@item.Id">Sửa</a> |
+                            <a class="btn btn-sm btn-info" asp-controller="DetailGoodsReceivedNotes" asp-action="Index" asp-route-id="@item.Id">Chi tiết</a> |
+                            <a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-id="@item.Id">Xóa</a>
                         </td>
                     </tr>
                 }

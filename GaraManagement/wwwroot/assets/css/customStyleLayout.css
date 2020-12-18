@@ -240,7 +240,6 @@ form {
 /* trang detail*/
 .view-detail {
     margin-left: 100px;
-    color: floralwhite;
 }
 .footer-detail{
     margin-left:100px;
@@ -271,7 +270,6 @@ dd.col-sm-10 {
 .view-delete{
     width:60%;
     margin:0 auto;
-    color: whitesmoke;
 }
 .modal-dialog.delete {
     width: 30%;
@@ -315,9 +313,7 @@ img.image-logo {
 #formEdit {
     width: 100%;
 }
-.create-edit .control-label {
-    color: whitesmoke;
-}
+
 .create-edit .btn-action {
     text-align: left;
     margin-bottom: 30px;
@@ -345,15 +341,20 @@ img.image-logo {
     height: 80%;
     margin:auto;
 }
-.create-edit .form-control{
-    color:whitesmoke;
-}
-.create-edit h2{
-    color:whitesmoke;
-}
+
 #search{
     color:#3b3b3b;
 }
+.form-control{
+    background: whitesmoke;
+    height: 30px;
+    border-radius: 5px;
+    padding: 5px;
+}
+    .form-control:focus {
+        border-bottom: 2px solid deepskyblue;
+    }
+
 /*------------*/
 /*----- Service --------*/
 .create {
