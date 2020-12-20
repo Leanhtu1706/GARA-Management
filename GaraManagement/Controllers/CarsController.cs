@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using GaraManagement.Models;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
+using Microsoft.AspNetCore.Http;
 
 
 namespace GaraManagement.Controllers
@@ -25,13 +26,17 @@ namespace GaraManagement.Controllers
         // GET: Cars
         public async Task<IActionResult> Index(string search, int? idCustomer)
         {
+            if (HttpContext.Session.GetString("SessionUserName") == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
             ViewData["GetTextSearch"] = search; // vẫn hiển thị tên search khi load lại index
             if (idCustomer != null)
             {
                 var carData = _context.Cars.Include(i => i.IdCustomerNavigation).Where(a => a.IdCustomerNavigation.Id == idCustomer);
                 return View(carData.ToList());
             }    
-            ViewBag.SuccessMessage = TempData["SuccessMessage"];
+            
             if (!string.IsNullOrEmpty(search))
             {
                 var carData = _context.Cars.Include(i => i.IdCustomerNavigation).Where(a => a.CarName.Contains(search) || a.Manufacturer.Contains(search) || a.IdCustomerNavigation.Name.Contains(search));
@@ -107,7 +112,8 @@ namespace GaraManagement.Controllers
 
                 _context.Add(car);
                 await _context.SaveChangesAsync();
-                TempData["SuccessMessage"] = "Thêm mới thành công!";
+                HttpContext.Session.SetString("SuccessMessage", "Thêm mới thành công");
+
                 return RedirectToAction(nameof(Index));
             }
            
@@ -174,6 +180,8 @@ namespace GaraManagement.Controllers
 
                     _context.Update(car);
                     await _context.SaveChangesAsync();
+                    HttpContext.Session.SetString("SuccessMessage", "Cập nhật thành công");
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -186,7 +194,7 @@ namespace GaraManagement.Controllers
                         throw;
                     }
                 }
-                TempData["SuccessMessage"] = "Sửa thành công!";
+
                 return RedirectToAction(nameof(Index));
             }
             ViewData["IdCustomer"] = new SelectList(_context.Customers, "Id", "Id", car.IdCustomer);
@@ -220,7 +228,7 @@ namespace GaraManagement.Controllers
             var car = await _context.Cars.FindAsync(id);
             _context.Cars.Remove(car);
             await _context.SaveChangesAsync();
-            TempData["SuccessMessage"] = "Xóa thành công!";
+
             return RedirectToAction(nameof(Index));
         }
 

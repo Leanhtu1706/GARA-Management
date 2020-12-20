@@ -104,7 +104,7 @@
                                             @Html.DisplayFor(modelItem => item.IdWorkNavigation.WorkName)
                                         </td>
                                         <td class="action-button">
-                                            <a class="btn btn-sm btn-danger delete-btn" data-toggle='modal' data-target='#deleteConfirmModal' data-id-repair="@item.IdRepair" data-id-work="@item.IdWork">Delete</a>
+                                            <a class="btn btn-sm btn-danger delete-btn" data-toggle='modal' data-target='#deleteConfirmModal' data-id-repair="@item.IdRepair" data-id-work="@item.IdWork">Xóa</a>
                                         </td>
                                     </tr>
                                 }
@@ -155,7 +155,8 @@
                                             @Html.DisplayFor(modelItem => item.Amount)
                                         </td>
                                         <td class="action-button">
-                                            <a class="btn btn-sm btn-danger delete-material-btn" data-toggle='modal' data-target='#deleteConfirmModal' data-id-goodDelivery="@item.IdGoodsDeliveryNote" data-id-material="@item.IdMaterial">Delete</a>
+                                            <a class="btn btn-sm btn-danger delete-material-btn" data-toggle='modal' data-target='#deleteConfirmModal' data-id-goodDelivery="@item.IdGoodsDeliveryNote" data-id-material="@item.IdMaterial">Xóa</a>
+                                            <a class="btn btn-sm btn-warning edit-material-btn" data-toggle='modal' data-target='#editModal' data-id-goodDelivery="@item.IdGoodsDeliveryNote" data-id-material="@item.IdMaterial">Cập nhật</a>
                                         </td>
                                     </tr>
                                 }
@@ -194,7 +195,32 @@
         </div>
     </div>
 </div>
-
+@* View Modal edit*@
+<div id="editModal" class="modal fade col-md-12" tabindex="-1" role="dialog">
+    <div class="modal-dialog w-full" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>Cập nhật vật tư</h4>
+            </div>
+            <div class="modal-body">
+                <div class="spinner overlay-loading">
+                    <span></span>
+                    <span class="rect2"></span>
+                    <span class="rect3"></span>
+                    <span class="rect4"></span>
+                    <span class="rect5"></span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="modal-actions col-md-offset-3 col-md-9">
+                    <button icon-name="action-cancel" name="close" class="btn btn-default" data-dismiss="modal">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 @* Modal delete *@
 <div id="deleteConfirmModal" class="modal fade" role="dialog">
     <div class="modal-dialog delete">
@@ -296,6 +322,17 @@
 </style>
 
 <script>
+    $(document).ready(function () {
+        if ('@ViewBag.SuccessMessage' != "") {
+            $.bootstrapGrowl('@ViewBag.SuccessMessage', {
+                type: 'success',
+                align: 'center',
+                delay: 2000,
+                stackup_spacing: 30
+            });
+        }
+    });
+
     // create work
     $(".create-work-btn").click(function () {
         console.log("shown modal event", event);
@@ -344,6 +381,24 @@
             data: { id: idGoodDelivery , layout: "_ModalLayout"},
             success: function (data) {
                 $("#createModal .modal-content").html(data);
+            }
+        });
+    });
+     //--------- cập nhật vật tư
+    $(".edit-material-btn").click(function () {
+        console.log("shown modal event", event);
+        var idGoodDelivery = $(this).attr('data-id-goodDelivery');
+        var idMaterial = $(this).attr("data-id-material");
+
+        debugger;
+        $.ajax({
+            /**/
+            url: '@Url.Action("Edit", "DetailGoodsDeliveryNotes")',
+            /**/
+            type: "GET",
+            data: { id: idGoodDelivery, idMaterial: idMaterial, layout: "_ModalLayout"},
+            success: function (data) {
+                $("#editModal .modal-content").html(data);
             }
         });
     });

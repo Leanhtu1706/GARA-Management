@@ -11,6 +11,7 @@ using Kendo.Mvc.Extensions;
 using X.PagedList;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
+using Microsoft.AspNetCore.Http;
 
 namespace GaraManagement.Controllers
 {
@@ -37,9 +38,18 @@ namespace GaraManagement.Controllers
             [HttpGet]
         public IActionResult Index(string search)
         {
+            if (HttpContext.Session.GetString("SessionUserName") == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            if (HttpContext.Session.GetString("SuccessMessage") != null)
+            {
+                ViewBag.SuccessMessage = HttpContext.Session.GetString("SuccessMessage");
+                HttpContext.Session.Remove("SuccessMessage");
+            }
 
             ViewData["GetTextSearch"] = search;
-            ViewBag.SuccessMessage = TempData["SuccessMessage"];
+            
             if (!string.IsNullOrEmpty(search))
             {
                 var garaContext = _context.Materials.Include(s => s.IdTypeNavigation).Where(a => a.Name.Contains(search));
@@ -78,7 +88,7 @@ namespace GaraManagement.Controllers
             var type = _context.TypeOfSupplies.Select(i => i.Name).ToList();
             ViewData["Layout"] = layout == "_" ? "" : layout;
             ViewData["TypeName"] = new SelectList(_context.TypeOfSupplies, "Id", "Name", type);
-            TempData["SuccessMessage"] = "Thêm mới thành công!";
+            
             return View();
         }
 
@@ -115,6 +125,8 @@ namespace GaraManagement.Controllers
                 material.CreateAt = DateTime.Now;
                 _context.Add(material);
                 await _context.SaveChangesAsync();
+                HttpContext.Session.SetString("SuccessMessage", "Thêm mới thành công");
+
                 return RedirectToAction(nameof(Index));
             }
             ViewData["TypeName"] = new SelectList(_context.TypeOfSupplies, "Id", "Name", type);
@@ -181,6 +193,8 @@ namespace GaraManagement.Controllers
                     material.UpdateAt = DateTime.Now;       
                     _context.Update(material);
                     await _context.SaveChangesAsync();
+                    HttpContext.Session.SetString("SuccessMessage", "Cập nhật thành công");
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -193,7 +207,7 @@ namespace GaraManagement.Controllers
                         throw;
                     }
                 }
-                TempData["SuccessMessage"] = "Sửa thành công!";
+
                 return RedirectToAction(nameof(Index));
             }
             var type = _context.TypeOfSupplies.Select(i => i.Name).ToList();
@@ -228,7 +242,7 @@ namespace GaraManagement.Controllers
             var supply = await _context.Materials.FindAsync(id);
             _context.Materials.Remove(supply);
             await _context.SaveChangesAsync();
-            TempData["SuccessMessage"] = "Xóa thành công!";
+
             return RedirectToAction(nameof(Index));
         }
 

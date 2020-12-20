@@ -30,7 +30,11 @@ namespace GaraManagement.Controllers
             {
                 return RedirectToAction("Index", "Login");
             }
-            
+            if (HttpContext.Session.GetString("SuccessMessage") != null)
+            {
+                ViewBag.SuccessMessage = HttpContext.Session.GetString("SuccessMessage");
+                HttpContext.Session.Remove("SuccessMessage");
+            }
             var profile =  _context.Accounts.Include(a=>a.IdEmployeeNavigation).Where(a=>a.UserName == username && a.Password == password).FirstOrDefault();
             
             ViewBag.image = profile.IdEmployeeNavigation.Image;
@@ -77,6 +81,8 @@ namespace GaraManagement.Controllers
 
                     _context.Update(employee);
                     await _context.SaveChangesAsync();
+                    HttpContext.Session.SetString("SuccessMessage", "Cập nhật thành công");
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {

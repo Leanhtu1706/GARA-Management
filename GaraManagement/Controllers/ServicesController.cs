@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GaraManagement.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace GaraManagement.Controllers
 {
@@ -21,7 +22,15 @@ namespace GaraManagement.Controllers
         // GET: Services
         public async Task<IActionResult> Index()
         {
-            ViewBag.SuccessMessage = TempData["SuccessMessage"];
+            if (HttpContext.Session.GetString("SessionUserName") == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            if (HttpContext.Session.GetString("SuccessMessage") != null)
+            {
+                ViewBag.SuccessMessage = HttpContext.Session.GetString("SuccessMessage");
+                HttpContext.Session.Remove("SuccessMessage");
+            }
             return View(await _context.Services.ToListAsync());
         }
 
@@ -60,7 +69,7 @@ namespace GaraManagement.Controllers
             {
                 _context.Add(service);
                 await _context.SaveChangesAsync();
-                TempData["SuccessMessage"] = "Thêm mới thành công!";
+                HttpContext.Session.SetString("SuccessMessage", "Thêm mới thành công");
                 return RedirectToAction(nameof(Index));
             }
             return View(service);
@@ -100,6 +109,8 @@ namespace GaraManagement.Controllers
                 {
                     _context.Update(service);
                     await _context.SaveChangesAsync();
+                    HttpContext.Session.SetString("SuccessMessage", "Cập nhật thành công");
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -112,7 +123,7 @@ namespace GaraManagement.Controllers
                         throw;
                     }
                 }
-                TempData["SuccessMessage"] = "Sửa thành công!";
+
                 return RedirectToAction(nameof(Index));
             }
             return View(service);
@@ -150,7 +161,7 @@ namespace GaraManagement.Controllers
             }
             
             await _context.SaveChangesAsync();
-            TempData["SuccessMessage"] = "Xóa thành công!";
+
             return Json(new { redirectToUrl = Url.Action("Index", "Services") });
             //return Json(Url.Action("Index", "Services"));
             //return RedirectToAction(nameof(Index));

@@ -21,13 +21,13 @@ namespace GaraManagement.Controllers
 
         public IActionResult Index()
         {
-            if (HttpContext.Session.GetString("SessionUserName") != null)
+            if (HttpContext.Session.GetString("SessionUserName") == null)
             {
-                return View();
+                return RedirectToAction("Index", "Login");
             }
             else
             {
-                return RedirectToAction("Index", "Login");
+                return View();
             }
             
         }

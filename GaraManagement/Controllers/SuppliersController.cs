@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GaraManagement.Models;
 using X.PagedList;
+using Microsoft.AspNetCore.Http;
 
 namespace GaraManagement.Controllers
 {
@@ -22,7 +23,15 @@ namespace GaraManagement.Controllers
         // GET: Suppliers
         public IActionResult Index()
         {
-            ViewBag.SuccessMessage = TempData["SuccessMessage"];
+            if (HttpContext.Session.GetString("SessionUserName") == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            if (HttpContext.Session.GetString("SuccessMessage") != null)
+            {
+                ViewBag.SuccessMessage = HttpContext.Session.GetString("SuccessMessage");
+                HttpContext.Session.Remove("SuccessMessage");
+            }
             ViewBag.ErrorMessage = TempData["ErrorMessage"];
             return View(_context.Suppliers.ToList());
         }
@@ -63,6 +72,7 @@ namespace GaraManagement.Controllers
             {
                 _context.Add(supplier);
                 await _context.SaveChangesAsync();
+                HttpContext.Session.SetString("SuccessMessage", "Thêm mới thành công");
                 return RedirectToAction(nameof(Index));
             }
             return View(supplier);
@@ -102,6 +112,8 @@ namespace GaraManagement.Controllers
                 {
                     _context.Update(supplier);
                     await _context.SaveChangesAsync();
+                    HttpContext.Session.SetString("SuccessMessage", "Cập nhật thành công");
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {

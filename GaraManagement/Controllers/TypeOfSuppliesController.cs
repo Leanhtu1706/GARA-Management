@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using GaraManagement.Models;
 using X.PagedList;
 using GaraManagement.ViewModels;
+using Microsoft.AspNetCore.Http;
 
 namespace GaraManagement.Controllers
 {
@@ -23,10 +24,13 @@ namespace GaraManagement.Controllers
         // GET: TypeOfSupplies
         public IActionResult Index(int? pageNumber)
         {
+            if (HttpContext.Session.GetString("SuccessMessage") != null)
+            {
+                ViewBag.SuccessMessage = HttpContext.Session.GetString("SuccessMessage");
+                HttpContext.Session.Remove("SuccessMessage");
+            }
             if (pageNumber == null) pageNumber = 1;
             int pageSize = 10;
-            ViewBag.SuccessMessage = TempData["SuccessMessage"];
-            ViewBag.ErrorMessage = TempData["ErrorMessage"];
             return View( _context.TypeOfSupplies.ToList().ToPagedList((int)pageNumber, pageSize));
         }
 
@@ -67,7 +71,7 @@ namespace GaraManagement.Controllers
                 typeOfSupply.CreateAt = DateTime.Now;
                 _context.Add(typeOfSupply);
                 await _context.SaveChangesAsync();
-                TempData["SuccessMessage"] = "Thêm mới thành công!";
+                HttpContext.Session.SetString("SuccessMessage", "Thêm mới thành công");
                 return RedirectToAction(nameof(Index));
             }
             return View(typeOfSupply);
@@ -108,6 +112,8 @@ namespace GaraManagement.Controllers
                     typeOfSupply.UpdateAt = DateTime.Now;
                     _context.Update(typeOfSupply);
                     await _context.SaveChangesAsync();
+                    HttpContext.Session.SetString("SuccessMessage", "Cập nhật thành công");
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -120,7 +126,6 @@ namespace GaraManagement.Controllers
                         throw;
                     }
                 }
-                TempData["SuccessMessage"] = "Sửa thành công!";
                 return RedirectToAction(nameof(Index));
             }
             return View(typeOfSupply);
@@ -168,7 +173,7 @@ namespace GaraManagement.Controllers
                 _context.Materials.Remove(item);
             }    
             await _context.SaveChangesAsync();
-            TempData["SuccessMessage"] = "Xóa thành công!";
+
             return RedirectToAction(nameof(Index));
         }
 

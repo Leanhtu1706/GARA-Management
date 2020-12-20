@@ -24,7 +24,6 @@
     <link href="~/assets/demo/demo.css" rel="stylesheet" />
     <link href="~/assets/css/customStyleLayout.css" rel="stylesheet" />
 
-
 </head>
 
 <body class="">
@@ -36,7 +35,7 @@
                 Tip 2: you can also add an image using data-image tag
             -->
             <div class="logo">
-                <img src= "../../img/@Context.Session.GetString("SessionAvatar")" alt="Avatar" />
+                <img src="../../img/@Context.Session.GetString("SessionAvatar")" alt="Avatar" />
                 @Context.Session.GetString("SessionName")
             </div>
             <div class="sidebar-wrapper">
@@ -103,7 +102,7 @@
                         <ul class="nav subAccount">
                             <li class="nav-item profile_info"><a class="nav-link" asp-controller="Profile" asp-action="Index"><i class="far fa-id-badge"></i><p>Thông tin tài khoản</p></a></li>
                             <li class="nav-item typeOfSupplies"><a class="nav-link" asp-controller="TypeOfSupplies" asp-action="Index"><i class="fas fa-layer-group"></i><p>Đổi mật khẩu</p></a></li>
-                           
+
                         </ul>
                     </li>
                     @*<li class="nav-item ">
@@ -184,6 +183,7 @@
     <script type="text/javascript" src="~/assets/js/MDB/js/addons/datatables.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-growl/1.0.0/jquery.bootstrap-growl.min.js"></script>
     @RenderSection("Scripts", required: false);
+
 
     <script>
         //show submenu

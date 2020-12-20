@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GaraManagement.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace GaraManagement.Controllers
 {
@@ -21,6 +22,11 @@ namespace GaraManagement.Controllers
         // GET: DetailRepairs
         public async Task<IActionResult> Index()
         {
+            if (HttpContext.Session.GetString("SuccessMessage") != null)
+            {
+                ViewBag.SuccessMessage = HttpContext.Session.GetString("SuccessMessage");
+                HttpContext.Session.Remove("SuccessMessage");
+            }
             var garaContext = _context.DetailRepairs.Include(d => d.IdRepairNavigation).Include(d => d.IdWorkNavigation);
             return View(await garaContext.ToListAsync());
         }
@@ -48,7 +54,10 @@ namespace GaraManagement.Controllers
         // GET: DetailRepairs/Create
         public IActionResult Create(int idRepair, string layout = "_")
         {
-            ViewData["IdWork"] = new SelectList(_context.Works, "Id", "WorkName");
+            
+            var workList = _context.Works.Where(w => !_context.DetailRepairs.Any(dr => dr.IdRepair == idRepair && dr.IdWork == w.Id)).ToList();
+            
+            ViewData["IdWork"] = new SelectList(workList, "Id", "WorkName");
             ViewData["Layout"] = layout == "_" ? "" : layout;
             DetailRepair detailRepair = new DetailRepair();
             detailRepair.IdRepair = idRepair;
@@ -66,6 +75,8 @@ namespace GaraManagement.Controllers
             {
                 _context.Add(detailRepair);
                 await _context.SaveChangesAsync();
+                HttpContext.Session.SetString("SuccessMessage", "Thêm công việc thành công");
+
                 return RedirectToAction("Details","Repairs", new {id = detailRepair.IdRepair });
             }
             ViewData["IdWork"] = new SelectList(_context.Works, "Id", "Id", detailRepair.IdWork);

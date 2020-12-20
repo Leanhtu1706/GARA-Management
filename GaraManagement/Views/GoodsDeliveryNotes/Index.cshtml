@@ -136,6 +136,15 @@
         $('.sidebar-wrapper .nav li a .warehouse').toggleClass("rotate");
 
         $('#dtTable').DataTable();
+        if ('@ViewBag.SuccessMessage' != "")
+        {
+            $.bootstrapGrowl('@ViewBag.SuccessMessage', {
+                type: 'success',
+                align: 'center',
+                delay: 2000,
+                stackup_spacing: 30
+            });
+        }
     });
 
     $(".create-btn").click(function () {

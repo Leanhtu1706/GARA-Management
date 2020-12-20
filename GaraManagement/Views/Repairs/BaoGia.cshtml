@@ -81,22 +81,26 @@
                                 int? totalMaterial = 0;
                                 foreach (var item in Model.GoodsDeliveryNotes.FirstOrDefault().DetailGoodsDeliveryNotes)
                                 {
-                                    var totalPrice = item.Amount * item.IdMaterialNavigation.Price;
-                                    totalMaterial = totalMaterial + totalPrice;
-                                    <tr>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.IdMaterialNavigation.Name)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Amount)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.IdMaterialNavigation.Price)
-                                        </td>
-                                        <td>
-                                            @totalPrice
-                                        </td>
-                                    </tr>
+                                    if (item != null)
+                                    {
+                                        var totalPrice = item.Amount * item.IdMaterialNavigation.Price;
+                                        totalMaterial = totalMaterial + totalPrice;
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.IdMaterialNavigation.Name)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Amount)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.IdMaterialNavigation.Price)
+                                            </td>
+                                            <td>
+                                                @totalPrice
+                                            </td>
+                                        </tr>
+ }
+
                                 }
                                 <tr>
                                     <td colspan="4"><h4>Tổng tiền vật tư: &ensp;@totalMaterial</h4></td>

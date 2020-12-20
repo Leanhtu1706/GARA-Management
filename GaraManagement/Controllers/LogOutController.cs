@@ -11,7 +11,7 @@ namespace GaraManagement.Controllers
     {
         public IActionResult Index()
         {
-            HttpContext.Session.Remove("SessionUser");
+            HttpContext.Session.Remove("SessionUserName");
 
             return RedirectToAction("Index", "Login");
         }

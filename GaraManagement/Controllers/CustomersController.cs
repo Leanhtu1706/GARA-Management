@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GaraManagement.Models;
 using X.PagedList;
-
+using Microsoft.AspNetCore.Http;
 
 namespace GaraManagement.Controllers
 {
@@ -23,6 +23,15 @@ namespace GaraManagement.Controllers
         [HttpGet]
         public  IActionResult Index(string search)
         {
+            if (HttpContext.Session.GetString("SessionUserName") == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            if (HttpContext.Session.GetString("SuccessMessage") != null)
+            {
+                ViewBag.SuccessMessage = HttpContext.Session.GetString("SuccessMessage");
+                HttpContext.Session.Remove("SuccessMessage");
+            }
             ViewData["GetTextSearch"] = search;
             if (!string.IsNullOrEmpty(search))
             {
@@ -72,7 +81,8 @@ namespace GaraManagement.Controllers
             {
                 _context.Add(customer);
                 await _context.SaveChangesAsync();
-                TempData["SuccessMessage"] = "Thêm mới thành công!";
+                HttpContext.Session.SetString("SuccessMessage", "Thêm mới thành công");
+
                 return RedirectToAction(nameof(Index));
             }           
             return View(customer);
@@ -112,6 +122,8 @@ namespace GaraManagement.Controllers
                 {
                     _context.Update(customer);
                     await _context.SaveChangesAsync();
+                    HttpContext.Session.SetString("SuccessMessage", "Cập nhật thành công");
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -124,7 +136,7 @@ namespace GaraManagement.Controllers
                         throw;
                     }
                 }
-                TempData["SuccessMessage"] = "Sửa thành công!";
+
                 
                 return RedirectToAction(nameof(Index));
             }
@@ -157,7 +169,7 @@ namespace GaraManagement.Controllers
             var customer = await _context.Customers.FindAsync(id);
             _context.Customers.Remove(customer);
             await _context.SaveChangesAsync();
-            TempData["SuccessMessage"] = "Xóa thành công!";
+
             return RedirectToAction(nameof(Index));
         }
 

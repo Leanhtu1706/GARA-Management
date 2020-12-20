@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GaraManagement.Models;
 using X.PagedList;
+using Microsoft.AspNetCore.Http;
 
 namespace GaraManagement.Controllers
 {
@@ -75,6 +76,8 @@ namespace GaraManagement.Controllers
             {
                 _context.Add(goodsDeliveryNote);
                 await _context.SaveChangesAsync();
+                HttpContext.Session.SetString("SuccessMessage", "Yêu cầu vật tư thành công");
+
                 return RedirectToAction("Details", "Repairs", new { id = goodsDeliveryNote.IdRepair });
             }
             ViewData["IdRepair"] = new SelectList(_context.Repairs, "Id", "Id", goodsDeliveryNote.IdRepair);

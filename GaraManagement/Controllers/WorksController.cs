@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GaraManagement.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace GaraManagement.Controllers
 {
@@ -23,6 +24,15 @@ namespace GaraManagement.Controllers
         {
             //var garaContext = _context.Works.Include(w => w.IdServiceNavigation);
             //return View(await garaContext.ToListAsync());
+            if (HttpContext.Session.GetString("SessionUserName") == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            if (HttpContext.Session.GetString("SuccessMessage") != null)
+            {
+                ViewBag.SuccessMessage = HttpContext.Session.GetString("SuccessMessage");
+                HttpContext.Session.Remove("SuccessMessage");
+            }
 
             ViewData["GetTextSearch"] = search;
             if (!string.IsNullOrEmpty(search))
@@ -75,6 +85,7 @@ namespace GaraManagement.Controllers
             {
                 _context.Add(work);
                 await _context.SaveChangesAsync();
+                HttpContext.Session.SetString("SuccessMessage", "Thêm mới thành công");
                 return RedirectToAction(nameof(Index));
             }
             ViewData["IdService"] = new SelectList(_context.Services, "Id", "Name");
@@ -116,6 +127,8 @@ namespace GaraManagement.Controllers
                 {
                     _context.Update(work);
                     await _context.SaveChangesAsync();
+                    HttpContext.Session.SetString("SuccessMessage", "Cập nhật thành công");
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {

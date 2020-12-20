@@ -10,6 +10,7 @@ using X.PagedList;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
+using Microsoft.AspNetCore.Http;
 
 namespace GaraManagement.Controllers
 {
@@ -27,9 +28,17 @@ namespace GaraManagement.Controllers
         [HttpGet]
         public IActionResult Index(string search)
         {
-
+            if (HttpContext.Session.GetString("SessionUserName") == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            if (HttpContext.Session.GetString("SuccessMessage") != null)
+            {
+                ViewBag.SuccessMessage = HttpContext.Session.GetString("SuccessMessage");
+                HttpContext.Session.Remove("SuccessMessage");
+            }
             ViewData["GetTextSearch"] = search;
-            ViewBag.SuccessMessage = TempData["SuccessMessage"];
+            
             if (!string.IsNullOrEmpty(search))
             {
                 var garaContext = _context.Employees.Where(a => a.Name.Contains(search));
@@ -98,10 +107,9 @@ namespace GaraManagement.Controllers
                     }
                 }
                 //-------------------------------------------
-
                 _context.Add(employee);
                 await _context.SaveChangesAsync();
-                TempData["SuccessMessage"] = "Thêm mới thành công!";
+                HttpContext.Session.SetString("SuccessMessage", "Thêm mới thành công");
                 return RedirectToAction(nameof(Index));
             }
             return View(employee);
@@ -160,9 +168,10 @@ namespace GaraManagement.Controllers
                             }
                         }
                     }
-
+                    
                     _context.Update(employee);
                     await _context.SaveChangesAsync();
+                    HttpContext.Session.SetString("SuccessMessage","Cập nhật thành công");
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -175,7 +184,7 @@ namespace GaraManagement.Controllers
                         throw;
                     }
                 }
-                TempData["SuccessMessage"] = "Sửa thành công!";
+
                 return RedirectToAction(nameof(Index));
             }
             return View(employee);
@@ -207,7 +216,7 @@ namespace GaraManagement.Controllers
             var employee = await _context.Employees.FindAsync(id);
             _context.Employees.Remove(employee);
             await _context.SaveChangesAsync();
-            TempData["SuccessMessage"] = "Xóa thành công!";
+
             return RedirectToAction(nameof(Index));
         }
 

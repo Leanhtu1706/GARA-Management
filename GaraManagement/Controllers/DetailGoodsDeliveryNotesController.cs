@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GaraManagement.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace GaraManagement.Controllers
 {
@@ -56,7 +57,8 @@ namespace GaraManagement.Controllers
         public IActionResult Create(int id, string layout = "_")
         {
             //ViewData["IdGoodsDeliveryNote"] = new SelectList(_context.GoodsDeliveryNotes, "Id", "Id");
-            ViewData["MaterialName"] = new SelectList(_context.Materials, "Id", "Name");
+            var listMaterial = _context.Materials.Where(m => !_context.DetailGoodsDeliveryNotes.Any(dg => dg.IdGoodsDeliveryNote == id && dg.IdMaterial == m.Id));
+            ViewData["MaterialName"] = new SelectList(listMaterial, "Id", "Name");
             ViewData["Layout"] = layout == "_" ? "" : layout;
             ViewBag.IdGoodDeliveryNotes = id;
        
@@ -75,6 +77,8 @@ namespace GaraManagement.Controllers
                 _context.Add(detailGoodsDeliveryNote);
                 await _context.SaveChangesAsync();
                 var idRepair = _context.GoodsDeliveryNotes.Include(a => a.IdRepairNavigation).Where(a => a.Id == detailGoodsDeliveryNote.IdGoodsDeliveryNote).FirstOrDefault().IdRepair;
+                HttpContext.Session.SetString("SuccessMessage", "Thêm vật tư thành công");
+
                 return RedirectToAction("Details","Repairs", new { id = idRepair });
             }
             ViewData["IdGoodsDeliveryNote"] = new SelectList(_context.GoodsDeliveryNotes, "Id", "Id", detailGoodsDeliveryNote.IdGoodsDeliveryNote);
@@ -118,6 +122,8 @@ namespace GaraManagement.Controllers
                 {
                     _context.Update(detailGoodsDeliveryNote);
                     await _context.SaveChangesAsync();
+                    HttpContext.Session.SetString("SuccessMessage", "cập nhật vật tư thành công");   
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -130,7 +136,8 @@ namespace GaraManagement.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index), new { id = detailGoodsDeliveryNote.IdGoodsDeliveryNote });
+                var idRepair = _context.GoodsDeliveryNotes.Include(a => a.IdRepairNavigation).Where(a => a.Id == detailGoodsDeliveryNote.IdGoodsDeliveryNote).FirstOrDefault().IdRepair;
+                return RedirectToAction("Details", "Repairs", new { id = idRepair });
             }
             ViewData["IdGoodsDeliveryNote"] = new SelectList(_context.GoodsDeliveryNotes, "Id", "Id", detailGoodsDeliveryNote.IdGoodsDeliveryNote);
             ViewData["IdMaterial"] = new SelectList(_context.Materials, "Id", "Name", detailGoodsDeliveryNote.IdMaterial);

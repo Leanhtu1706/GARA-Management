@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GaraManagement.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace GaraManagement.Controllers
 {
@@ -21,6 +22,15 @@ namespace GaraManagement.Controllers
         // GET: Repairs
         public async Task<IActionResult> Index(int? IdCar, string date, StateType? state)
         {
+            if (HttpContext.Session.GetString("SessionUserName") == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            if (HttpContext.Session.GetString("SuccessMessage") != null)
+            {
+                ViewBag.SuccessMessage = HttpContext.Session.GetString("SuccessMessage");
+                HttpContext.Session.Remove("SuccessMessage");
+            }
             //ViewData["Car"] = _context.Cars.Where(c => c.Id == IdCar).Select(c=>c.CarName);
             ViewData["IdCar"] = new SelectList(_context.Cars.Where(c => c.Id == IdCar), "Id", "CarName");
             //ViewData["LicensePlates"] = new SelectList(_context.Cars, "Id", "LicensePlates");
@@ -45,6 +55,11 @@ namespace GaraManagement.Controllers
         // GET: Repairs/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            if (HttpContext.Session.GetString("SuccessMessage") != null)
+            {
+                ViewBag.SuccessMessage = HttpContext.Session.GetString("SuccessMessage");
+                HttpContext.Session.Remove("SuccessMessage");
+            }
             if (id == null)
             {
                 return NotFound();
@@ -95,6 +110,8 @@ namespace GaraManagement.Controllers
             {
                 _context.Add(repair);
                 await _context.SaveChangesAsync();
+                HttpContext.Session.SetString("SuccessMessage", "Thêm mới thành công");
+
                 return RedirectToAction(nameof(Index));
             }
             ViewData["IdCar"] = new SelectList(_context.Cars, "Id", "Id", repair.IdCar);
@@ -136,6 +153,8 @@ namespace GaraManagement.Controllers
                 {
                     _context.Update(repair);
                     await _context.SaveChangesAsync();
+                    HttpContext.Session.SetString("SuccessMessage", "Cập nhật thành công");
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {

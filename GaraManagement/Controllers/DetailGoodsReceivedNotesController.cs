@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GaraManagement.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace GaraManagement.Controllers
 {
@@ -71,6 +72,8 @@ namespace GaraManagement.Controllers
             {
                 _context.Add(detailGoodsReceivedNote);
                 await _context.SaveChangesAsync();
+                HttpContext.Session.SetString("SuccessMessage", "Thêm mới thành công");
+
                 return RedirectToAction(nameof(Index), new {id = detailGoodsReceivedNote.IdGoodsReceivedNote });
             }
             ViewData["IdGoodsReceivedNote"] = new SelectList(_context.GoodsReceivedNotes, "Id", "Id", detailGoodsReceivedNote.IdGoodsReceivedNote);
