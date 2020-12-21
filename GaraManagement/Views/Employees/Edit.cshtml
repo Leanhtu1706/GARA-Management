@@ -52,8 +52,8 @@
                         <label asp-for="Salary" class="control-label"></label>
                     </div>
                     <div class="col-md-7">
-                        <input asp-for="Salary" class="form-control" />
-                        <span asp-validation-for="Salary" class="text-danger"></span>
+                        <input asp-for="Salary" class="form-control"/>
+                        <span asp-validation-for="Salary" class="text-danger" data-valmsg-for="Salary" data-valmsg-replace="true"></span>
                     </div>
                 </div>
                 <div class="row form-group">
@@ -126,6 +126,16 @@
         var path = "../assets/img/" + e.target.files[0].name;
         $(".image-edit").attr("src", path);
     });
+    //$(".checkam").on('input', function () {
+    //    if (parseInt($(this).val()) < 0) {
+    //        //$('.text-danger.salary').text("Lương > 0");
+    //        this.setCustomValidity('Passwords must match');
+    //    } else {
+    //        // input is fine -- reset the error message
+    //        //$('.text-danger.salary').text("");
+    //        this.setCustomValidity('');
+    //    }
+    //});
 </script>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

@@ -189,15 +189,27 @@ namespace GaraManagement.Controllers
                 return NotFound();
             }
 
-            return View(repair);
+            return Json(repair.Id);
         }
 
         // POST: Repairs/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var repair = await _context.Repairs.FindAsync(id);
+            var goodsDeliveryNote = _context.GoodsDeliveryNotes.Where(g => g.IdRepair == id).FirstOrDefault();
+            var detailGoodsDeliveryNote = _context.DetailGoodsDeliveryNotes.Include(dg => dg.IdGoodsDeliveryNoteNavigation).Where(dg => dg.IdGoodsDeliveryNote == goodsDeliveryNote.Id).ToList();
+            var detailRepair = _context.DetailRepairs.Where(dr => dr.IdRepair == id).ToList();
+            foreach(var itemdr in detailRepair)
+            {
+                _context.DetailRepairs.Remove(itemdr);
+            }    
+            foreach(var itemdg in detailGoodsDeliveryNote)
+            {
+                _context.DetailGoodsDeliveryNotes.Remove(itemdg);
+            }    
+            _context.GoodsDeliveryNotes.Remove(goodsDeliveryNote);
             _context.Repairs.Remove(repair);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));

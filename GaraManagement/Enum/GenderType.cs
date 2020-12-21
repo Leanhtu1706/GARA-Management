@@ -7,6 +7,6 @@ namespace GaraManagement.Models
 {
     public enum GenderType
     {
-        FeMale, Male
+        Nữ, Nam
     }
 }

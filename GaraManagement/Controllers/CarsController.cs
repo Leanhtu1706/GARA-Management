@@ -30,6 +30,12 @@ namespace GaraManagement.Controllers
             {
                 return RedirectToAction("Index", "Login");
             }
+            if (HttpContext.Session.GetString("SuccessMessage") != null)
+            {
+                ViewBag.SuccessMessage = HttpContext.Session.GetString("SuccessMessage");
+                HttpContext.Session.Remove("SuccessMessage");
+            }
+
             ViewData["GetTextSearch"] = search; // vẫn hiển thị tên search khi load lại index
             if (idCustomer != null)
             {

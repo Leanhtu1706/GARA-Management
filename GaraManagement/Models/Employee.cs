@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 #nullable disable
@@ -25,6 +26,7 @@ namespace GaraManagement.Models
         [DisplayName("Giới tính")]
         public GenderType? Gender { get; set; }
         [DisplayName("Lương")]
+        [Range(minimum: 0, maximum: 1000000000, ErrorMessage = "Giá trị không hợp lệ")]
         public int? Salary { get; set; }
         [DisplayName("Điện thoại")]
         public string Phone { get; set; }

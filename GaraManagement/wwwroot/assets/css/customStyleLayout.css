@@ -135,7 +135,8 @@ i.fas.fa-user-cog {
 }
 i.fas.fa-backspace {
     font-size: 20px;
-    padding-top: 12px;
+    padding-top: 8px;
+    margin-right:10px;
     color: #e74747;
 }
 i.fas.fa-backspace:hover {
@@ -259,8 +260,7 @@ dd.col-sm-10 {
 }
 /* end detail*/
 .input-group{
-    max-width:30%;
-    margin-left:50px;
+    max-width:100%;
 }
 .input-group form {
     width: 80%;
@@ -325,15 +325,15 @@ img.image-logo {
     color: whitesmoke;
 }
 .thumbnail {
-    background-color:white;
+    background-color: white;
     text-align: center;
     vertical-align: middle;
     position: relative;
     height: 200px;
     width: 200px;
     padding: 0;
-    margin-left:100px;
-    box-shadow: 0px 0px 10px 5px red;
+    margin-left: 100px;
+    border: 2px solid #47afc4;
 }
 .create-edit .image-edit {
     position: inherit;

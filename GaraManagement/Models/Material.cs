@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 #nullable disable
@@ -23,8 +24,10 @@ namespace GaraManagement.Models
         [DisplayName("Đơn vị tính")]
         public string Unit { get; set; }
         [DisplayName("Giá")]
+        [Range(minimum: 0, maximum: 1000000000, ErrorMessage = "Giá trị không hợp lệ")]
         public int? Price { get; set; }
         [DisplayName("Số lượng trong kho")]
+        [Range(minimum: 0, maximum: 1000000000, ErrorMessage = "Giá trị không hợp lệ")]
         public int? Amount { get; set; }
         [DisplayName("Ảnh")]
         public string Image { get; set; }
