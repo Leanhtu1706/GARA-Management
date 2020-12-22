@@ -240,6 +240,16 @@ namespace GaraManagement.Controllers
         public async Task<IActionResult> DeleteConfirmed(int? id)
         {
             var supply = await _context.Materials.FindAsync(id);
+            var detailGoodDelivery = _context.DetailGoodsDeliveryNotes.Where(d => d.IdMaterial == id);
+            var detailGoodReceived = _context.DetailGoodsReceivedNotes.Where(d => d.IdMaterial == id);
+            foreach(var delivery in detailGoodDelivery)
+            {
+                _context.DetailGoodsDeliveryNotes.Remove(delivery);
+            }            
+            foreach(var received in detailGoodReceived)
+            {
+                _context.DetailGoodsReceivedNotes.Remove(received);
+            }
             _context.Materials.Remove(supply);
             await _context.SaveChangesAsync();
 

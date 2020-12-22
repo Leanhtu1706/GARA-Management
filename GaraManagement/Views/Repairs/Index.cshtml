@@ -22,45 +22,46 @@
             <div class="table-area">
                 <div class="row custyle">
                     @*<a class="btn btn-sm btn-success create-btn" asp-action="Create">Nhập xưởng</a>*@
-                    <div class="input-group no-border">
-                        <form asp-action="Index" method="get">
-                            <input id="search" type="text" name="search" class="form-control" value="@ViewData["GetTextSearch"]" placeholder="Search...">
-                        </form>
-                        <i class="fas fa-backspace"></i>
-                    </div>
+                    @*<div class="input-group no-border">
+                            <form asp-action="Index" method="get">
+                                <input id="search" type="text" name="search" class="form-control" value="@ViewData["GetTextSearch"]" placeholder="Search...">
+                            </form>
+                            <i class="fas fa-backspace"></i>
+                        </div>*@
                     <div class="row create">
                         @{await Html.RenderPartialAsync("_CreateRepairPartialView", new Repair());}
                     </div>
 
+                    <div class="filter">
+                        <div class="table-area">
+                            <h4 style="text-align: center; background: #fbbb04; border-radius: 5px;">Lọc</h4>
+                            <div style="text-align: center;">
+                                <h5>Theo ngày nhập xưởng</h5>
+                                <input id="date-filter" type="date" name="name" value="" />
+                                <br>
+                                <h5>Theo trạng thái</h5>
+                                <a class="btn btn-sm btn-outline-info preparing-btn">Đang chuẩn bị</a><br />
+                                <a class="btn btn-sm btn-outline-warning repairing-btn">Đang Sửa</a><br />
+                                <a class="btn btn-sm btn-outline-success success-btn">Hoàn thành</a>
+                                <hr />
+                                <h4><a class="btn btn-sm btn-outline-default all-btn">Tất cả</a></h4>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-2 filter">
-            <div class="table-area">
-                <h4 style="text-align: center; background: #fbbb04; border-radius: 5px;">Lọc</h4>
-                <div style="text-align: center;">
-                    <h5>Theo ngày nhập xưởng</h5>
-                    <input id="date-filter" type="date" name="name" value="" />
-                    <br>
-                    <h5>Theo trạng thái</h5>
-                    <a class="btn btn-sm btn-outline-info preparing-btn">Đang chuẩn bị</a>
-                    <a class="btn btn-sm btn-outline-warning repairing-btn">Đang Sửa</a>
-                    <a class="btn btn-sm btn-outline-success success-btn">Hoàn thành</a>
-                    <hr />
-                    <h4><a class="btn btn-sm btn-outline-default all-btn">Tất cả</a></h4>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-7">
+
+        <div class="col-md-9">
             <div class="table-area scroll">
                 <div id="" class="row container-fluid loop-card">
                     @foreach (var item in Model)
                     {
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="card d-block mt-1">
                                 <div class="card-header p-2 p-lg-2 p-xl-2 ">
                                     <div class="row">
-                                        <div class="col-md-6">
+                                        <div class="col-md-10">
                                             <h3 class="mt-0">
                                                 @item.IdCarNavigation.CarName
                                             </h3>
@@ -178,9 +179,16 @@
 </div>
 
 <style>
+
+    .loop-card .col-md-4 {
+        padding: 0 7px;
+    }
+    .card .card-body .row{
+        margin-left:-8px !important;
+    }
     .repairs {
-        background-color: #29a6c8;
-        border-radius: 4px;
+    background-color: #29a6c8; 
+    border-radius: 4px;
     }
 
     .left {
@@ -203,10 +211,9 @@
         padding: 0;
     }
 
-    .table-area {
-        height: 650px;
+    .all-btn{
+        margin:0;
     }
-
     .table-area.scroll {
         position: relative;
         overflow: scroll;
@@ -215,10 +222,28 @@
 
     .mainleft, .filter {
         padding-right: 0;
+        width:100%;
     }
 
     h5 {
         margin: 10px 0 0 0;
+    }
+    hr{
+        margin:6px;
+    }
+    .input-group {
+        max-width: 100%;
+    }
+
+    .form-group {
+        position: relative;
+        margin: 0;
+        padding:0;
+    }
+    .filter .table-area {
+        background: #fff;
+        box-shadow: 0px 0px 5px 5px #ededed;
+        border-radius: 5px;
     }
 </style>
 

@@ -29,6 +29,11 @@ namespace GaraManagement.Controllers
                 ViewBag.SuccessMessage = HttpContext.Session.GetString("SuccessMessage");
                 HttpContext.Session.Remove("SuccessMessage");
             }
+            if (HttpContext.Session.GetString("ErrorMessage") != null)
+            {
+                ViewBag.ErrorMessage = HttpContext.Session.GetString("ErrorMessage");
+                HttpContext.Session.Remove("ErrorMessage");
+            }
             if (pageNumber == null) pageNumber = 1;
             int pageSize = 10;
             return View( _context.TypeOfSupplies.ToList().ToPagedList((int)pageNumber, pageSize));
@@ -165,14 +170,21 @@ namespace GaraManagement.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var typeOfSupply = await _context.TypeOfSupplies.FindAsync(id);
-            var materials = _context.Materials.Where(a => a.IdType == id);
-            _context.TypeOfSupplies.Remove(typeOfSupply);
-            foreach(var item in materials)
+            try
             {
-                _context.Materials.Remove(item);
-            }    
-            await _context.SaveChangesAsync();
+                var typeOfSupply = await _context.TypeOfSupplies.FindAsync(id);
+                var materials = _context.Materials.Where(a => a.IdType == id);
+                _context.TypeOfSupplies.Remove(typeOfSupply);
+                foreach (var item in materials)
+                {
+                    _context.Materials.Remove(item);
+                }
+                await _context.SaveChangesAsync();
+            }
+            catch
+            {
+                HttpContext.Session.SetString("ErrorMessage", "Không thể xóa do vật tư còn ràng buộc với các bảng khác!");
+            }
 
             return RedirectToAction(nameof(Index));
         }

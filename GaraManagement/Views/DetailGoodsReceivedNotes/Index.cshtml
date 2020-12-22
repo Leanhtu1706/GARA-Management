@@ -18,13 +18,13 @@
             <div class="row ">
                 <a class="back-btn" asp-controller="GoodsReceivedNotes" asp-action="Index"><i class="fas fa-arrow-circle-left"></i>&ensp; Back</a>
                 <a class="btn btn-success create-btn" data-id-create="@ViewBag.IdGoodReceivedNotes" data-toggle='modal' data-target='#createModal'>Thêm chi tiết phiếu nhập</a>
-                <div class="input-group no-border">
+                @*<div class="input-group no-border">
                     <i class="fas fa-search"></i>
                     <form asp-action="Index" method="get">
                         <input id="search" type="text" name="search" class="form-control" value="@ViewData["GetTextSearch"]" placeholder="Search...">
                     </form>
                 </div>
-                <i class="fas fa-backspace"></i>
+                <i class="fas fa-backspace"></i>*@
             </div>
         </div>
         <div class="col-md-5">
