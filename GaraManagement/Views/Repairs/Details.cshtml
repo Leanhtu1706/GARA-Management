@@ -120,11 +120,16 @@
                 @{
                     if (ViewBag.checkGoodsDeliveryNotes == "notNull")
                     {
+                        if (ViewBag.checkDetailGoodsDeliveryNotes == "Null")
+                        {
+                            <a class="btn btn-sm btn-outline-danger delete-goodDelivery-btn" data-id-goodDelivery="@Model.GoodsDeliveryNotes.FirstOrDefault().Id" data-toggle='modal' data-target='#deleteConfirmModal'>Hủy yêu cầu xuất vật tư</a>
+                        }
                         <a class="btn btn-sm btn-light create-material-btn" data-id-goodDelivery="@Model.GoodsDeliveryNotes.FirstOrDefault().Id" data-toggle='modal' data-target='#createModal'><i class="far fa-plus-square"></i></a>
+
                     }
                     else
                     {
-                        <a class="btn btn-sm btn-warning create-goodDelivery-btn" data-id-repair="@Model.Id" data-toggle='modal' data-target='#createModal'>Yêu cầu xuất vật tư</a>
+                        <a class="btn btn-sm btn-outline-info create-goodDelivery-btn" data-id-repair="@Model.Id" data-toggle='modal' data-target='#createModal'>Yêu cầu xuất vật tư</a>
                     }
                 }
 
@@ -242,6 +247,29 @@
     </div>
 </div>
 
+@* Modal delete delivery *@
+@*<div id="deleteDeliveryConfirmModal" class="modal fade" role="dialog">
+    <div class="modal-dialog delete">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 style="color:black;" class="modal-title">Are you sure?</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-action">
+                <div class="modal-actions col-md-8 offset-4">
+                    <a asp-action="Index" icon-name="action-cancel" class="btn btn-default" data-dismiss="modal" data-target="#deleteConfirmModal">
+                        Cancel
+                    </a>
+                    <button icon-name="action-delete" class="btn btn-danger deleteConfirm-btn">
+                        Delete
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>*@
+
 <style>
     .row {
         margin-right: -5px;
@@ -317,6 +345,10 @@
     .create-goodDelivery-btn {
         float: right;
         padding: 5px 5px !important;
+        margin: 0 !important;
+    }
+
+    .delete-goodDelivery-btn {
         margin: 0 !important;
     }
 </style>
@@ -443,6 +475,28 @@
                 /**/
                 type: "POST",
                 data: { id: idgoodDelivery, idMaterial: idMaterial },
+                success: function (data) {
+                    window.location.href = data.redirectToUrl;
+                }
+            });
+        });
+    });
+
+    //delete goodDeliery
+    $(".delete-goodDelivery-btn").click(function () {
+        var idgoodDelivery = $(this).attr("data-id-goodDelivery");
+
+        console.log("idgoodDelivery:", idgoodDelivery);
+
+        $(".deleteConfirm-btn").click(function () {
+        console.log("shown modal event", event);
+
+            $.ajax({
+                /**/
+                url: '@Url.Action("Delete","GoodsDeliveryNotes")',
+                /**/
+                type: "POST",
+                data: { id: idgoodDelivery},
                 success: function (data) {
                     window.location.href = data.redirectToUrl;
                 }

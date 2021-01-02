@@ -20,7 +20,7 @@ namespace GaraManagement.Controllers
         }
 
         // GET: Repairs
-        public async Task<IActionResult> Index(int? IdCar, string date, StateType? state)
+        public async Task<IActionResult> Index(int? IdCar, string date, StateType? state, string search)
         {
             if (HttpContext.Session.GetString("SessionUserName") == null)
             {
@@ -31,9 +31,14 @@ namespace GaraManagement.Controllers
                 ViewBag.SuccessMessage = HttpContext.Session.GetString("SuccessMessage");
                 HttpContext.Session.Remove("SuccessMessage");
             }
-            //ViewData["Car"] = _context.Cars.Where(c => c.Id == IdCar).Select(c=>c.CarName);
-            ViewData["IdCar"] = new SelectList(_context.Cars.Where(c => c.Id == IdCar), "Id", "CarName");
-            //ViewData["LicensePlates"] = new SelectList(_context.Cars, "Id", "LicensePlates");
+
+            if(!string.IsNullOrEmpty(search))
+            {
+                var garaContext = _context.Repairs.Include(r => r.IdCarNavigation).ThenInclude(r => r.IdCustomerNavigation).Where(r => r.IdCarNavigation.IdCustomerNavigation.Name.Contains(search) || r.IdCarNavigation.CarName.Contains(search) || r.IdCarNavigation.LicensePlates.Contains(search));
+                ViewData["GetTextSearch"] = search;
+                return View(await garaContext.ToListAsync());
+            }    
+
             if (date != null)
             {
                 var garaContext = _context.Repairs.Include(r => r.IdCarNavigation).ThenInclude(r => r.IdCustomerNavigation).Where(r => r.DateOfFactoryEntry.ToString().Contains(date)).OrderByDescending(r => r.DateOfFactoryEntry);
@@ -87,6 +92,12 @@ namespace GaraManagement.Controllers
                 else
                 {
                     ViewData["checkGoodsDeliveryNotes"] = "notNull";
+                    var detailDelivery = repair.GoodsDeliveryNotes.Select(g => g.DetailGoodsDeliveryNotes).FirstOrDefault();
+                    if (detailDelivery.Count() == 0)
+                    {
+                        ViewData["checkDetailGoodsDeliveryNotes"] = "Null";
+                    }
+
                 }
 
                 return View(repair);
@@ -94,8 +105,10 @@ namespace GaraManagement.Controllers
         }
 
         // GET: Repairs/Create
-        public IActionResult Create()
+        public IActionResult Create(int idCar, string layout = "_")
         {
+            ViewData["Layout"] = layout == "_" ? "" : layout;
+            ViewData["IdCar"] = idCar;
             return View();
         }
 
@@ -229,7 +242,12 @@ namespace GaraManagement.Controllers
                 .ThenInclude(r => r.IdMaterialNavigation)
                 .Include(r => r.DetailRepairs)
                 .ThenInclude(r => r.IdWorkNavigation)
+                .Include(r=>r.Pays)
                 .FirstOrDefaultAsync(m => m.Id == id);
+            if(repair.Pays.Any())
+            {
+                ViewData["exists"] = "exists";
+            }
             return View(repair);
         }
     }

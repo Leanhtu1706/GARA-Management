@@ -6,56 +6,63 @@
 }
 
 
-<div class="row create-edit">
-    <form asp-action="Edit" style="width: 50%;">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="row">
-            <h2>Edit car</h2>
-        </div>
-        <hr />
-        <div class="btn-action">
-            <button icon-name="action-cancel" name="close" class="btn btn-default closeBtn" asp-action="Index">Close</button>
-            <input type="submit" class="btn btn-warning save" value="Save" />
-        </div>
-        <input type="hidden" asp-for="Id" />
-        <div class="row form-group">
-            <div class="col-sm-4">
-                <label asp-for="IdCar" class="control-label">Mã Xe</label>
+    <div class="row create-edit">
+        <button class="btn btn-default closeBtn">Close</button>
+
+        <form asp-action="Edit" style="width: 50%;">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row">
+                <h2>Edit car</h2>
             </div>
-            <div class="col-sm-8">
-                <select asp-for="IdCar" class="form-control" asp-items="ViewBag.IdCar"></select>
+            <hr />
+            <div class="btn-action">
+                <input type="submit" class="btn btn-warning save" value="Lưu" />
             </div>
-        </div>
-        <div class="row form-group">
-            <div class="col-sm-4">
-                <label asp-for="DateOfFactoryEntry" class="control-label" name="Name"></label>
+            <input type="hidden" asp-for="Id" />
+            <div class="row form-group">
+                <div class="col-sm-4">
+                    <label asp-for="IdCar" class="control-label">Mã Xe</label>
+                </div>
+                <div class="col-sm-8">
+                    <select asp-for="IdCar" class="form-control" asp-items="ViewBag.IdCar"></select>
+                </div>
             </div>
-            <div class="col-sm-8">
-                <input asp-for="DateOfFactoryEntry" class="form-control" />
-                <span asp-validation-for="DateOfFactoryEntry" class="text-danger"></span>
+            <div class="row form-group">
+                <div class="col-sm-4">
+                    <label asp-for="DateOfFactoryEntry" class="control-label" name="Name"></label>
+                </div>
+                <div class="col-sm-8">
+                    <input asp-for="DateOfFactoryEntry" class="form-control" />
+                    <span asp-validation-for="DateOfFactoryEntry" class="text-danger"></span>
+                </div>
             </div>
-        </div>
-        <div class="row form-group">
-            <div class="col-sm-4">
-                <label asp-for="DateFinished" class="control-label" name="Name"></label>
+            <div class="row form-group">
+                <div class="col-sm-4">
+                    <label asp-for="DateFinished" class="control-label" name="Name"></label>
+                </div>
+                <div class="col-sm-8">
+                    <input asp-for="DateFinished" class="form-control" />
+                    <span asp-validation-for="DateFinished" class="text-danger"></span>
+                </div>
             </div>
-            <div class="col-sm-8">
-                <input asp-for="DateFinished" class="form-control" />
-                <span asp-validation-for="DateFinished" class="text-danger"></span>
+            <div class="row form-group">
+                <div class="col-sm-4">
+                    <label asp-for="IdCar" class="control-label">Customer</label>
+                </div>
+                <div class="col-sm-8">
+                    <select asp-for="State" asp-items="Enum.GetValues(typeof(StateType)).Cast<StateType>().Select(o => new SelectListItem { Text = o.GetEnumDisplayName(), Value = ((int)o).ToString() })" class="form-control"></select>
+                </div>
             </div>
-        </div>
-        <div class="row form-group">
-            <div class="col-sm-4">
-                <label asp-for="IdCar" class="control-label">Customer</label>
-            </div>
-            <div class="col-sm-8">
-                <select asp-for="State" asp-items="Enum.GetValues(typeof(StateType)).Cast<StateType>().Select(o => new SelectListItem { Text = o.GetEnumDisplayName(), Value = ((int)o).ToString() })" class="form-control"></select>
-            </div>
-        </div>
-    </form>
-</div>
+        </form>
+    </div>
 
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+<script src="~/assets/js/core/jquery.min.js"></script>
+<script>
+    $(".closeBtn").click(function () {
+        window.location.href = "/Repairs";
+    })
+</script>

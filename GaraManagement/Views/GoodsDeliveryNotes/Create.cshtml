@@ -6,20 +6,29 @@
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="row form-group">
             <div class="col-sm-2">
+                <label asp-for="IdRepair" class="control-label" name="IdRepair"></label>
+            </div>
+            <div class="col-sm-8">
+                <input asp-for="IdRepair" class="form-control" value=@ViewBag.IdRepair readonly/>
+                <span asp-validation-for="IdRepair" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-sm-2">
+                <label asp-for="IdEmployee" class="control-label" name="IdEmployee"></label>
+            </div>
+            <div class="col-sm-8">
+                <select asp-for="IdEmployee" class="form-control" asp-items="ViewBag.IdEmployee"></select>
+                <span asp-validation-for="IdEmployee" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-sm-2">
                 <label asp-for="ExportDate" class="control-label" name="ExportDate"></label>
             </div>
             <div class="col-sm-8">
                 <input asp-for="ExportDate" class="form-control" />
                 <span asp-validation-for="ExportDate" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="row form-group">
-            <div class="col-sm-2">
-                <label asp-for="IdRepair" class="control-label" name="IdRepair"></label>
-            </div>
-            <div class="col-sm-8">
-                <select asp-for="IdRepair" class="form-control" asp-items="ViewBag.IdRepair"></select>
-                <span asp-validation-for="IdRepair" class="text-danger"></span>
             </div>
         </div>
         <div class="row form-group">

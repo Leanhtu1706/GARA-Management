@@ -43,5 +43,6 @@ namespace GaraManagement.Models
         public IFormFile ImageFile { get; set; }
 
         public virtual ICollection<Account> Accounts { get; set; }
+        public virtual ICollection<GoodsDeliveryNote> GoodsDeliveryNotes { get; set; }
     }
 }

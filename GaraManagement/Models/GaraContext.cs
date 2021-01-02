@@ -27,6 +27,7 @@ namespace GaraManagement.Models
         public virtual DbSet<GoodsDeliveryNote> GoodsDeliveryNotes { get; set; }
         public virtual DbSet<GoodsReceivedNote> GoodsReceivedNotes { get; set; }
         public virtual DbSet<Material> Materials { get; set; }
+        public virtual DbSet<Pay> Pays { get; set; }
         public virtual DbSet<Repair> Repairs { get; set; }
         public virtual DbSet<Service> Services { get; set; }
         public virtual DbSet<Supplier> Suppliers { get; set; }
@@ -213,6 +214,9 @@ namespace GaraManagement.Models
                     .WithMany(p => p.GoodsDeliveryNotes)
                     .HasForeignKey(d => d.IdRepair)
                     .HasConstraintName("FK_GoodsDeliveryNote_Repair");
+                entity.HasOne(e => e.IdEmployeeNavigation)
+                    .WithMany(p => p.GoodsDeliveryNotes)
+                    .HasForeignKey(e => e.IdEmployee);
             });
 
             modelBuilder.Entity<GoodsReceivedNote>(entity =>
@@ -260,8 +264,14 @@ namespace GaraManagement.Models
                     .HasForeignKey(d => d.IdType)
                     .HasConstraintName("FK_Material_TypeOfSupplies");
             });
-
-            modelBuilder.Entity<Repair>(entity =>
+            modelBuilder.Entity<Pay>(entity =>
+            {
+                entity.ToTable("Pay");
+                entity.HasOne(r => r.IdRepairNavigation)
+                    .WithMany(p => p.Pays)
+                    .HasForeignKey(r => r.IdRepair);
+            });
+                modelBuilder.Entity<Repair>(entity =>
             {
                 entity.ToTable("Repair");
 

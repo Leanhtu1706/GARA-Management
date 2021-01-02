@@ -28,13 +28,19 @@
                             </form>
                             <i class="fas fa-backspace"></i>
                         </div>*@
-                    <div class="row create">
-                        @{await Html.RenderPartialAsync("_CreateRepairPartialView", new Repair());}
-                    </div>
+                    @*<div class="row create">
+                            @{await Html.RenderPartialAsync("_CreateRepairPartialView", new Repair());}
+                        </div>*@
 
                     <div class="filter">
                         <div class="table-area">
-                            <h4 style="text-align: center; background: #fbbb04; border-radius: 5px;">Lọc</h4>
+                            <div class="input-group no-border">
+                                <form asp-action="Index" method="get">
+                                    <input id="search" type="text" name="search" class="form-control" value="@ViewData["GetTextSearch"]" placeholder="Search...">
+                                </form>
+                            </div>
+
+                            <h4 style="text-align: center; background: #fbbb04; border-radius: 5px;"><i class="fas fa-filter"></i>Lọc</h4>
                             <div style="text-align: center;">
                                 <h5>Theo ngày nhập xưởng</h5>
                                 <input id="date-filter" type="date" name="name" value="" />
@@ -73,7 +79,7 @@
                                             </button>
                                             <div id="drop-menu" class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                                                 <a class="dropdown-item" asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-edit"></i>Sửa</a>
-                                                <a class="dropdown-item" asp-action="Details" asp-route-id="@item.Id"><i class="fas fa-edit"></i>Chi tiết</a>
+                                                <a class="dropdown-item" asp-action="Details" asp-route-id="@item.Id"><i class="fas fa-info-circle"></i>Chi tiết</a>
                                                 <a class="dropdown-item delete-btn" data-id="@item.Id"><i class="far fa-trash-alt"></i>Xóa</a>
                                             </div>
                                         </div>
@@ -183,12 +189,14 @@
     .loop-card .col-md-4 {
         padding: 0 7px;
     }
-    .card .card-body .row{
-        margin-left:-8px !important;
+
+    .card .card-body .row {
+        margin-left: -8px !important;
     }
+
     .repairs {
-    background-color: #29a6c8; 
-    border-radius: 4px;
+        background-color: #29a6c8;
+        border-radius: 4px;
     }
 
     .left {
@@ -211,9 +219,14 @@
         padding: 0;
     }
 
-    .all-btn{
-        margin:0;
+    .all-btn {
+        margin: 0;
     }
+
+    .table-area {
+        height: 100%;
+    }
+
     .table-area.scroll {
         position: relative;
         overflow: scroll;
@@ -222,15 +235,18 @@
 
     .mainleft, .filter {
         padding-right: 0;
-        width:100%;
+        width: 100%;
     }
 
     h5 {
         margin: 10px 0 0 0;
+        color: #8a8a8a; 
     }
-    hr{
-        margin:6px;
+
+    hr {
+        margin: 6px;
     }
+
     .input-group {
         max-width: 100%;
     }
@@ -238,12 +254,40 @@
     .form-group {
         position: relative;
         margin: 0;
-        padding:0;
+        padding: 0;
     }
+
     .filter .table-area {
         background: #fff;
         box-shadow: 0px 0px 5px 5px #ededed;
         border-radius: 5px;
+    }
+    .input-group{
+        margin: 5px 0;
+    }
+    .input-group form {
+        width:100%;
+    }
+    .filter .btn {
+        padding: 7px;
+        width: 40%;
+    }
+    .btn.btn-outline-info:hover {
+        background-color: #76c4d9;
+    }
+    .btn.btn-outline-warning:hover {
+        background-color: #ff9800;
+    }
+    .btn.btn-outline-success:hover {
+        background-color: #77cc7a;
+    }
+    .fas.fa-filter{
+        margin:5px;
+        font-size:17px;
+    }
+    #date-filter {
+        border-radius: 4px;
+        border-color: lightgrey;
     }
 </style>
 
@@ -354,15 +398,7 @@
         });
     });
     $(".all-btn").click(function () {
-       $.ajax({
-            /**/
-            url: '@Url.Action("Index")',
-            /**/
-            type: "GET",
-            success: function (data) {
-               $("body").html(data);
-            }
-        });
+        window.location.href = "Repairs";
     });
 
 

@@ -27,12 +27,12 @@ namespace GaraManagement.Controllers
             ViewData["GetTextSearch"] = search;
             if (!string.IsNullOrEmpty(search))
             {
-                var garaContext = _context.GoodsDeliveryNotes.Include(g => g.IdRepairNavigation).Where(a => a.IdRepairNavigation.IdCarNavigation.CarName.Contains(search));
+                var garaContext = _context.GoodsDeliveryNotes.Include(g => g.IdRepairNavigation).Include(e => e.IdEmployeeNavigation).Where(a => a.IdRepairNavigation.IdCarNavigation.CarName.Contains(search));
                 return View(garaContext.ToList());
             }
             else
             {
-                var garaContext = _context.GoodsDeliveryNotes.Include(g => g.IdRepairNavigation);
+                var garaContext = _context.GoodsDeliveryNotes.Include(g => g.IdRepairNavigation).Include(e => e.IdEmployeeNavigation);
                 return View(garaContext.ToList());
             }
         }
@@ -59,7 +59,8 @@ namespace GaraManagement.Controllers
         public IActionResult Create(int? idRepair , string layout = "_", string title = "")
         {
       
-            ViewData["IdRepair"] = new SelectList(_context.Repairs.Where(r=>r.Id == idRepair), "Id", "Id");
+            ViewData["IdRepair"] = idRepair;
+            ViewData["IdEmployee"] = new SelectList(_context.Employees, "Id", "Name");
             ViewData["Layout"] = layout == "_" ? "" : layout;
             ViewData["Title"] = title;
             return View();
@@ -70,7 +71,7 @@ namespace GaraManagement.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,ExportDate,IdRepair,Description")] GoodsDeliveryNote goodsDeliveryNote)
+        public async Task<IActionResult> Create(GoodsDeliveryNote goodsDeliveryNote)
         {
             if (ModelState.IsValid)
             {
@@ -159,13 +160,14 @@ namespace GaraManagement.Controllers
 
         // POST: GoodsDeliveryNotes/Delete/5
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var goodsDeliveryNote = await _context.GoodsDeliveryNotes.FindAsync(id);
+            var idRepair = goodsDeliveryNote.IdRepair;
             _context.GoodsDeliveryNotes.Remove(goodsDeliveryNote);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            HttpContext.Session.SetString("SuccessMessage", "Hủy yêu cầu xuất vật tư thành công");
+            return Json(new { redirectToUrl = Url.Action("Details", "Repairs", new { id = idRepair }) });
         }
 
         private bool GoodsDeliveryNoteExists(int id)

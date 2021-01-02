@@ -14,6 +14,8 @@ namespace GaraManagement.Models
         }
 
         public int Id { get; set; }
+        [DisplayName("Người lấy")]
+        public int IdEmployee { get; set; }
         [DisplayName("Ngày xuất")]
         public DateTime? ExportDate { get; set; }
         public int? IdRepair { get; set; }
@@ -23,6 +25,7 @@ namespace GaraManagement.Models
         public DateTime? UpdateAt { get; set; }
 
         public virtual Repair IdRepairNavigation { get; set; }
+        public virtual Employee IdEmployeeNavigation { get; set; }
         public virtual ICollection<DetailGoodsDeliveryNote> DetailGoodsDeliveryNotes { get; set; }
     }
 }

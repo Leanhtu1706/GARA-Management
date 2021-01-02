@@ -26,5 +26,6 @@ namespace GaraManagement.Models
         public virtual Car IdCarNavigation { get; set; }
         public virtual ICollection<DetailRepair> DetailRepairs { get; set; }
         public virtual ICollection<GoodsDeliveryNote> GoodsDeliveryNotes { get; set; }
+        public virtual ICollection<Pay> Pays { get; set; }
     }
 }
