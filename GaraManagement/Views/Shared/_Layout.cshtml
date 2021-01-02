@@ -41,7 +41,7 @@
             <div class="sidebar-wrapper">
                 <ul class="nav">
                     <li class="nav-item ">
-                        <a class="nav-link" href="./dashboard.html">
+                        <a class="nav-link" asp-controller="DashBoard" asp-action="Index">
                             <i class="fas fa-chart-line"></i>
                             <p>Dashboard</p>
                         </a>
@@ -75,9 +75,9 @@
                         </a>
                         <ul class="nav subRepair">
                             <li class="nav-item repairs"><a class="nav-link" asp-controller="Repairs" asp-action="Index"><i class="fas fa-exchange-alt"></i><p>Xe nhập xuất xưởng</p></a></li>
-                            <li class="nav-item "><a class="nav-link" href="#"><i class="fas fa-file-invoice"></i><p>Lập phiếu sửa chữa</p></a></li>
+                            @*<li class="nav-item "><a class="nav-link" href="#"><i class="fas fa-file-invoice"></i><p>Lập phiếu sửa chữa</p></a></li>*@
                             <li class="nav-item service"><a class="nav-link" asp-controller="Services" asp-action="Index"><i class="fab fa-stripe-s"></i><p>Dịch vụ</p></a></li>
-                            <li class="nav-item work"><a class="nav-link" asp-controller="Works" asp-action="Index"><i class="fab fa-stripe-s"></i><p>Công việc</p></a></li>
+                            <li class="nav-item work"><a class="nav-link" asp-controller="Works" asp-action="Index"><i class="fas fa-cogs"></i><p>Công việc</p></a></li>
                         </ul>
                     </li>
                     <li class="nav-item ">
