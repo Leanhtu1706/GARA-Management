@@ -35,6 +35,13 @@ namespace GaraManagement.Controllers
 
             var pay = await _context.Pays
                 .Include(p => p.IdRepairNavigation)
+                .Include(r => r.IdRepairNavigation.IdCarNavigation)
+                .ThenInclude(r => r.IdCustomerNavigation)
+                .Include(r => r.IdRepairNavigation.GoodsDeliveryNotes)
+                .ThenInclude(r => r.DetailGoodsDeliveryNotes)
+                .ThenInclude(r => r.IdMaterialNavigation)
+                .Include(r => r.IdRepairNavigation.DetailRepairs)
+                .ThenInclude(r => r.IdWorkNavigation)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (pay == null)
             {
@@ -45,9 +52,10 @@ namespace GaraManagement.Controllers
         }
 
         // GET: Pays/Create
-        public IActionResult Create()
+        public IActionResult Create(int idRepair, string layout = "_")
         {
-            ViewData["IdRepair"] = new SelectList(_context.Repairs, "Id", "Id");
+            ViewData["IdRepair"] = idRepair;
+            ViewData["Layout"] = layout == "_" ? "" : layout;
             return View();
         }
 
@@ -56,7 +64,7 @@ namespace GaraManagement.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,IdRepair,DateOfPayment,Paid")] Pay pay)
+        public async Task<IActionResult> Create( Pay pay)
         {
             if (ModelState.IsValid)
             {
@@ -69,19 +77,19 @@ namespace GaraManagement.Controllers
         }
 
         // GET: Pays/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int? idRepair, string layout = "_")
         {
-            if (id == null)
+            if (idRepair == null)
             {
                 return NotFound();
             }
 
-            var pay = await _context.Pays.FindAsync(id);
+            var pay = await _context.Pays.Where(p => p.IdRepair == idRepair).FirstOrDefaultAsync();
             if (pay == null)
             {
                 return NotFound();
             }
-            ViewData["IdRepair"] = new SelectList(_context.Repairs, "Id", "Id", pay.IdRepair);
+            ViewData["Layout"] = layout == "_" ? "" : layout;
             return View(pay);
         }
 
@@ -90,7 +98,7 @@ namespace GaraManagement.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,IdRepair,DateOfPayment,Paid")] Pay pay)
+        public async Task<IActionResult> Edit(int id, Pay pay)
         {
             if (id != pay.Id)
             {
@@ -101,6 +109,8 @@ namespace GaraManagement.Controllers
             {
                 try
                 {
+                    pay.Paid += pay.owe;
+                    pay.Update_at = DateTime.Now;
                     _context.Update(pay);
                     await _context.SaveChangesAsync();
                 }
