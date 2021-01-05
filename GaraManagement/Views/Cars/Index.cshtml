@@ -17,7 +17,17 @@
     </div>
     <div class="table-area">
         <div class="row custyle">
-            <a class="btn btn-sm btn-success create-btn" asp-action="Create">Thêm mới xe</a>
+            @{
+                if (@ViewBag.IdCustomer != null)
+                {
+                    <a class="btn btn-sm btn-success create-btn-CusId" asp-action="Create" asp-route-idCustomer="@ViewBag.IdCustomer">Thêm xe cho khách hàng @ViewBag.CustomerName</a>
+                }
+                else
+                {
+                    <a class="btn btn-sm btn-success create-btn" asp-action="Create">Thêm mới xe</a>
+                }
+            }
+
             <div class="input-group no-border">
                 <form asp-action="Index" method="get">
                     <input id="search" type="text" name="search" class="form-control" value="@ViewData["GetTextSearch"]" placeholder="Search...">

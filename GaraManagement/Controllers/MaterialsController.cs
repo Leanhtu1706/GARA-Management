@@ -260,5 +260,12 @@ namespace GaraManagement.Controllers
         {
             return _context.Materials.Any(e => e.Id == id);
         }
+
+        public IActionResult GetAmount(int id)
+        {
+            var amount =  _context.Materials.Where(m=>m.Id == id).Select(m=>m.Amount);
+            return Json(amount);
+
+        }
     }
 }

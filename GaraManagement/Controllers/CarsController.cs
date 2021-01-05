@@ -39,6 +39,8 @@ namespace GaraManagement.Controllers
             ViewData["GetTextSearch"] = search; // vẫn hiển thị tên search khi load lại index
             if (idCustomer != null)
             {
+                ViewBag.IdCustomer = idCustomer;
+                ViewBag.CustomerName = _context.Customers.Where(c => c.Id == idCustomer).Select(c=>c.Name).FirstOrDefault();
                 var carData = _context.Cars.Include(i => i.IdCustomerNavigation).Where(a => a.IdCustomerNavigation.Id == idCustomer);
                 return View(carData.ToList());
             }    
@@ -78,11 +80,17 @@ namespace GaraManagement.Controllers
         }
 
         // GET: Cars/Create
-        public IActionResult Create(string layout = "_")
+        public IActionResult Create(int? idCustomer, string layout = "_")
         {
-            var customer = _context.Customers.Select(i => i.Name).ToList();
             ViewData["Layout"] = layout == "_" ? "" : layout;
-            ViewData["Customer"] = new SelectList(_context.Customers, "Id", "Name",customer);
+            if (idCustomer != null)
+            {
+                ViewData["Customer"] = new SelectList(_context.Customers.Where(c=>c.Id == idCustomer), "Id", "Name");
+            }
+            else
+            {
+                ViewData["Customer"] = new SelectList(_context.Customers, "Id", "Name");
+            }
             return View();
         }
 

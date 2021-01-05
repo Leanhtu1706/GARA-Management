@@ -221,8 +221,7 @@
             type: "GET",
             data: { idCustomer: idCus},
             success: function (data) {
-                console.log("Redirect to Cars:", data);
-                window.location.href = '/Cars/Index?idCustomer=' + idCus;
+                $("body").html(data);
             }
         });
     });

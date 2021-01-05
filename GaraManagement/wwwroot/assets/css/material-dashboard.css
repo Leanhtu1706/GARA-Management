@@ -16975,7 +16975,7 @@ thead.thead-inverse th,
 .dataTable>thead>tr>td,
 .dataTable>tbody>tr>td,
 .dataTable>tfoot>tr>td {
-  padding: 1px 5px !important;
+  padding: 5px 5px !important;
 }
 
 body {

@@ -420,7 +420,6 @@
         console.log("shown modal event", event);
         var idRepair = $(this).attr('data-id-repair');
         console.log("Id Repair:", idRepair);
-        debugger;
         $.ajax({
             /**/
             url: '@Url.Action("Create", "GoodsDeliveryNotes")',
@@ -438,7 +437,6 @@
         console.log("shown modal event", event);
         var idGoodDelivery = $(this).attr('data-id-goodDelivery');
         console.log("id GoodDelivery:", idGoodDelivery);
-        debugger;
         $.ajax({
             /**/
             url: '@Url.Action("Create", "DetailGoodsDeliveryNotes")',
@@ -456,7 +454,6 @@
         var idGoodDelivery = $(this).attr('data-id-goodDelivery');
         var idMaterial = $(this).attr("data-id-material");
 
-        debugger;
         $.ajax({
             /**/
             url: '@Url.Action("Edit", "DetailGoodsDeliveryNotes")',

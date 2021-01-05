@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 #nullable disable
 
@@ -11,6 +12,7 @@ namespace GaraManagement.Models
         public int IdGoodsDeliveryNote { get; set; }
         public int IdMaterial { get; set; }
         [DisplayName("Số lượng xuất")]
+        [Required(ErrorMessage = "Số lượng không được để trống")]
         public int? Amount { get; set; }
 
         public virtual GoodsDeliveryNote IdGoodsDeliveryNoteNavigation { get; set; }

@@ -1,7 +1,7 @@
 ﻿@model GaraManagement.Models.DetailGoodsDeliveryNote
 
 @{
-    ViewData["Title"] = "Thêm chi tiết xuất hàng";
+    ViewData["Title"] = "Thêm vật tư";
 }
 
 <div class="row divmodal">
@@ -9,21 +9,30 @@
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <input type="hidden" asp-for="IdGoodsDeliveryNote" value="@ViewBag.IdGoodDeliveryNotes" />
         <div class="row form-group">
-            <div class="col-sm-2">
-                <label asp-for="IdMaterialNavigation.Name" class="control-label" name="IdMaterial"></label>
+            <div class="col-sm-4">
+                <label>Số lượng còn trong kho</label>
             </div>
-            <div class="col-sm-8">
-                <select asp-for="IdMaterial" class="form-control" asp-items="@ViewBag.MaterialName"></select>
-                <span asp-validation-for="IdMaterial" class="text-danger"></span>
+            <div class="col-sm-6">
+                <label id="label-amount"></label>
             </div>
         </div>
         <div class="row form-group">
-            <div class="col-sm-2">
+            <div class="col-sm-4">
+                <label asp-for="IdMaterialNavigation.Name" class="control-label" name="IdMaterial"></label>
+            </div>
+            <div class="col-sm-6">
+                <select asp-for="IdMaterial" class="form-control material-dropdown" asp-items="@ViewBag.MaterialName"></select>
+                <span asp-validation-for="IdMaterial" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row form-group">
+            <div class="col-sm-4">
                 <label asp-for="Amount" class="control-label" name="Amount"></label>
             </div>
-            <div class="col-sm-8">
-                <input asp-for="Amount" class="form-control" />
-                <span asp-validation-for="Amount" class="text-danger"></span>
+            <div class="col-sm-6">
+                <input asp-for="Amount" class="form-control input-Amount"/>
+                <span asp-validation-for="Amount" class="text-danger" data-valmsg-for="Amount" data-valmsg-replace="true"></span>
             </div>
         </div>
     </form>
@@ -43,3 +52,55 @@
         </button>
     </div>
 }
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-growl/1.0.0/jquery.bootstrap-growl.min.js"></script>
+@*<script src="~/assets/js/core/jquery.min.js"></script>*@
+<script>
+    $(document).ready(function () {
+        var idMaterial = $('.material-dropdown').find("option:first-child").val();
+        console.log("idMaterialFirst: ", idMaterial);
+        $.ajax({
+            /**/
+            url: '@Url.Action("GetAmount","Materials")',
+            /**/
+             type: "GET",
+             data: { id: idMaterial },
+             success: function (data) {
+                 console.log("data: ", data);
+                 $("#label-amount").text(data);
+            }
+        });
+
+    });
+    $('.material-dropdown').change(function () {
+        var idMaterial = $('.material-dropdown option:selected').val();
+        console.log("idMaterial: ", idMaterial);
+        $.ajax({
+            /**/
+            url: '@Url.Action("GetAmount", "Materials")',
+            /**/
+            type: "GET",
+            data: { id: idMaterial },
+            success: function (data) {
+                console.log("data: ", data);
+                $("#label-amount").text(data);
+            }
+        });
+    });
+    $(".input-Amount").on("input", function () {
+        var inputAmount = $(this).val();
+        var amountWarehouse = parseInt($("#label-amount").text());
+        
+        if (inputAmount > amountWarehouse) {
+            $.bootstrapGrowl('Số lượng trong kho không đủ!', {
+                type: 'warning',
+                align: 'center',
+                delay: 1500,
+                stackup_spacing: 30
+            });
+            $('.btn-success').attr("disabled", true);
+        }
+        else {
+            $('.btn-success').attr("disabled", false);
+        }
+    })
+</script>
