@@ -22,6 +22,11 @@ namespace GaraManagement.Controllers
         // GET: DetailGoodsReceivedNotes
         public async Task<IActionResult> Index(int id)
         {
+            if (HttpContext.Session.GetString("SuccessMessage") != null)
+            {
+                ViewBag.SuccessMessage = HttpContext.Session.GetString("SuccessMessage");
+                HttpContext.Session.Remove("SuccessMessage");
+            }
             var goodsReceivedNotes = _context.GoodsReceivedNotes.Include(a=>a.IdSupplierNavigation).Where(a => a.Id == id).FirstOrDefault();
             ViewBag.ImportDate = goodsReceivedNotes.ImportDate;
             ViewBag.SupplierName = goodsReceivedNotes.IdSupplierNavigation.Name;
@@ -163,6 +168,8 @@ namespace GaraManagement.Controllers
             var detailGoodsReceivedNote =  _context.DetailGoodsReceivedNotes.Where(a=>a.IdGoodsReceivedNote == id && a.IdMaterial == idMaterial).FirstOrDefault();
             _context.DetailGoodsReceivedNotes.Remove(detailGoodsReceivedNote);
             await _context.SaveChangesAsync();
+            HttpContext.Session.SetString("SuccessMessage", "Xóa thành công");
+
             return Json(new { redirectToUrl = Url.Action("Index", "DetailGoodsReceivedNotes", new {id = id }) });
         }
 

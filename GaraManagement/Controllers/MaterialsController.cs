@@ -252,6 +252,7 @@ namespace GaraManagement.Controllers
             }
             _context.Materials.Remove(supply);
             await _context.SaveChangesAsync();
+            HttpContext.Session.SetString("SuccessMessage", "Xóa thành công");
 
             return RedirectToAction(nameof(Index));
         }

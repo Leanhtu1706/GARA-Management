@@ -59,10 +59,12 @@
                                         </tr>
                                     }
                                 }
+                                var info = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
+                                var moneyCost = String.Format(info, "{0:c}", totalCost);
                             }
                         </tbody>
                     </table>
-                    <h4>Tổng tiền công: &ensp; @totalCost</h4>
+                    <h4>Tổng tiền công: &ensp; @moneyCost</h4>
                 </div>
                 <div>
                     <table id="dtTableMaterialBaogia" class="table table-striped table-bordered" cellspacing="0" width="100%">
@@ -111,10 +113,13 @@
 
                                     }
                                 }
+                               
+                                var moneyMaterial = String.Format(info, "{0:c}", totalMaterial);
                             }
                         </tbody>
                     </table>
-                    <h4>Tổng tiền vật tư: &ensp;@totalMaterial</h4>
+
+                    <h4>Tổng tiền vật tư: &ensp;@moneyMaterial</h4>
                 </div>
             </div>
         </div>
@@ -124,18 +129,21 @@
         int? total = totalCost + totalMaterial;
         int? paid = Model.Pays.Select(p => p.Paid).FirstOrDefault();
         int? owe = total - paid;
+        var totalMoney = String.Format(info, "{0:c}", total);
+        var paidMoney = String.Format(info, "{0:c}", total);
+        var oweMoney = String.Format(info, "{0:c}", owe);
     }
     <div class="row">
         <div class="col-md-12">
             <div class="table-area row">
+                <div class="col-md-5">
+                    <h4 style="color: #ff870c">Tổng chi phí phải thanh toán: &ensp; @totalMoney</h4>
+                </div>
                 <div class="col-md-4">
-                    <h4 style="color: #ff870c">Tổng chi phí phải thanh toán: &ensp; @total</h4>
+                    <h4 style="color: #1ac155">Đã thanh toán: &ensp; @paidMoney</h4>
                 </div>
                 <div class="col-md-3">
-                    <h4 style="color: #1ac155">Đã thanh toán: &ensp; @paid</h4>
-                </div>
-                <div class="col-md-3">
-                    <h4 style="color: #c50c0c">Còn nợ: &ensp; @owe</h4>
+                    <h4 style="color: #c50c0c">Còn nợ: &ensp; @oweMoney</h4>
                 </div>
                 @*<div class="col-md-2">
                     <a class="btn btn-sm btn-warning paybtn" data-id-create="@Model.Id" data-toggle='modal' data-target='#createModal'>Thanh toán</a>

@@ -102,7 +102,11 @@
                         <h5>Đã thanh toán: </h5>
                     </div>
                     <div class="col-md-7">
-                        <h4>@Model.Paid</h4>
+                        @{ 
+                            var info = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
+                            var paid = String.Format(info, "{0:c}", Model.Paid);
+                        }
+                        <h4>@paid</h4>
                     </div>
                 </div>
                 <div class="row form-group">
@@ -151,11 +155,14 @@
                                             </td>
                                         </tr>
                                     }
+
                                 }
+                                
+                                var moneyCost = String.Format(info, "{0:c}", totalCost);
                             }
                         </tbody>
                     </table>
-                    <h4>Tổng tiền công: &ensp; @totalCost</h4>
+                    <h4>Tổng tiền công: &ensp; @moneyCost</h4>
                 </div>
             </div>
             <div class="col-md-6 material">
@@ -207,10 +214,11 @@
 
                                     }
                                 }
+                                var moneyMaterial = String.Format(info, "{0:c}", totalMaterial);
                             }
                         </tbody>
                     </table>
-                    <h4>Tổng tiền vật tư: &ensp;@totalMaterial</h4>
+                    <h4>Tổng tiền vật tư: &ensp;@moneyMaterial</h4>
                 </div>
             </div>
         </div>
@@ -218,19 +226,21 @@
 
     @{
         int? total = totalCost + totalMaterial;
-        int? paid = Model.Paid;
-        int? owe = total - paid;
+        int? p = Model.Paid;
+        int? owe = total - p;
+        var totalMoney = String.Format(info, "{0:c}", total);
+        var oweMoney = String.Format(info, "{0:c}", owe);
     }
     <div class="row">
         <div class="col-md-12">
             <div class="table-area row">
-                <div class="col-md-4">
-                    <h4 style="color: #ff870c">Tổng chi phí phải thanh toán: &ensp; @total</h4>
+                <div class="col-md-5">
+                    <h4 style="color: #ff870c">Tổng chi phí phải thanh toán: &ensp; @totalMoney</h4>
                 </div>
                 <div class="col-md-3">
-                    <h4 style="color: #c50c0c">Còn nợ: &ensp; @owe</h4>
+                    <h4 style="color: #c50c0c">Còn nợ: &ensp; @oweMoney</h4>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <a class="btn btn-sm btn-warning owebtn" data-id-edit="@Model.IdRepair" data-toggle='modal' data-target='#editModal'>Trả nợ</a>
                 </div>
                 <div class="col-md-2">

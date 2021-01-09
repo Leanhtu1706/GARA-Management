@@ -157,6 +157,8 @@ namespace GaraManagement.Controllers
             var supplier = await _context.Suppliers.FindAsync(id);
             _context.Suppliers.Remove(supplier);
             await _context.SaveChangesAsync();
+            HttpContext.Session.SetString("SuccessMessage", "Xóa thành công");
+
             return RedirectToAction(nameof(Index));
         }
 

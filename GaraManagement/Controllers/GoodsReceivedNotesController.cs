@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GaraManagement.Models;
 using X.PagedList;
+using Microsoft.AspNetCore.Http;
 
 namespace GaraManagement.Controllers
 {
@@ -23,6 +24,11 @@ namespace GaraManagement.Controllers
         public IActionResult Index(string search)
         {
 
+            if (HttpContext.Session.GetString("SuccessMessage") != null)
+            {
+                ViewBag.SuccessMessage = HttpContext.Session.GetString("SuccessMessage");
+                HttpContext.Session.Remove("SuccessMessage");
+            }
             ViewData["GetTextSearch"] = search;
             if (!string.IsNullOrEmpty(search))
             {
@@ -164,6 +170,8 @@ namespace GaraManagement.Controllers
             var goodsReceivedNote = await _context.GoodsReceivedNotes.FindAsync(id);
             _context.GoodsReceivedNotes.Remove(goodsReceivedNote);
             await _context.SaveChangesAsync();
+            HttpContext.Session.SetString("SuccessMessage", "Xóa thành công");
+
             return RedirectToAction(nameof(Index));
         }
 

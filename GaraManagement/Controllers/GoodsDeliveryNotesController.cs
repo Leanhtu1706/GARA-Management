@@ -23,7 +23,11 @@ namespace GaraManagement.Controllers
         // GET: GoodsDeliveryNotes
         public IActionResult Index(string search)
         {
-
+            if (HttpContext.Session.GetString("SuccessMessage") != null)
+            {
+                ViewBag.SuccessMessage = HttpContext.Session.GetString("SuccessMessage");
+                HttpContext.Session.Remove("SuccessMessage");
+            }
             ViewData["GetTextSearch"] = search;
             if (!string.IsNullOrEmpty(search))
             {

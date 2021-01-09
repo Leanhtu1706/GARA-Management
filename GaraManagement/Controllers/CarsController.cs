@@ -242,6 +242,7 @@ namespace GaraManagement.Controllers
             var car = await _context.Cars.FindAsync(id);
             _context.Cars.Remove(car);
             await _context.SaveChangesAsync();
+            HttpContext.Session.SetString("SuccessMessage", "Xóa thành công");
 
             return RedirectToAction(nameof(Index));
         }

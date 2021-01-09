@@ -216,6 +216,7 @@ namespace GaraManagement.Controllers
             var employee = await _context.Employees.FindAsync(id);
             _context.Employees.Remove(employee);
             await _context.SaveChangesAsync();
+            HttpContext.Session.SetString("SuccessMessage", "Xóa thành công");
 
             return RedirectToAction(nameof(Index));
         }

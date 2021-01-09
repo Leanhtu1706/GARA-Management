@@ -180,6 +180,8 @@ namespace GaraManagement.Controllers
                     _context.Materials.Remove(item);
                 }
                 await _context.SaveChangesAsync();
+                HttpContext.Session.SetString("SuccessMessage", "Xóa thành công");
+
             }
             catch
             {

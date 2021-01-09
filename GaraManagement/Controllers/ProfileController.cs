@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 using GaraManagement.Models;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
+using System.Text;
+using System.Security.Cryptography;
 
 namespace GaraManagement.Controllers
 {
@@ -20,6 +22,19 @@ namespace GaraManagement.Controllers
         {
             _context = context;
             this._hostEnvironment = hostEnvironment;
+        }
+        // Convert text to MD5
+        public static string MD5Hash(string input)
+        {
+            StringBuilder hash = new StringBuilder();
+            MD5CryptoServiceProvider md5provider = new MD5CryptoServiceProvider();
+            byte[] bytes = md5provider.ComputeHash(new UTF8Encoding().GetBytes(input));
+
+            for (int i = 0; i < bytes.Length; i++)
+            {
+                hash.Append(bytes[i].ToString("x2"));
+            }
+            return hash.ToString();
         }
         public IActionResult Index()
         {
@@ -35,8 +50,8 @@ namespace GaraManagement.Controllers
                 ViewBag.SuccessMessage = HttpContext.Session.GetString("SuccessMessage");
                 HttpContext.Session.Remove("SuccessMessage");
             }
-            var profile =  _context.Accounts.Include(a=>a.IdEmployeeNavigation).Where(a=>a.UserName == username && a.Password == password).FirstOrDefault();
-            
+            var profile = _context.Accounts.Include(a => a.IdEmployeeNavigation).Where(a => a.UserName == username && a.Password == password).FirstOrDefault();
+
             ViewBag.image = profile.IdEmployeeNavigation.Image;
             if (profile == null)
             {
@@ -99,9 +114,67 @@ namespace GaraManagement.Controllers
             }
             return View(employee);
         }
+
+        public async Task<IActionResult> UpdatePassword(int? idEmployee, string layout = "_")
+        {
+            ViewData["Layout"] = layout == "_" ? "" : layout;
+            if (idEmployee == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                var acc = await _context.Accounts.Where(a => a.IdEmployee == idEmployee).FirstOrDefaultAsync();
+                if (acc != null)
+                {
+                    return View(acc);
+                }
+                return NotFound();
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UpdatePassword(string userName, Account account)
+        {
+            if (userName != account.UserName)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(account);
+                    await _context.SaveChangesAsync();
+
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!AccountExists(account.UserName))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+
+                return RedirectToAction("Index","Login");
+            }
+            return View(account);
+        }
+        private bool AccountExists(string userName)
+        {
+            return _context.Accounts.Any(e => e.UserName == userName);
+        }        
         private bool EmployeeExists(int? id)
         {
             return _context.Employees.Any(e => e.Id == id);
         }
+
+
     }
 }

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GaraManagement.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace GaraManagement.Controllers
 {
@@ -21,6 +22,11 @@ namespace GaraManagement.Controllers
         // GET: Pays
         public async Task<IActionResult> Index()
         {
+            if (HttpContext.Session.GetString("SuccessMessage") != null)
+            {
+                ViewBag.SuccessMessage = HttpContext.Session.GetString("SuccessMessage");
+                HttpContext.Session.Remove("SuccessMessage");
+            }
             var garaContext = _context.Pays.Include(p => p.IdRepairNavigation);
             return View(await garaContext.ToListAsync());
         }
@@ -70,6 +76,8 @@ namespace GaraManagement.Controllers
             {
                 _context.Add(pay);
                 await _context.SaveChangesAsync();
+                HttpContext.Session.SetString("SuccessMessage", "Thêm mới biên lai thành công");
+
                 return RedirectToAction(nameof(Index));
             }
             ViewData["IdRepair"] = new SelectList(_context.Repairs, "Id", "Id", pay.IdRepair);
@@ -112,6 +120,8 @@ namespace GaraManagement.Controllers
                     pay.Paid += pay.owe;
                     pay.Update_at = DateTime.Now;
                     _context.Update(pay);
+                    HttpContext.Session.SetString("SuccessMessage", "Cập nhật thành công");
+
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -160,6 +170,8 @@ namespace GaraManagement.Controllers
             var pay = await _context.Pays.FindAsync(id);
             _context.Pays.Remove(pay);
             await _context.SaveChangesAsync();
+            HttpContext.Session.SetString("SuccessMessage", "Xóa thành công");
+
             return RedirectToAction(nameof(Index));
         }
 

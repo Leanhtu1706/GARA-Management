@@ -55,7 +55,7 @@
                                         <label asp-for="ContractStartDate" class="control-label"></label>
                                     </div>
                                     <div class="col-md-8">
-                                        <input asp-for="ContractStartDate" class="form-control" />
+                                        <input asp-for="ContractStartDate" class="form-control" readonly />
                                         <span asp-validation-for="ContractStartDate" class="text-danger"></span>
                                     </div>
                                 </div>
@@ -73,7 +73,7 @@
                                         <label asp-for="Salary" class="control-label"></label>
                                     </div>
                                     <div class="col-md-8">
-                                        <input asp-for="Salary" class="form-control" />
+                                        <input asp-for="Salary" class="form-control" readonly />
                                         <span asp-validation-for="Salary" class="text-danger"></span>
                                     </div>
                                 </div>
@@ -118,17 +118,41 @@
                                         <input type="submit" class="btn update" value="Cập nhật" />
                                     </div>
                                 </div>
+                                <a href="#" class="edit-btn" data-id="@Model.Id">Đổi mật khẩu</a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-          
         </form>
     </div>
 </div>
 
-
+<div id="editModal" class="modal fade col-md-12" tabindex="-1" role="dialog">
+    <div class="modal-dialog w-full" style="max-width: 60%;" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>Edit Supplies</h4>
+            </div>
+            <div class="modal-body">
+                <div class="spinner overlay-loading">
+                    <span></span>
+                    <span class="rect2"></span>
+                    <span class="rect3"></span>
+                    <span class="rect4"></span>
+                    <span class="rect5"></span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="modal-actions col-md-offset-3 col-md-9">
+                    <button icon-name="action-cancel" name="close" class="btn btn-default" data-dismiss="modal">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- Style and Js-->
 <style>
@@ -175,13 +199,38 @@
     $(document).ready(function () {
         $('.nav .subAccount').toggleClass("show");
         $('.sidebar-wrapper .nav li a .account').toggleClass("rotate");
+
+         if ('@ViewBag.SuccessMessage' != "")
+        {
+            $.bootstrapGrowl('@ViewBag.SuccessMessage', {
+                type: 'success',
+                align: 'center',
+                delay: 2000,
+                stackup_spacing: 30
+            });
+        }
     });
     $('#uploadFile').change(function (e) {
         var path = "../assets/img/" + e.target.files[0].name;
         $(".image-edit").attr("src", path);
     });
 
-
+     $(".edit-btn").click(function () {
+        console.log("shown modal event", event);
+        var idEmployee = $(this).attr("data-id");
+        $.ajax({
+            /**/
+            url: '@Url.Action("UpdatePassword")',
+            /**/
+            type: "GET",
+            data: { idEmployee: idEmployee, layout: "_ModalLayout" },
+            success: function (data) {
+                $("#editModal").modal('show');
+                console.log("data:", data);
+                $("#editModal .modal-content").html(data);
+            }
+        });
+     });
 </script>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

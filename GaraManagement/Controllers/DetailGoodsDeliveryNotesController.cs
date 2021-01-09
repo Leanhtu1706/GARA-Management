@@ -172,6 +172,8 @@ namespace GaraManagement.Controllers
             _context.DetailGoodsDeliveryNotes.Remove(detailGoodsDeliveryNote);
             await _context.SaveChangesAsync();
             var idRepair = _context.GoodsDeliveryNotes.Include(a => a.IdRepairNavigation).Where(a => a.Id == detailGoodsDeliveryNote.IdGoodsDeliveryNote).FirstOrDefault().IdRepair;
+            HttpContext.Session.SetString("SuccessMessage", "Xóa thành công");
+
             return Json(new { redirectToUrl = Url.Action("Details", "Repairs", new { id = idRepair }) });
         }
 

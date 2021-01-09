@@ -20,6 +20,8 @@ namespace GaraManagement.Controllers
         {
             _context = context;
         }
+
+        // Convert text to MD5
         public static string MD5Hash(string input)
         {
             StringBuilder hash = new StringBuilder();

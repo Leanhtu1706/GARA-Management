@@ -165,6 +165,8 @@ namespace GaraManagement.Controllers
             var detailRepair = await _context.DetailRepairs.Where(d=>d.IdRepair == idRepair && d.IdWork == idWork).FirstOrDefaultAsync();
             _context.DetailRepairs.Remove(detailRepair);
             await _context.SaveChangesAsync();
+            HttpContext.Session.SetString("SuccessMessage", "Xóa thành công");
+
             return Json(new { redirectToUrl = Url.Action("Details", "Repairs", new { id = detailRepair.IdRepair }) });
         }
 

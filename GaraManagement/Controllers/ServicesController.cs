@@ -161,6 +161,7 @@ namespace GaraManagement.Controllers
             }
             
             await _context.SaveChangesAsync();
+            HttpContext.Session.SetString("SuccessMessage", "Xóa thành công");
 
             return Json(new { redirectToUrl = Url.Action("Index", "Services") });
             //return Json(Url.Action("Index", "Services"));

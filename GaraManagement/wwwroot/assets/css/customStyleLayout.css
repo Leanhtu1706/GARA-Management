@@ -23,10 +23,7 @@ hr.hr-text.hr-detail {
     position: relative;
     border-top: 2px solid #008bd7;
 }
-hr.hr-text.hr-edit {
-    position: relative;
-    border-top: 2px solid #e07928;
-}
+
 hr.hr-text::before {
     content: attr(data-content);
     display: inline-block;
@@ -46,9 +43,7 @@ hr.hr-text.hr-delete::before {
 hr.hr-text.hr-detail::before {
     background: #008bd7;
 }
-hr.hr-text.hr-edit::before {
-    background: #e07928;
-}
+
 
 .view-detail{
     margin-top:30px;

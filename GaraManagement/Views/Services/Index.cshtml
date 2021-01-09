@@ -16,10 +16,10 @@
     </div>
     <div class="row custyle">
         <div class="row create">
-            <div class="col-md-8">
+            <div class="col-md-9">
                 @{await Html.RenderPartialAsync("_CreatePartialView", new Service());}
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="action-button">
                     <button id="create-btn" type="button" class="btn btn-success"> [Create] </button>
                     <button id="edit-btn" type="button" class="btn btn-warning"> [Edit] </button>
@@ -29,38 +29,40 @@
                 </div>
             </div>
         </div>
-        <table class="table" id="table1">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Name)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Description)
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
+        <div class="container-fluid table-area">
+            <table class="table" id="table1">
+                <thead>
                     <tr>
-                        <td>
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" value="@item.Id" id="@item.Id">
-                                <label class="custom-control-label" for="@item.Id"></label>
-                            </div>
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Name)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Description)
-                        </td>
+                        <th></th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Name)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Description)
+                        </th>
                     </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" value="@item.Id" id="@item.Id">
+                                    <label class="custom-control-label" for="@item.Id"></label>
+                                </div>
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Description)
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
 
 </div>
