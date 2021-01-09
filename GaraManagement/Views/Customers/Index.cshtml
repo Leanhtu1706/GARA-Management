@@ -74,7 +74,7 @@
                                 <a class="btn btn-sm btn-warning edit-btn" data-toggle='modal' data-target='#editModal' data-id="@item.Id">Sửa</a> |
                                 <a class="btn btn-sm btn-info" asp-action="Details" asp-route-id="@item.Id">Chi tiết</a> |
                                 <a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-id="@item.Id">Xóa</a> |
-                                <a class="btn btn-sm btn-primary car-customer" name="@item.Id" style="width:40px;"><i class="fas fa-car"></i></a>
+                                <a class="btn btn-sm btn-primary car-customer" asp-controller="Cars" asp-action="Index" asp-route-idCustomer="@item.Id" style="width:40px;"><i class="fas fa-car"></i></a>
                             </td>
                         </tr>
                     }
@@ -212,7 +212,7 @@
         window.location = "Customers";
     });
 
-    $(".car-customer").click(function () {
+    @*$(".car-customer").click(function () {
         var idCus = $(this).attr('name');
         console.log("id Customer:", idCus);
         $.ajax({
@@ -224,6 +224,6 @@
                 $("body").html(data);
             }
         });
-    });
+    });*@
 
 </script>

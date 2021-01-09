@@ -230,8 +230,11 @@
                 <div class="col-md-3">
                     <h4 style="color: #c50c0c">Còn nợ: &ensp; @owe</h4>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-3">
                     <a class="btn btn-sm btn-warning owebtn" data-id-edit="@Model.IdRepair" data-toggle='modal' data-target='#editModal'>Trả nợ</a>
+                </div>
+                <div class="col-md-2">
+                    <a class="btn btn-sm btn-danger delete-btn" data-id="@Model.Id">Xóa biên lai</a>
                 </div>
             </div>
         </div>
@@ -265,6 +268,32 @@
     </div>
 </div>
 
+@* Modal delete *@
+<div id="deleteConfirmModal" class="modal fade" role="dialog">
+    <div class="modal-dialog delete">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 style="color:black;" class="modal-title">Are you sure?</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-action">
+                <div class="modal-actions col-md-7 offset-5">
+
+                    <form class="form-horizontal" asp-action="DeleteConfirmed">
+                        <input id="delete-input" name="Id" type="hidden" />
+                        <a asp-action="Index" icon-name="action-cancel" class="btn btn-default" data-dismiss="modal" data-target="#deleteConfirmModal">
+                            Thoát
+                        </a>
+                        <button type="submit" icon-name="action-delete" class="btn btn-danger">
+                            Xóa
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <style>
     h5 {
@@ -318,7 +347,7 @@
             {
                 "lengthChange": false, //Hide the Show Entries dropdown
                 "bInfo": false,
-                scrollY: 280,
+                scrollY: 270,
                 bFilter: false,
                 "bPaginate": false
             });
@@ -326,7 +355,7 @@
             {
                 "lengthChange": false, //Hide the Show Entries dropdown
                 "bInfo": false,
-                scrollY: 280,
+                scrollY: 270,
                 bFilter: false,
                 //scrollCollapse: true,
                 //scroller: true
@@ -349,5 +378,22 @@
             }
         });
     });
+
+    $(".delete-btn").click(function () {
+        console.log("shown modal event", event);
+         var payId = $(this).attr("data-id");
+        $.ajax({
+            /**/
+            url: '@Url.Action("Delete")',
+            /**/
+            type: "GET",
+            data: { id: payId },
+            success: function (data) {
+                $("#deleteConfirmModal").modal('show');
+                console.log("ViewData:", data);
+                $("#delete-input").val(data);
+            }
+        });
+     });
 
 </script>

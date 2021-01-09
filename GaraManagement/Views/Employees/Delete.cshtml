@@ -1,96 +1,96 @@
 ﻿@model GaraManagement.Models.Employee
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Xóa nhân viên";
 }
 
-    <div class="view-delete">
+<hr data-content="@ViewData["Title"]" class="hr-text hr-delete">
 
-        <h2 class="title">Xóa nhân viên</h2>
+<div class="view-delete">
 
-        <h3>Bạn có chắc muốn xóa nhân viên này?</h3>
+
+    <h3>Bạn có chắc muốn xóa nhân viên này?</h3>
+    <div>
+
+        <dl class="row">
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.Name)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.DateOfBirth)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.DateOfBirth)
+            </dd>
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.ContractStartDate)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.ContractStartDate)
+            </dd>
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.Salary)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.Salary)
+            </dd>
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.Phone)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.Phone)
+            </dd>
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.Address)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.Address)
+            </dd>
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.IdentityCardNumber)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.IdentityCardNumber)
+            </dd>
+            <dt class="col-sm-4">
+                @Html.DisplayNameFor(model => model.Department)
+            </dt>
+            <dd class="col-sm-8">
+                @Html.DisplayFor(model => model.Department)
+            </dd>
+        </dl>
+        <hr />
         <div>
-            <h4>Employee</h4>
-            <hr />
-            <dl class="row">
-                <dt class="col-sm-4">
-                    @Html.DisplayNameFor(model => model.Name)
-                </dt>
-                <dd class="col-sm-8">
-                    @Html.DisplayFor(model => model.Name)
-                </dd>
-                <dt class="col-sm-4">
-                    @Html.DisplayNameFor(model => model.DateOfBirth)
-                </dt>
-                <dd class="col-sm-8">
-                    @Html.DisplayFor(model => model.DateOfBirth)
-                </dd>
-                <dt class="col-sm-4">
-                    @Html.DisplayNameFor(model => model.ContractStartDate)
-                </dt>
-                <dd class="col-sm-8">
-                    @Html.DisplayFor(model => model.ContractStartDate)
-                </dd>
-                <dt class="col-sm-4">
-                    @Html.DisplayNameFor(model => model.Salary)
-                </dt>
-                <dd class="col-sm-8">
-                    @Html.DisplayFor(model => model.Salary)
-                </dd>
-                <dt class="col-sm-4">
-                    @Html.DisplayNameFor(model => model.Phone)
-                </dt>
-                <dd class="col-sm-8">
-                    @Html.DisplayFor(model => model.Phone)
-                </dd>
-                <dt class="col-sm-4">
-                    @Html.DisplayNameFor(model => model.Address)
-                </dt>
-                <dd class="col-sm-8">
-                    @Html.DisplayFor(model => model.Address)
-                </dd>
-                <dt class="col-sm-4">
-                    @Html.DisplayNameFor(model => model.IdentityCardNumber)
-                </dt>
-                <dd class="col-sm-8">
-                    @Html.DisplayFor(model => model.IdentityCardNumber)
-                </dd>
-                <dt class="col-sm-4">
-                    @Html.DisplayNameFor(model => model.Department)
-                </dt>
-                <dd class="col-sm-8">
-                    @Html.DisplayFor(model => model.Department)
-                </dd>
-            </dl>
-            <hr />
-            <div>
-                <a icon-name="action-delete" class="btn btn-danger" data-target="#deleteConfirmModal" data-toggle="modal">Delete</a> |
-                <a asp-action="Index">Back to List</a>
-            </div>
+            <a icon-name="action-delete" class="btn btn-danger" data-target="#deleteConfirmModal" data-toggle="modal">Delete</a> |
+            <a asp-action="Index">Back to List</a>
         </div>
+    </div>
 
-        <div id="deleteConfirmModal" class="modal fade" role="dialog">
-            <div class="modal-dialog delete">
-                <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 style="color:black;" class="modal-title">Are you sure?</h4>
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    </div>
-                    <div class="modal-action">
-                        <form class="form-horizontal" asp-action="Delete">
-                            <input type="hidden" asp-for="Id" />
-                            <div class="modal-actions col-md-7 offset-5">
-                                <a asp-action="Index" icon-name="action-cancel" class="btn btn-default" data-dismiss="modal" data-target="#deleteConfirmModal">
-                                    Cancel
-                                </a>
-                                <button type="submit" icon-name="action-delete" class="btn btn-danger">
-                                    Delete
-                                </button>
-                            </div>
-                        </form>
-                    </div>
+    <div id="deleteConfirmModal" class="modal fade" role="dialog">
+        <div class="modal-dialog delete">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 style="color:black;" class="modal-title">Are you sure?</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-action">
+                    <form class="form-horizontal" asp-action="Delete">
+                        <input type="hidden" asp-for="Id" />
+                        <div class="modal-actions col-md-7 offset-5">
+                            <a asp-action="Index" icon-name="action-cancel" class="btn btn-default" data-dismiss="modal" data-target="#deleteConfirmModal">
+                                Cancel
+                            </a>
+                            <button type="submit" icon-name="action-delete" class="btn btn-danger">
+                                Delete
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
+</div>

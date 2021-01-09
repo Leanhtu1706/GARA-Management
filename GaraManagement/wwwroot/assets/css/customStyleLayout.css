@@ -15,6 +15,47 @@
 .c-subheader{
     margin-bottom: 8px;
 }
+hr.hr-text.hr-delete {
+    position: relative;
+    border-top: 2px solid #c52b2b;
+}
+hr.hr-text.hr-detail {
+    position: relative;
+    border-top: 2px solid #008bd7;
+}
+hr.hr-text.hr-edit {
+    position: relative;
+    border-top: 2px solid #e07928;
+}
+hr.hr-text::before {
+    content: attr(data-content);
+    display: inline-block;
+    font-weight: bold;
+    font-size: 0.85rem;
+    color: #fff;
+    border-radius: 30rem;
+    padding: 0.2rem 2rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+hr.hr-text.hr-delete::before {
+    background: #c52b2b;
+}
+hr.hr-text.hr-detail::before {
+    background: #008bd7;
+}
+hr.hr-text.hr-edit::before {
+    background: #e07928;
+}
+
+.view-detail{
+    margin-top:30px;
+}
+.select2-container {
+    width: 100% !important;
+}
 /* Xử lý style cho bảng*/
 .table-area {
     background-color: white;
@@ -418,5 +459,5 @@ img.image-logo {
 
 /*repair*/
 .row.close-btn {
-    margin: 0 150px;
+    margin: 0 0px;
 }

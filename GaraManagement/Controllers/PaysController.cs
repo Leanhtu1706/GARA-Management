@@ -52,9 +52,9 @@ namespace GaraManagement.Controllers
         }
 
         // GET: Pays/Create
-        public IActionResult Create(int idRepair, string layout = "_")
+        public IActionResult Create(string layout = "_")
         {
-            ViewData["IdRepair"] = idRepair;
+            ViewData["IdRepair"] = new SelectList(_context.Repairs, "Id","Id");
             ViewData["Layout"] = layout == "_" ? "" : layout;
             return View();
         }
@@ -141,18 +141,20 @@ namespace GaraManagement.Controllers
 
             var pay = await _context.Pays
                 .Include(p => p.IdRepairNavigation)
+                .Include(r => r.IdRepairNavigation.IdCarNavigation)
+                .ThenInclude(r => r.IdCustomerNavigation)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (pay == null)
             {
                 return NotFound();
             }
 
-            return View(pay);
+            return Json(id);
+            
         }
 
         // POST: Pays/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
+        [HttpPost]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var pay = await _context.Pays.FindAsync(id);

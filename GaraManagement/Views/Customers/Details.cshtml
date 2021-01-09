@@ -1,14 +1,14 @@
 ﻿@model GaraManagement.Models.Customer
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Chi tiết thông tin khách hàng";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<hr data-content="@ViewData["Title"]" class="hr-text hr-detail">
 
 <div class="view-detail">
-    <h2 class="title">Chi tiết thông tin khách hàng</h2>
-    <hr />
+
     <dl class="row">
         <dt class="col-sm-4">
             @Html.DisplayNameFor(model => model.Name)

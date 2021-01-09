@@ -78,7 +78,7 @@
                                                 <i class="fas fa-ellipsis-h"></i>
                                             </button>
                                             <div id="drop-menu" class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                                                <a class="dropdown-item" asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-edit"></i>Sửa</a>
+                                                <a class="dropdown-item edit-btn" data-id="@item.Id"><i class="fas fa-edit"></i>Sửa</a>
                                                 <a class="dropdown-item" asp-action="Details" asp-route-id="@item.Id"><i class="fas fa-info-circle"></i>Chi tiết</a>
                                                 <a class="dropdown-item delete-btn" data-id="@item.Id"><i class="far fa-trash-alt"></i>Xóa</a>
                                             </div>
@@ -183,6 +183,31 @@
         </div>
     </div>
 </div>
+<div id="editModal" class="modal fade col-md-12" tabindex="-1" role="dialog">
+    <div class="modal-dialog w-full" style="max-width: 80%;" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>Edit Supplies</h4>
+            </div>
+            <div class="modal-body">
+                <div class="spinner overlay-loading">
+                    <span></span>
+                    <span class="rect2"></span>
+                    <span class="rect3"></span>
+                    <span class="rect4"></span>
+                    <span class="rect5"></span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="modal-actions col-md-offset-3 col-md-9">
+                    <button icon-name="action-cancel" name="close" class="btn btn-default" data-dismiss="modal">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <style>
 
@@ -249,12 +274,6 @@
 
     .input-group {
         max-width: 100%;
-    }
-
-    .form-group {
-        position: relative;
-        margin: 0;
-        padding: 0;
     }
 
     .filter .table-area {
@@ -327,6 +346,23 @@
         }
 
     });
+    // edit modal
+    $(".edit-btn").click(function () {
+        console.log("shown modal event", event);
+        var id = $(this).attr("data-id");
+        $.ajax({
+            /**/
+            url: '@Url.Action("Edit")',
+            /**/
+            type: "GET",
+            data: { id: id, layout: "_ModalLayout" },
+            success: function (data) {
+                $("#editModal").modal('show');
+                console.log("data:", data);
+                $("#editModal .modal-content").html(data);
+            }
+        });
+     });
 
     //delete btn
      $(".delete-btn").click(function () {

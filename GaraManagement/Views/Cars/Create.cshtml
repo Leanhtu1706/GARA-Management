@@ -1,27 +1,14 @@
 ﻿@model GaraManagement.Models.Car
 @{
-    ViewData["Title"] = "Create car";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Thêm mới xe";
 }
-<script src="~/assets/js/core/jquery.min.js"></script>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
-<link href="~/assets/css/customStyleLayout.css" rel="stylesheet" />
 
-<div class="row create-edit">
-
+<div class="row divmodal">
     <form asp-action="Create" id="formCreate" enctype="multipart/form-data">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
         <div class="row">
-            <h2>Thêm mới xe</h2>
-        </div>
-        <hr />
-        <div class="btn-action">
-            <button icon-name="action-cancel" name="close" class="btn btn-default closeBtn" asp-action="Index">Close</button>
-            <input type="submit" class="btn btn-success" value="Save" />
-        </div>
-        <div class="row">
-            <div class="col-md-5">
+            <div class="col-md-6">
                 <div class="row form-group">
                     <div class="col-sm-4">
                         <label asp-for="IdCustomer" class="control-label">Khách hàng</label>
@@ -83,8 +70,13 @@
                 </div>
             </div>
         </div>
-
+        @*<div class="btn-action">
+                <input type="submit" class="btn btn-success" value="Save" />
+            </div>*@
     </form>
+    @*<div class="row close-btn">
+            <a class="btn btn-default closeBtn" asp-action="Index">Close</a>
+        </div>*@
 </div>
 
 
@@ -94,9 +86,21 @@
         $(".image-edit").attr("src", path);
     });
 
-    $("#select-customer").select2();
+    $('#select-customer').select2({
+        dropdownParent: $('#createModal')
+    });
 
 </script>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+@section actions {
+    <div class="modal-actions col-md-offset-3 col-md-9">
+        <button icon-name="action-cancel" name="close" class="btn btn-default" data-dismiss="modal">
+            Close
+        </button>
+        <button icon-name="action-save" name="submit" form="formCreate" class="btn btn-success">
+            Create
+        </button>
+    </div>
 }

@@ -1,13 +1,14 @@
 ﻿@model GaraManagement.Models.Work
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Chi tiết thông tin công việc";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<hr data-content="@ViewData["Title"]" class="hr-text hr-detail">
+
 <div class="view-detail">
-    <h2 class="title">Chi tiết thông tin công việc</h2>
-    <hr />
+
     <dl class="row">
         <dt class="col-sm-4">
             @Html.DisplayNameFor(model => model.WorkName)
@@ -33,7 +34,7 @@
         <dd class="col-sm-8">
             @Html.DisplayFor(model => model.IdServiceNavigation.Name)
         </dd>
-      
+
     </dl>
 </div>
 <div class="footer-detail">

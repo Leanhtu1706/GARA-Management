@@ -20,11 +20,11 @@
             @{
                 if (@ViewBag.IdCustomer != null)
                 {
-                    <a class="btn btn-sm btn-success create-btn-CusId" asp-action="Create" asp-route-idCustomer="@ViewBag.IdCustomer">Thêm xe cho khách hàng @ViewBag.CustomerName</a>
+                    <a class="btn btn-sm btn-success create-btn-cusId" data-id="@ViewBag.IdCustomer">Thêm xe cho khách hàng @ViewBag.CustomerName</a>
                 }
                 else
                 {
-                    <a class="btn btn-sm btn-success create-btn" asp-action="Create">Thêm mới xe</a>
+                    <a class="btn btn-sm btn-success create-btn">Thêm mới xe</a>
                 }
             }
 
@@ -58,7 +58,7 @@
                                             <i class="fas fa-ellipsis-h"></i>
                                         </button>
                                         <div id="drop-menu" class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                                            <a class="dropdown-item" asp-action="Edit" asp-route-id="@item.Id"><i class="fas fa-edit"></i>Sửa</a>
+                                            <a class="dropdown-item edit-btn" data-id="@item.Id"><i class="fas fa-edit"></i>Sửa</a>
                                             <a class="dropdown-item delete-btn" data-id="@item.Id"><i class="far fa-trash-alt"></i>Xóa</a>
                                             <a class="dropdown-item repairCar-btn" data-id="@item.Id" data-toggle='modal' data-target='#createRepairModal'><i class="fas fa-tools"></i>Sửa chữa</a>
                                         </div>
@@ -100,6 +100,58 @@
     </div>
 </div>
 
+
+@* View Modal*@
+<div id="createModal" class="modal fade col-md-12" tabindex="-1" role="dialog">
+    <div class="modal-dialog w-full" style="max-width: 80%;" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>Create New Employee</h4>
+            </div>
+            <div class="modal-body">
+                <div class="spinner overlay-loading">
+                    <span></span>
+                    <span class="rect2"></span>
+                    <span class="rect3"></span>
+                    <span class="rect4"></span>
+                    <span class="rect5"></span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="modal-actions col-md-offset-3 col-md-9">
+                    <button icon-name="action-cancel" name="close" class="btn btn-default" data-dismiss="modal">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="editModal" class="modal fade col-md-12" tabindex="-1" role="dialog">
+    <div class="modal-dialog w-full" style="max-width: 80%;" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4>Edit Supplies</h4>
+            </div>
+            <div class="modal-body">
+                <div class="spinner overlay-loading">
+                    <span></span>
+                    <span class="rect2"></span>
+                    <span class="rect3"></span>
+                    <span class="rect4"></span>
+                    <span class="rect5"></span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="modal-actions col-md-offset-3 col-md-9">
+                    <button icon-name="action-cancel" name="close" class="btn btn-default" data-dismiss="modal">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 @* View Modal*@
 <div id="createRepairModal" class="modal fade col-md-12" tabindex="-1" role="dialog">
     <div class="modal-dialog w-full" style="max-width: 30%;" role="document">
@@ -201,6 +253,40 @@
         window.location.href = "/Cars/Index";
     });
 
+     $(".create-btn").click(function () {
+        console.log("shown modal event", event);
+        $.ajax({
+            /**/
+            url: '@Url.Action("Create")',
+            /**/
+            type: "GET",
+            data: {layout: "_ModalLayout" },
+            success: function (data) {
+                $("#createModal").modal('show');
+                console.log("data:", data);
+                $("#createModal .modal-content").html(data);
+            }
+        });
+     });
+
+    $(".edit-btn").click(function () {
+        console.log("shown modal event", event);
+        var idCar = $(this).attr("data-id");
+        $.ajax({
+            /**/
+            url: '@Url.Action("Edit")',
+            /**/
+            type: "GET",
+            data: { id: idCar, layout: "_ModalLayout" },
+            success: function (data) {
+                $("#editModal").modal('show');
+                console.log("data:", data);
+                $("#editModal .modal-content").html(data);
+            }
+        });
+     });
+
+
      $(".delete-btn").click(function () {
         console.log("shown modal event", event);
          var carId = $(this).attr("data-id");
@@ -217,6 +303,24 @@
             }
         });
      });
+
+    $(".create-btn-cusId").click(function () {
+        console.log("shown modal event", event);
+         var cusId = $(this).attr("data-id");
+        $.ajax({
+            /**/
+            url: '@Url.Action("Create")',
+            /**/
+            type: "GET",
+            data: { idCustomer: cusId, layout: "_ModalLayout" },
+            success: function (data) {
+                $("#createModal").modal('show');
+                console.log("data:", data);
+                $("#createModal .modal-content").html(data);
+            }
+        });
+    });
+
 
      $(".repairCar-btn").click(function () {
          var idCar = $(this).attr('data-id');

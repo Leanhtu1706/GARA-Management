@@ -251,7 +251,7 @@ namespace GaraManagement.Models
                     .HasMaxLength(200)
                     .IsUnicode(false);
 
-                entity.Property(e => e.Name).HasMaxLength(20);
+                entity.Property(e => e.Name).HasMaxLength(50);
 
                 entity.Property(e => e.Unit).HasMaxLength(10);
 
@@ -275,9 +275,9 @@ namespace GaraManagement.Models
             {
                 entity.ToTable("Repair");
 
-                entity.Property(e => e.DateFinished).HasColumnType("date");
+                entity.Property(e => e.DateFinished).HasColumnType("datetime");
 
-                entity.Property(e => e.DateOfFactoryEntry).HasColumnType("date");
+                entity.Property(e => e.DateOfFactoryEntry).HasColumnType("datetime");
 
                 entity.HasOne(d => d.IdCarNavigation)
                     .WithMany(p => p.Repairs)

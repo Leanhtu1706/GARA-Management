@@ -32,12 +32,12 @@ namespace GaraManagement.Controllers
                 HttpContext.Session.Remove("SuccessMessage");
             }
 
-            if(!string.IsNullOrEmpty(search))
+            if (!string.IsNullOrEmpty(search))
             {
                 var garaContext = _context.Repairs.Include(r => r.IdCarNavigation).ThenInclude(r => r.IdCustomerNavigation).Where(r => r.IdCarNavigation.IdCustomerNavigation.Name.Contains(search) || r.IdCarNavigation.CarName.Contains(search) || r.IdCarNavigation.LicensePlates.Contains(search));
                 ViewData["GetTextSearch"] = search;
                 return View(await garaContext.ToListAsync());
-            }    
+            }
 
             if (date != null)
             {
@@ -132,7 +132,7 @@ namespace GaraManagement.Controllers
         }
 
         // GET: Repairs/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int? id, string layout = "_")
         {
             if (id == null)
             {
@@ -145,6 +145,7 @@ namespace GaraManagement.Controllers
                 return NotFound();
             }
             ViewData["IdCar"] = new SelectList(_context.Cars, "Id", "Id", repair.IdCar);
+            ViewData["Layout"] = layout == "_" ? "" : layout;
             return View(repair);
         }
 
@@ -212,17 +213,29 @@ namespace GaraManagement.Controllers
         {
             var repair = await _context.Repairs.FindAsync(id);
             var goodsDeliveryNote = _context.GoodsDeliveryNotes.Where(g => g.IdRepair == id).FirstOrDefault();
-            var detailGoodsDeliveryNote = _context.DetailGoodsDeliveryNotes.Include(dg => dg.IdGoodsDeliveryNoteNavigation).Where(dg => dg.IdGoodsDeliveryNote == goodsDeliveryNote.Id).ToList();
+            if(goodsDeliveryNote != null)
+            {
+                var detailGoodsDeliveryNote = _context.DetailGoodsDeliveryNotes.Include(dg => dg.IdGoodsDeliveryNoteNavigation).Where(dg => dg.IdGoodsDeliveryNote == goodsDeliveryNote.Id).ToList();
+                if (detailGoodsDeliveryNote.Any())
+                {
+                    foreach (var itemdg in detailGoodsDeliveryNote)
+                    {
+                        _context.DetailGoodsDeliveryNotes.Remove(itemdg);
+                    } 
+                }
+                _context.GoodsDeliveryNotes.Remove(goodsDeliveryNote);
+            }
             var detailRepair = _context.DetailRepairs.Where(dr => dr.IdRepair == id).ToList();
-            foreach(var itemdr in detailRepair)
+            if (detailRepair.Any())
             {
-                _context.DetailRepairs.Remove(itemdr);
-            }    
-            foreach(var itemdg in detailGoodsDeliveryNote)
-            {
-                _context.DetailGoodsDeliveryNotes.Remove(itemdg);
-            }    
-            _context.GoodsDeliveryNotes.Remove(goodsDeliveryNote);
+                foreach (var itemdr in detailRepair)
+                {
+                    _context.DetailRepairs.Remove(itemdr);
+                }
+            }
+
+           
+           
             _context.Repairs.Remove(repair);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
@@ -242,9 +255,9 @@ namespace GaraManagement.Controllers
                 .ThenInclude(r => r.IdMaterialNavigation)
                 .Include(r => r.DetailRepairs)
                 .ThenInclude(r => r.IdWorkNavigation)
-                .Include(r=>r.Pays)
+                .Include(r => r.Pays)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if(repair.Pays.Any())
+            if (repair.Pays.Any())
             {
                 ViewData["exists"] = "exists";
             }

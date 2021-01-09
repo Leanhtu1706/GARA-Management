@@ -1,15 +1,15 @@
 ﻿@model GaraManagement.Models.Supplier
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Xóa nhà cung cấp";
 }
 
+<hr data-content="@ViewData["Title"]" class="hr-text hr-delete">
+
 <div class="view-delete">
-    <h2 class="title">Xóa nhà cung cấp</h2>
 
     <h3>Bạn có chắc muốn xóa nhà cung cấp này?</h3>
     <div>
-        <hr />
         <dl class="row">
             <dt class="col-sm-2">
                 @Html.DisplayNameFor(model => model.Name)
