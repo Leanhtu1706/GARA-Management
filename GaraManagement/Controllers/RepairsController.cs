@@ -41,7 +41,7 @@ namespace GaraManagement.Controllers
 
             if (date != null)
             {
-                var garaContext = _context.Repairs.Include(r => r.IdCarNavigation).ThenInclude(r => r.IdCustomerNavigation).Where(r => r.DateOfFactoryEntry.ToString().Contains(date)).OrderByDescending(r => r.DateOfFactoryEntry);
+                var garaContext = _context.Repairs.Include(r => r.IdCarNavigation).ThenInclude(r => r.IdCustomerNavigation).Where(r => r.DateOfFactoryEntry == DateTime.Parse(date)).OrderByDescending(r => r.DateOfFactoryEntry);
                 return View(await garaContext.ToListAsync());
             }
             else if (state != null)

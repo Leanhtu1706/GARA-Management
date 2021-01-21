@@ -43,16 +43,7 @@
                         @Html.DisplayNameFor(model => model.Amount)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.Description)
-                    </th>
-                    <th>
                         @Html.DisplayNameFor(model => model.IdTypeNavigation.Name)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.CreateAt)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.UpdateAt)
                     </th>
                     <th class="col-action">Action</th>
                 </tr>
@@ -77,16 +68,7 @@
                             @Html.DisplayFor(modelItem => item.Amount)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Description)
-                        </td>
-                        <td>
                             @Html.DisplayFor(modelItem => item.IdTypeNavigation.Name)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CreateAt)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.UpdateAt)
                         </td>
                         <td class="action-button">
                             <a class="btn btn-sm btn-warning edit-btn" data-toggle='modal' data-target='#editModal' data-id="@item.Id">Sửa</a> |

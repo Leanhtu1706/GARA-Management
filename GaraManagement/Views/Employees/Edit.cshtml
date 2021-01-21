@@ -42,7 +42,7 @@
                     <div class="col-md-4">
                         <label asp-for="Gender" class="control-label"></label>
                     </div>
-                    <div class="col-md-8">
+                    <div class="col-md-7">
                         <select asp-for="Gender" asp-items="Enum.GetValues(typeof(GenderType)).Cast<GenderType>().Select(o => new SelectListItem { Text = o.ToString(), Value = ((int)o).ToString() })" class="form-control"></select>
                         <span asp-validation-for="Gender" class="text-danger"></span>
                     </div>

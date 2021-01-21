@@ -37,9 +37,6 @@
                             @Html.DisplayNameFor(model => model.DateOfBirth)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.ContractStartDate)
-                        </th>
-                        <th>
                             @Html.DisplayNameFor(model => model.Gender)
                         </th>
                         <th>
@@ -54,9 +51,6 @@
                         </th>*@
                         <th>
                             @Html.DisplayNameFor(model => model.IdentityCardNumber)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Department)
                         </th>
                         <th class="col-action">Action</th>
                     </tr>
@@ -75,9 +69,6 @@
                                 @Html.DisplayFor(modelItem => item.DateOfBirth)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.ContractStartDate)
-                            </td>
-                            <td>
                                 @Html.DisplayFor(modelItem => item.Gender)
                             </td>
                             <td>
@@ -91,9 +82,6 @@
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.IdentityCardNumber)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Department)
                             </td>
                             <td class="action-button">
                                 <a class="btn btn-sm btn-warning edit-btn" data-toggle='modal' data-target='#editModal' data-id="@item.Id">Sửa</a> |

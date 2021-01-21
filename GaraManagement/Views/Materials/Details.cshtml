@@ -11,7 +11,7 @@
 <div class="view-detail">
 
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-6">
             <dl class="row">
                 <dt class="col-sm-4">
                     @Html.DisplayNameFor(model => model.Name)
@@ -42,6 +42,18 @@
                 </dt>
                 <dd class="col-sm-8">
                     @Html.DisplayFor(model => model.Description)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.CreateAt)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.CreateAt)
+                </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.UpdateAt)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.UpdateAt)
                 </dd>
                 <dt class="col-sm-4">
                     @Html.DisplayNameFor(model => model.IdTypeNavigation.Name)
