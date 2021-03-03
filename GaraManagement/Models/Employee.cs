@@ -14,6 +14,7 @@ namespace GaraManagement.Models
         public Employee()
         {
             Accounts = new HashSet<Account>();
+            GoodsDeliveryNotes = new HashSet<GoodsDeliveryNote>();
         }
 
         public int Id { get; set; }

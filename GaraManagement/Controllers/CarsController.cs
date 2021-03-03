@@ -41,21 +41,21 @@ namespace GaraManagement.Controllers
             {
                 ViewBag.IdCustomer = idCustomer;
                 ViewBag.CustomerName = _context.Customers.Where(c => c.Id == idCustomer).Select(c=>c.Name).FirstOrDefault();
-                var carData = _context.Cars.Include(i => i.IdCustomerNavigation).Where(a => a.IdCustomerNavigation.Id == idCustomer);
+                var carData = _context.Cars.Include(i => i.IdCustomerNavigation).Include(i => i.IdCarModelNavigation).Where(a => a.IdCustomerNavigation.Id == idCustomer);
                 return View(carData.ToList());
             }    
             
-            if (!string.IsNullOrEmpty(search))
-            {
-                var carData = _context.Cars.Include(i => i.IdCustomerNavigation).Where(a => a.CarName.Contains(search) || a.Manufacturer.Contains(search) || a.IdCustomerNavigation.Name.Contains(search));
-                return View(carData.ToList());
-            }
+            //if (!string.IsNullOrEmpty(search))
+            //{
+            //    var carData = _context.Cars.Include(i => i.IdCustomerNavigation).Where(a => a.CarName.Contains(search) || a.Manufacturer.Contains(search) || a.IdCustomerNavigation.Name.Contains(search));
+            //    return View(carData.ToList());
+            //}
             else
             {
                 //Tí nhớ xóa 2 dòng này nha
                 //var customer = _context.Customers.Select(i => i.Name).ToList();
                 //ViewData["Customer"] = new SelectList(_context.Customers, "Id", "Name", customer);
-                var carData = _context.Cars.Include(c => c.IdCustomerNavigation);
+                var carData = _context.Cars.Include(c => c.IdCustomerNavigation).Include(i => i.IdCarModelNavigation);
                 return View(await carData.ToListAsync());
             }
         }
@@ -83,13 +83,14 @@ namespace GaraManagement.Controllers
         public IActionResult Create(int? idCustomer, string layout = "_")
         {
             ViewData["Layout"] = layout == "_" ? "" : layout;
+            ViewData["CarModel"] = new SelectList(_context.CarModels, "Id", "ModelName");
             if (idCustomer != null)
             {
                 ViewData["Customer"] = new SelectList(_context.Customers.Where(c=>c.Id == idCustomer), "Id", "Name");
             }
             else
             {
-                ViewData["Customer"] = new SelectList(_context.Customers, "Id", "Name");
+                ViewData["Customer"] = new SelectList(_context.Customers, "Id", "Name");             
             }
             return View();
         }
@@ -152,6 +153,7 @@ namespace GaraManagement.Controllers
             ViewBag.image = car.Image;
             ViewData["Layout"] = layout == "_" ? "" : layout;
             ViewData["Customer"] = new SelectList(_context.Customers, "Id", "Name", car.IdCustomer);
+            ViewData["CarModel"] = new SelectList(_context.CarModels, "Id", "ModelName");
             return View(car);
         }
 

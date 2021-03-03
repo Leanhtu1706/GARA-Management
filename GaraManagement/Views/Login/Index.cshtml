@@ -83,14 +83,15 @@ Author URL: http://w3layouts.com
                     console.log(data);
                     if (data == "error") {
                         alert("Đăng nhập thất bại mời thử lại!");
-                        //window.location.href = "Login";
                         console.log("Error");
                     }
                     else {
                         window.location.href = data.redirectToUrl;
                         console.log("Success");
                     }
-                }
+                },
+                error: function (data)
+                { console.log("Error", data); }
             });
         });
     </script>

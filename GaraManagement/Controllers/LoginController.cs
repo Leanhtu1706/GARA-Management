@@ -49,13 +49,15 @@ namespace GaraManagement.Controllers
             {
                 HttpContext.Session.SetString("SessionUserName", loginResult.UserName);
                 HttpContext.Session.SetString("SessionPassword", loginResult.Password);
-                HttpContext.Session.SetString("SessionName",loginResult.IdEmployeeNavigation.Name);
+                HttpContext.Session.SetString("SessionName", loginResult.IdEmployeeNavigation.Name);
                 HttpContext.Session.SetString("SessionAvatar", loginResult.IdEmployeeNavigation.Image);
-                return Json(new { redirectToUrl = Url.Action("Index", "Home")});
+                return Json(new { redirectToUrl = Url.Action("Index", "Home") });
 
             }
-
-            return Json("error");
+            else
+            {
+                return Json("error");
+            }
         }
 
     }

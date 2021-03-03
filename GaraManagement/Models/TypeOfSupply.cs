@@ -22,7 +22,6 @@ namespace GaraManagement.Models
         public DateTime? CreateAt { get; set; }
         [DisplayName("Ngày cập nhật")]
         public DateTime? UpdateAt { get; set; }
-
         public virtual ICollection<Material> Materials { get; set; }
     }
 }

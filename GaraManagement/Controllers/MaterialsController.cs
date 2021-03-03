@@ -52,12 +52,12 @@ namespace GaraManagement.Controllers
             
             if (!string.IsNullOrEmpty(search))
             {
-                var garaContext = _context.Materials.Include(s => s.IdTypeNavigation).Where(a => a.Name.Contains(search));
+                var garaContext = _context.Materials.Include(s => s.IdTypeNavigation).Include(s => s.PriceMaterials).Include(s => s.IdCarModelNavigation).Where(a => a.Name.Contains(search));
                 return View(garaContext.ToList());
             }
             else
             {
-                var garaContext = _context.Materials.Include(s => s.IdTypeNavigation);
+                var garaContext = _context.Materials.Include(s => s.IdTypeNavigation).Include(s => s.PriceMaterials).Include(s =>s.IdCarModelNavigation);
                 return View(garaContext.ToList());
             }
             
@@ -88,6 +88,7 @@ namespace GaraManagement.Controllers
             var type = _context.TypeOfSupplies.Select(i => i.Name).ToList();
             ViewData["Layout"] = layout == "_" ? "" : layout;
             ViewData["TypeName"] = new SelectList(_context.TypeOfSupplies, "Id", "Name", type);
+            ViewData["CarName"] = new SelectList(_context.CarModels, "Id", "ModelName");
             
             return View();
         }
@@ -124,6 +125,12 @@ namespace GaraManagement.Controllers
 
                 material.CreateAt = DateTime.Now;
                 _context.Add(material);
+                PriceMaterial priceMaterial = new PriceMaterial();
+                await _context.SaveChangesAsync();
+                priceMaterial.IdMaterial = material.Id;
+                priceMaterial.UpdateAt = DateTime.Now;
+                priceMaterial.Price = material.Price;
+                _context.Add(priceMaterial);
                 await _context.SaveChangesAsync();
                 HttpContext.Session.SetString("SuccessMessage", "Thêm mới thành công");
 
@@ -146,11 +153,14 @@ namespace GaraManagement.Controllers
             var image = _context.Materials.Where(a => a.Id == id).Select(i => i.Image).FirstOrDefault();
             ViewBag.image = image;
             var material = await _context.Materials.FindAsync(id);
+            var priceMaterial = await _context.PriceMaterials.Where(p => p.IdMaterial == material.Id).OrderByDescending(p => p.UpdateAt).FirstAsync();
+            material.Price = priceMaterial.Price;
             if (material == null)
             {
                 return NotFound();
             }
             ViewData["TypeName"] = new SelectList(_context.TypeOfSupplies, "Id", "Name", type);
+            ViewData["CarName"] = new SelectList(_context.CarModels, "Id", "ModelName");
             ViewData["Layout"] = layout == "_" ? "" : layout;
             return View(material);
         }
@@ -193,6 +203,17 @@ namespace GaraManagement.Controllers
                     material.UpdateAt = DateTime.Now;       
                     _context.Update(material);
                     await _context.SaveChangesAsync();
+                    var priceCheck = _context.PriceMaterials.Where(p => p.IdMaterial == material.Id).OrderByDescending(p => p.UpdateAt).First().Price;
+                    if(priceCheck != material.Price)
+                    {
+                        PriceMaterial priceMaterial = new PriceMaterial();
+                        priceMaterial.IdMaterial = material.Id;
+                        priceMaterial.UpdateAt = DateTime.Now;
+                        priceMaterial.Price = material.Price;
+                        _context.Add(priceMaterial);
+                        await _context.SaveChangesAsync();
+                    }
+                    
                     HttpContext.Session.SetString("SuccessMessage", "Cập nhật thành công");
 
                 }

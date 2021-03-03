@@ -174,6 +174,7 @@ namespace GaraManagement.Controllers
             var work = await _context.Works.FindAsync(id);
             _context.Works.Remove(work);
             await _context.SaveChangesAsync();
+            HttpContext.Session.SetString("SuccessMessage", "Xóa thành công");
             return RedirectToAction(nameof(Index));
         }
 

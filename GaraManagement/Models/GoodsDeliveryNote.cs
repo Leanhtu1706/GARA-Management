@@ -24,8 +24,8 @@ namespace GaraManagement.Models
         [DisplayName("Thời gian cập nhật")]
         public DateTime? UpdateAt { get; set; }
 
-        public virtual Repair IdRepairNavigation { get; set; }
         public virtual Employee IdEmployeeNavigation { get; set; }
+        public virtual Repair IdRepairNavigation { get; set; }
         public virtual ICollection<DetailGoodsDeliveryNote> DetailGoodsDeliveryNotes { get; set; }
     }
 }

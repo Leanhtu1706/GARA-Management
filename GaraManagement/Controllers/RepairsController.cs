@@ -31,27 +31,32 @@ namespace GaraManagement.Controllers
                 ViewBag.SuccessMessage = HttpContext.Session.GetString("SuccessMessage");
                 HttpContext.Session.Remove("SuccessMessage");
             }
+            if (HttpContext.Session.GetString("ErrorMessage") != null)
+            {
+                ViewBag.ErrorMessage = HttpContext.Session.GetString("ErrorMessage");
+                HttpContext.Session.Remove("ErrorMessage");
+            }
 
             if (!string.IsNullOrEmpty(search))
             {
-                var garaContext = _context.Repairs.Include(r => r.IdCarNavigation).ThenInclude(r => r.IdCustomerNavigation).Where(r => r.IdCarNavigation.IdCustomerNavigation.Name.Contains(search) || r.IdCarNavigation.CarName.Contains(search) || r.IdCarNavigation.LicensePlates.Contains(search));
+                var garaContext = _context.Repairs.Include(r => r.IdCarNavigation).ThenInclude(r => r.IdCustomerNavigation).Include(r => r.IdCarNavigation.IdCarModelNavigation).Where(r => r.IdCarNavigation.IdCustomerNavigation.Name.Contains(search) || r.IdCarNavigation.IdCarModelNavigation.ModelName.Contains(search) || r.IdCarNavigation.LicensePlates.Contains(search));
                 ViewData["GetTextSearch"] = search;
                 return View(await garaContext.ToListAsync());
             }
 
             if (date != null)
             {
-                var garaContext = _context.Repairs.Include(r => r.IdCarNavigation).ThenInclude(r => r.IdCustomerNavigation).Where(r => r.DateOfFactoryEntry == DateTime.Parse(date)).OrderByDescending(r => r.DateOfFactoryEntry);
+                var garaContext = _context.Repairs.Include(r => r.IdCarNavigation).ThenInclude(r => r.IdCustomerNavigation).Include(r => r.IdCarNavigation.IdCarModelNavigation).Where(r => r.DateOfFactoryEntry == DateTime.Parse(date)).OrderByDescending(r => r.DateOfFactoryEntry);
                 return View(await garaContext.ToListAsync());
             }
             else if (state != null)
             {
-                var garaContext = _context.Repairs.Include(r => r.IdCarNavigation).ThenInclude(r => r.IdCustomerNavigation).Where(r => r.State == state).OrderByDescending(r => r.DateOfFactoryEntry);
+                var garaContext = _context.Repairs.Include(r => r.IdCarNavigation).ThenInclude(r => r.IdCustomerNavigation).Include(r => r.IdCarNavigation.IdCarModelNavigation).Where(r => r.State == state.Value).OrderByDescending(r => r.DateOfFactoryEntry);
                 return View(await garaContext.ToListAsync());
             }
             else
             {
-                var garaContext = _context.Repairs.Include(r => r.IdCarNavigation).ThenInclude(r => r.IdCustomerNavigation).OrderByDescending(r => r.DateOfFactoryEntry);
+                var garaContext = _context.Repairs.Include(r => r.IdCarNavigation).ThenInclude(r => r.IdCustomerNavigation).Include(r => r.IdCarNavigation.IdCarModelNavigation).OrderByDescending(r => r.DateOfFactoryEntry);
                 return View(await garaContext.ToListAsync());
             }
 
@@ -73,6 +78,7 @@ namespace GaraManagement.Controllers
             var repair = await _context.Repairs
                 .Include(r => r.IdCarNavigation)
                 .ThenInclude(r => r.IdCustomerNavigation)
+                .Include(r => r.IdCarNavigation.IdCarModelNavigation)
                 .Include(r => r.GoodsDeliveryNotes)
                 .ThenInclude(r => r.DetailGoodsDeliveryNotes)
                 .ThenInclude(r => r.IdMaterialNavigation)
@@ -107,6 +113,12 @@ namespace GaraManagement.Controllers
         // GET: Repairs/Create
         public IActionResult Create(int idCar, string layout = "_")
         {
+            var existsRepair = _context.Repairs.Where(r => r.IdCar == idCar && r.State != StateType.completed).FirstOrDefault();
+            if(existsRepair != null)
+            {
+                HttpContext.Session.SetString("ErrorMessage", "Xe này đang ở trong xưởng");
+                return Json("false");
+            }    
             ViewData["Layout"] = layout == "_" ? "" : layout;
             ViewData["IdCar"] = idCar;
             return View();

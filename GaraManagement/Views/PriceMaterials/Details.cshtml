@@ -1,4 +1,4 @@
-﻿@model GaraManagement.Models.Car
+﻿@model GaraManagement.Models.PriceMaterial
 
 @{
     ViewData["Title"] = "Details";
@@ -7,27 +7,26 @@
 <h1>Details</h1>
 
 <div>
-    <h4>Car</h4>
+    <h4>PriceMaterial</h4>
     <hr />
     <dl class="row">
-        
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.LicensePlates)
+            @Html.DisplayNameFor(model => model.UpdateAt)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.LicensePlates)
+            @Html.DisplayFor(model => model.UpdateAt)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Color)
+            @Html.DisplayNameFor(model => model.Price)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Color)
+            @Html.DisplayFor(model => model.Price)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IdCustomerNavigation)
+            @Html.DisplayNameFor(model => model.IdMaterialNavigation)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IdCustomerNavigation.Id)
+            @Html.DisplayFor(model => model.IdMaterialNavigation.Id)
         </dd>
     </dl>
 </div>

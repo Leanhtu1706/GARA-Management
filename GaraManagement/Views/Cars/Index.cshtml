@@ -49,7 +49,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <h3 class="mt-0">
-                                            @item.CarName
+                                            @item.IdCarModelNavigation.ModelName
                                         </h3>
                                         <h4 style="color:#0f98ff;">@item.LicensePlates</h4>
                                     </div>
@@ -75,14 +75,7 @@
                                         <h4>@item.IdCustomerNavigation.Name</h4>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-3 left">
-                                        <p>Hãng:</p>
-                                    </div>
-                                    <div class="col-md-8 right">
-                                        <h4>@item.Manufacturer</h4>
-                                    </div>
-                                </div>
+                                
                                 <div class="row">
                                     <div class="col-md-3 left">
                                         <p>Màu:</p>
@@ -247,6 +240,7 @@
                 stackup_spacing: 30
             });
         }
+
     });
 
     $(".fa-backspace").click(function () {
@@ -333,6 +327,10 @@
              data: { idCar: idCar, layout: "_ModalLayout" },
              success: function (data) {
                  console.log("data view:", data);
+                 if (data == "false")
+                 {
+                     window.location.href = '/Repairs/Index';
+                 }
                 $("#createRepairModal .modal-content").html(data);
             }
         });

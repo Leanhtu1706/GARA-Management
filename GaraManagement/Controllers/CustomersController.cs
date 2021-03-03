@@ -35,7 +35,7 @@ namespace GaraManagement.Controllers
             ViewData["GetTextSearch"] = search;
             if (!string.IsNullOrEmpty(search))
             {
-                var garaContext = _context.Customers.Where(a => a.Name.Contains(search));
+                var garaContext = _context.Customers.Where(a => a.Name.Contains(search) || a.IdentityCardNumber == search || a.Phone == search);
                 return View(garaContext.ToList());
             }
             else

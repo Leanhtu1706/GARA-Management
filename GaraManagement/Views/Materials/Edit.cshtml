@@ -13,10 +13,18 @@
             <div class="col-md-8">
                 <div class="row form-group">
                     <div class="col-md-4">
-                        <label asp-for="IdType" class="control-label">Type</label>
+                        <label asp-for="IdType" class="control-label">Loại vật tư</label>
                     </div>
                     <div class="col-md-7">
                         <select asp-for="IdType" class="form-control" asp-items="ViewBag.TypeName"></select>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-sm-4">
+                        <label asp-for="IdCarModel" class="control-label">Dòng xe</label>
+                    </div>
+                    <div class="col-sm-7">
+                        <select id="select-carmodel" asp-for="IdCarModel" class="form-control" asp-items="ViewBag.CarName"></select>
                     </div>
                 </div>
                 <div class="row form-group">
@@ -38,10 +46,10 @@
                     </div>
                 </div>
                 <div class="row form-group">
-                    <div class="col-md-4">
-                        <label asp-for="Price" class="control-label"></label>
+                    <div class="col-sm-4">
+                        <label asp-for="Price" class="control-label" name="Name"></label>
                     </div>
-                    <div class="col-md-7">
+                    <div class="col-sm-7">
                         <input asp-for="Price" class="form-control" />
                         <span asp-validation-for="Price" class="text-danger"></span>
                     </div>
@@ -93,11 +101,15 @@
         </div>
     </form>
 </div>
-<script src="~/assets/js/core/jquery.min.js"></script>
+
 <script>
     $('#uploadFile').change(function (e) {
         var path = "../assets/img/" + e.target.files[0].name;
         $(".image-edit").attr("src", path);
+
+        $('#select-carmodel').select2({
+            dropdownParent: $('#editModal')
+        });
     });
 </script>
 @section Scripts {

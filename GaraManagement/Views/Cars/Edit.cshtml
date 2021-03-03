@@ -13,31 +13,21 @@
 
             <input type="hidden" asp-for="Id" />
             <div class="row">
-                <div class="col-md-5">
+                <div class="col-md-6">
                     <div class="row form-group">
                         <div class="col-sm-4">
                             <label asp-for="IdCustomer" class="control-label">Customer</label>
                         </div>
                         <div class="col-sm-8">
-                            <select id="select-customer" asp-for="IdCustomer" class="form-control" asp-items="ViewBag.Customer"></select>
+                            <select id="select-customer" class="custom-select" asp-for="IdCustomer"  asp-items="ViewBag.Customer"></select>
                         </div>
                     </div>
                     <div class="row form-group">
                         <div class="col-sm-4">
-                            <label asp-for="CarName" class="control-label" name="Name"></label>
+                            <label asp-for="IdCarModel" class="control-label">Dòng xe</label>
                         </div>
                         <div class="col-sm-8">
-                            <input asp-for="CarName" class="form-control" />
-                            <span asp-validation-for="CarName" class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div class="row form-group">
-                        <div class="col-sm-4">
-                            <label asp-for="Manufacturer" class="control-label" name="Name"></label>
-                        </div>
-                        <div class="col-sm-8">
-                            <input asp-for="Manufacturer" class="form-control" />
-                            <span asp-validation-for="Manufacturer" class="text-danger"></span>
+                            <select id="select-carmodel" class="custom-select" asp-for="IdCarModel" asp-items="ViewBag.CarModel"></select>
                         </div>
                     </div>
                     <div class="row form-group">
@@ -56,6 +46,15 @@
                         <div class="col-sm-8">
                             <input asp-for="Color" class="form-control" />
                             <span asp-validation-for="Color" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-sm-4">
+                            <label asp-for="Note" class="control-label" name="note"></label>
+                        </div>
+                        <div class="col-sm-8">
+                            <input asp-for="Note" class="form-control" />
+                            <span asp-validation-for="Note" class="text-danger"></span>
                         </div>
                     </div>
                 </div>
@@ -86,6 +85,9 @@
 
 
     $('#select-customer').select2({
+        dropdownParent: $('#editModal')
+    });
+    $('#select-carmodel').select2({
         dropdownParent: $('#editModal')
     });
 </script>

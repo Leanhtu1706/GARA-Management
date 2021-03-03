@@ -26,7 +26,7 @@ namespace GaraManagement
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();  // addController chỉ  để viết Controller API vì k có View.
-            var connection = "Server=DELL-LAT\\SQLEXPRESS;Database=Gara2;Trusted_Connection=True;";
+            var connection = "Server=DELL-LAT\\SQLEXPRESS;Database=Gara3;Trusted_Connection=True;";
             services.AddDbContext<GaraContext>(Options => Options.UseSqlServer(connection));
             services.AddSession(o => { 
                 o.IdleTimeout = TimeSpan.FromSeconds(1800); 

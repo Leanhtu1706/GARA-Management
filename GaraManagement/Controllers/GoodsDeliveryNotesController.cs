@@ -31,7 +31,7 @@ namespace GaraManagement.Controllers
             ViewData["GetTextSearch"] = search;
             if (!string.IsNullOrEmpty(search))
             {
-                var garaContext = _context.GoodsDeliveryNotes.Include(g => g.IdRepairNavigation).Include(e => e.IdEmployeeNavigation).Where(a => a.IdRepairNavigation.IdCarNavigation.CarName.Contains(search));
+                var garaContext = _context.GoodsDeliveryNotes.Include(g => g.IdRepairNavigation).Include(e => e.IdEmployeeNavigation).Where(a => a.IdRepairNavigation.IdCarNavigation.IdCarModelNavigation.ModelName.Contains(search));
                 return View(garaContext.ToList());
             }
             else

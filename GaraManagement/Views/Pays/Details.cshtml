@@ -60,7 +60,7 @@
                         <h5>Tên xe:</h5>
                     </div>
                     <div class="col-md-7">
-                        <h4>@Model.IdRepairNavigation.IdCarNavigation.CarName</h4>
+                        <h4>@Model.IdRepairNavigation.IdCarNavigation.IdCarModelNavigation.ModelName</h4>
                     </div>
                 </div>
                 <div class="row form-group">
@@ -194,7 +194,7 @@
                                     {
                                         if (item != null)
                                         {
-                                            var totalPrice = item.Amount * item.IdMaterialNavigation.Price;
+                                            var totalPrice = item.Amount * item.IdMaterialNavigation.PriceMaterials.First().Price;
                                             totalMaterial = totalMaterial + totalPrice;
                                             <tr>
                                                 <td>
@@ -204,7 +204,7 @@
                                                     @Html.DisplayFor(modelItem => item.Amount)
                                                 </td>
                                                 <td>
-                                                    @Html.DisplayFor(modelItem => item.IdMaterialNavigation.Price)
+                                                    @Html.DisplayFor(modelItem => item.IdMaterialNavigation.PriceMaterials.First().Price)
                                                 </td>
                                                 <td>
                                                     @totalPrice

@@ -19,6 +19,7 @@ namespace GaraManagement.Models
 
         public virtual DbSet<Account> Accounts { get; set; }
         public virtual DbSet<Car> Cars { get; set; }
+        public virtual DbSet<CarModel> CarModels { get; set; }
         public virtual DbSet<Customer> Customers { get; set; }
         public virtual DbSet<DetailGoodsDeliveryNote> DetailGoodsDeliveryNotes { get; set; }
         public virtual DbSet<DetailGoodsReceivedNote> DetailGoodsReceivedNotes { get; set; }
@@ -28,6 +29,7 @@ namespace GaraManagement.Models
         public virtual DbSet<GoodsReceivedNote> GoodsReceivedNotes { get; set; }
         public virtual DbSet<Material> Materials { get; set; }
         public virtual DbSet<Pay> Pays { get; set; }
+        public virtual DbSet<PriceMaterial> PriceMaterials { get; set; }
         public virtual DbSet<Repair> Repairs { get; set; }
         public virtual DbSet<Service> Services { get; set; }
         public virtual DbSet<Supplier> Suppliers { get; set; }
@@ -38,7 +40,7 @@ namespace GaraManagement.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Name=Gara");
+                optionsBuilder.UseSqlServer("Name=GaraCon");
             }
         }
 
@@ -70,8 +72,6 @@ namespace GaraManagement.Models
             {
                 entity.ToTable("Car");
 
-                entity.Property(e => e.CarName).HasMaxLength(50);
-
                 entity.Property(e => e.Color).HasMaxLength(10);
 
                 entity.Property(e => e.Image)
@@ -81,13 +81,25 @@ namespace GaraManagement.Models
                 entity.Property(e => e.LicensePlates)
                     .HasMaxLength(20)
                     .IsUnicode(false);
+             
+                entity.Property(e => e.Note).HasMaxLength(30);
 
-                entity.Property(e => e.Manufacturer).HasMaxLength(20);
+                entity.HasOne(d => d.IdCarModelNavigation)
+                    .WithMany(p => p.Cars)
+                    .HasForeignKey(d => d.IdCarModel)
+                    .HasConstraintName("FK_Car_CarModel");
 
                 entity.HasOne(d => d.IdCustomerNavigation)
                     .WithMany(p => p.Cars)
                     .HasForeignKey(d => d.IdCustomer)
                     .HasConstraintName("FK_Car_Customer");
+            });
+
+            modelBuilder.Entity<CarModel>(entity =>
+            {
+                entity.ToTable("CarModel");
+
+                entity.Property(e => e.ModelName).HasMaxLength(30);
             });
 
             modelBuilder.Entity<Customer>(entity =>
@@ -210,13 +222,15 @@ namespace GaraManagement.Models
                     .HasColumnType("datetime")
                     .HasColumnName("Update_at");
 
+                entity.HasOne(d => d.IdEmployeeNavigation)
+                    .WithMany(p => p.GoodsDeliveryNotes)
+                    .HasForeignKey(d => d.IdEmployee)
+                    .HasConstraintName("FK_GoodsDeliveryNote_Employee");
+
                 entity.HasOne(d => d.IdRepairNavigation)
                     .WithMany(p => p.GoodsDeliveryNotes)
                     .HasForeignKey(d => d.IdRepair)
                     .HasConstraintName("FK_GoodsDeliveryNote_Repair");
-                entity.HasOne(e => e.IdEmployeeNavigation)
-                    .WithMany(p => p.GoodsDeliveryNotes)
-                    .HasForeignKey(e => e.IdEmployee);
             });
 
             modelBuilder.Entity<GoodsReceivedNote>(entity =>
@@ -259,11 +273,17 @@ namespace GaraManagement.Models
                     .HasColumnType("datetime")
                     .HasColumnName("Update_at");
 
+                entity.HasOne(d => d.IdCarModelNavigation)
+                    .WithMany(p => p.Materials)
+                    .HasForeignKey(d => d.IdCarModel)
+                    .HasConstraintName("FK_Material_CarModel");
+
                 entity.HasOne(d => d.IdTypeNavigation)
                     .WithMany(p => p.Materials)
                     .HasForeignKey(d => d.IdType)
                     .HasConstraintName("FK_Material_TypeOfSupplies");
             });
+
             modelBuilder.Entity<Pay>(entity =>
             {
                 entity.ToTable("Pay");
@@ -271,7 +291,22 @@ namespace GaraManagement.Models
                     .WithMany(p => p.Pays)
                     .HasForeignKey(r => r.IdRepair);
             });
-                modelBuilder.Entity<Repair>(entity =>
+
+            modelBuilder.Entity<PriceMaterial>(entity =>
+            {
+                entity.ToTable("PriceMaterial");
+
+                entity.Property(e => e.UpdateAt)
+                    .HasColumnType("datetime")
+                    .HasColumnName("Update_at");
+
+                entity.HasOne(d => d.IdMaterialNavigation)
+                    .WithMany(p => p.PriceMaterials)
+                    .HasForeignKey(d => d.IdMaterial)
+                    .HasConstraintName("FK_PriceMaterial_Material");
+            });
+
+            modelBuilder.Entity<Repair>(entity =>
             {
                 entity.ToTable("Repair");
 
@@ -331,11 +366,9 @@ namespace GaraManagement.Models
             {
                 entity.ToTable("Work");
 
-                entity.Property(e => e.Description)
-                    .HasMaxLength(50);
+                entity.Property(e => e.Description).HasMaxLength(50);
 
-                entity.Property(e => e.WorkName)
-                    .HasMaxLength(50);
+                entity.Property(e => e.WorkName).HasMaxLength(50);
 
                 entity.HasOne(d => d.IdServiceNavigation)
                     .WithMany(p => p.Works)

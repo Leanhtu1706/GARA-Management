@@ -223,7 +223,7 @@ i.fas.fa-tools {
 }
 /* Xử lý submenu kho vật tư*/
 .nav .subWarehouse.show {
-    max-height: 15em;
+    max-height: 18em;
     margin-top: 5px;
 }
 
@@ -271,9 +271,9 @@ form {
     height:45px;
 }
 .image-edit {
-    margin-top: 30px;
-    width: 120px;
-    height: 120px;
+    /*margin-top: 30px;*/
+    width: 195px;
+    height: 195px;
 }
 .delete .image-detail img {
     height: 60%;
@@ -297,6 +297,7 @@ dd.col-sm-10 {
 }
 .image-detail img{
     height:100%;
+    width:100%;
 }
 /* end detail*/
 .input-group {

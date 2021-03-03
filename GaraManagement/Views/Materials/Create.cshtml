@@ -12,10 +12,18 @@
 
                 <div class="row form-group">
                     <div class="col-sm-4">
-                        <label asp-for="IdType" class="control-label">Type</label>
+                        <label asp-for="IdType" class="control-label">Loại vật tư</label>
                     </div>
                     <div class="col-sm-8">
                         <select asp-for="IdType" class="form-control" asp-items="ViewBag.TypeName"></select>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-sm-4">
+                        <label asp-for="IdCarModel" class="control-label">Dòng xe</label>
+                    </div>
+                    <div class="col-sm-8">
+                        <select id="select-carmodel" class="custom-select" asp-for="IdCarModel" asp-items="ViewBag.CarName"></select>
                     </div>
                 </div>
                 <div class="row form-group">
@@ -38,7 +46,7 @@
                 </div>
                 <div class="row form-group">
                     <div class="col-sm-4">
-                        <label asp-for="Price" class="control-label"></label>
+                        <label asp-for="Price" class="control-label" name="Name"></label>
                     </div>
                     <div class="col-sm-8">
                         <input asp-for="Price" class="form-control" />
@@ -54,6 +62,7 @@
                         <span asp-validation-for="Amount" class="text-danger"></span>
                     </div>
                 </div>
+
                 <div class="row form-group">
                     <div class="col-sm-4">
                         <label asp-for="Description" class="control-label"></label>
@@ -86,11 +95,15 @@
 
     </form>
 </div>
-<script src="~/assets/js/core/jquery.min.js"></script>
+
 <script>
     $('input[type="file"]').change(function (e) {
         var path = "../assets/img/" + e.target.files[0].name;
         $(".image-edit").attr("src", path);
+
+        $('#select-carmodel').select2({
+            dropdownParent: $('#createModal')
+        });
     });
 </script>
 @section Scripts {
