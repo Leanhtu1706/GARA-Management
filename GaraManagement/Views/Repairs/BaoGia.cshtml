@@ -36,6 +36,9 @@
                                     Tên công việc
                                 </th>
                                 <th>
+                                    Số lượng
+                                </th>
+                                <th>
                                     Chi phí
                                 </th>
                             </tr>
@@ -48,10 +51,13 @@
 
                                     foreach (var item in Model.DetailRepairs)
                                     {
-                                        totalCost += item.IdWorkNavigation.Cost;
+                                        totalCost += (item.IdWorkNavigation.Cost * item.Amount);
                                         <tr>
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.IdWorkNavigation.WorkName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Amount)
                                             </td>
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.IdWorkNavigation.Cost)
@@ -93,7 +99,7 @@
                                     {
                                         if (item != null)
                                         {
-                                            var totalPrice = item.Amount * item.IdMaterialNavigation.PriceMaterials.First().Price;
+                                            var totalPrice = item.Amount * item.Price;
                                             totalMaterial = totalMaterial + totalPrice;
                                             <tr>
                                                 <td>
@@ -103,7 +109,7 @@
                                                     @Html.DisplayFor(modelItem => item.Amount)
                                                 </td>
                                                 <td>
-                                                    @Html.DisplayFor(modelItem => item.IdMaterialNavigation.PriceMaterials.First().Price)
+                                                    @Html.DisplayFor(modelItem => item.Price)
                                                 </td>
                                                 <td>
                                                     @totalPrice
@@ -130,7 +136,7 @@
         int? paid = Model.Pays.Select(p => p.Paid).FirstOrDefault();
         int? owe = total - paid;
         var totalMoney = String.Format(info, "{0:c}", total);
-        var paidMoney = String.Format(info, "{0:c}", total);
+        var paidMoney = String.Format(info, "{0:c}", paid);
         var oweMoney = String.Format(info, "{0:c}", owe);
     }
     <div class="row">

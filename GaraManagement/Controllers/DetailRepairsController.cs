@@ -79,25 +79,28 @@ namespace GaraManagement.Controllers
 
                 return RedirectToAction("Details","Repairs", new {id = detailRepair.IdRepair });
             }
-            ViewData["IdWork"] = new SelectList(_context.Works, "Id", "Id", detailRepair.IdWork);
+            var workList = _context.Works.Where(w => !_context.DetailRepairs.Any(dr => dr.IdRepair == detailRepair.IdRepair && dr.IdWork == w.Id)).ToList();
+
+            ViewData["IdWork"] = new SelectList(workList, "Id", "WorkName");
             return View(detailRepair);
         }
 
         // GET: DetailRepairs/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int? id, int idWork, string layout = "_")
         {
             if (id == null)
             {
                 return NotFound();
             }
-
-            var detailRepair = await _context.DetailRepairs.FindAsync(id);
+            ViewData["Layout"] = layout == "_" ? "" : layout;
+            var detailRepair = await _context.DetailRepairs.Where(dr => dr.IdRepair == id && dr.IdWork == idWork).FirstAsync();
             if (detailRepair == null)
             {
                 return NotFound();
             }
-            ViewData["IdRepair"] = new SelectList(_context.Repairs, "Id", "Id", detailRepair.IdRepair);
-            ViewData["IdWork"] = new SelectList(_context.Works, "Id", "Id", detailRepair.IdWork);
+
+            ViewData["IdWork"] = new SelectList(_context.Works, "Id", "WorkName");
+
             return View(detailRepair);
         }
 
@@ -106,9 +109,9 @@ namespace GaraManagement.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdRepair,IdWork")] DetailRepair detailRepair)
+        public async Task<IActionResult> Edit(int idRepair, DetailRepair detailRepair)
         {
-            if (id != detailRepair.IdRepair)
+            if (idRepair != detailRepair.IdRepair)
             {
                 return NotFound();
             }
@@ -119,6 +122,7 @@ namespace GaraManagement.Controllers
                 {
                     _context.Update(detailRepair);
                     await _context.SaveChangesAsync();
+                    HttpContext.Session.SetString("SuccessMessage", "Cập nhật thành công");
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -131,7 +135,7 @@ namespace GaraManagement.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details", "Repairs", new { id = idRepair });
             }
             ViewData["IdRepair"] = new SelectList(_context.Repairs, "Id", "Id", detailRepair.IdRepair);
             ViewData["IdWork"] = new SelectList(_context.Works, "Id", "Id", detailRepair.IdWork);

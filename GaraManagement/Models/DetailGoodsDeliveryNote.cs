@@ -14,6 +14,8 @@ namespace GaraManagement.Models
         [DisplayName("Số lượng xuất")]
         [Required(ErrorMessage = "Số lượng không được để trống")]
         public int? Amount { get; set; }
+        [DisplayName("Giá bán")]
+        public int? Price { get; set; }
 
         public virtual GoodsDeliveryNote IdGoodsDeliveryNoteNavigation { get; set; }
         public virtual Material IdMaterialNavigation { get; set; }

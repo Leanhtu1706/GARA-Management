@@ -91,14 +91,14 @@
                         <ul class="nav subWarehouse">
                             <li class="nav-item material"><a class="nav-link" asp-controller="Materials" asp-action="Index"><i class="far fa-id-badge"></i><p>Thông tin vật tư</p></a></li>
                             <li class="nav-item typeOfSupplies"><a class="nav-link" asp-controller="TypeOfSupplies" asp-action="Index"><i class="fas fa-layer-group"></i><p>Loại vật tư</p></a></li>
-                            <li class="nav-item PriceMaterials"><a class="nav-link" asp-controller="PriceMaterials" asp-action="Index"><i class="fas fa-layer-group"></i><p>Giá vật tư</p></a></li>
+                            @*<li class="nav-item PriceMaterials"><a class="nav-link" asp-controller="PriceMaterials" asp-action="Index"><i class="fas fa-layer-group"></i><p>Giá vật tư</p></a></li>*@
                             <li class="nav-item supplier"><a class="nav-link" asp-controller="Suppliers" asp-action="Index"><i class="fas fa-boxes"></i><p>Nhà cung cấp</p></a></li>
                             <li class="nav-item import-export"><a class="nav-link" asp-controller="GoodsReceivedNotes" asp-action="Index"><i class="fas fa-people-carry"></i><p>Nhập xuất vật tư</p></a></li>
                         </ul>
                     </li>
-                    <li class="nav-item ">
+                    <li class="nav-item CarModel">
                         <!-- menu quản lý dòng xe-->
-                        <a class="nav-item CarModel nav-link" asp-controller="CarModels" asp-action="Index">Dòng xe<i class="far fa-user-circle"></i>
+                        <a class="nav-link" asp-controller="CarModels" asp-action="Index">Dòng xe<i class="far fa-user-circle"></i>
                         </a>  
                     </li>
                     <li class="nav-item ">

@@ -265,6 +265,7 @@ namespace GaraManagement.Controllers
                 .Include(r => r.GoodsDeliveryNotes)
                 .ThenInclude(r => r.DetailGoodsDeliveryNotes)
                 .ThenInclude(r => r.IdMaterialNavigation)
+                .ThenInclude(r=>r.PriceMaterials)
                 .Include(r => r.DetailRepairs)
                 .ThenInclude(r => r.IdWorkNavigation)
                 .Include(r => r.Pays)

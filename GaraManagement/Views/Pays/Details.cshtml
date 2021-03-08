@@ -102,11 +102,22 @@
                         <h5>Đã thanh toán: </h5>
                     </div>
                     <div class="col-md-7">
-                        @{ 
+                        @{
                             var info = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
                             var paid = String.Format(info, "{0:c}", Model.Paid);
                         }
                         <h4>@paid</h4>
+                    </div>
+                </div>
+                <div class="row form-group">
+                    <div class="col-md-5">
+                        <h5>Tổng tiền thanh toán: </h5>
+                    </div>
+                    <div class="col-md-7">
+                        @{
+                             var total1 = String.Format(info, "{0:c}", Model.Total);
+                        }
+                        <h4>@total1</h4>
                     </div>
                 </div>
                 <div class="row form-group">
@@ -133,6 +144,9 @@
                                     Tên công việc
                                 </th>
                                 <th>
+                                    Số lượng
+                                </th>
+                                <th>
                                     Chi phí
                                 </th>
                             </tr>
@@ -145,10 +159,13 @@
 
                                     foreach (var item in Model.IdRepairNavigation.DetailRepairs)
                                     {
-                                        totalCost += item.IdWorkNavigation.Cost;
+                                        totalCost += item.IdWorkNavigation.Cost * item.Amount;
                                         <tr>
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.IdWorkNavigation.WorkName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Amount)
                                             </td>
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.IdWorkNavigation.Cost)
@@ -194,7 +211,7 @@
                                     {
                                         if (item != null)
                                         {
-                                            var totalPrice = item.Amount * item.IdMaterialNavigation.PriceMaterials.First().Price;
+                                            var totalPrice = item.Amount * item.Price;
                                             totalMaterial = totalMaterial + totalPrice;
                                             <tr>
                                                 <td>
@@ -204,7 +221,7 @@
                                                     @Html.DisplayFor(modelItem => item.Amount)
                                                 </td>
                                                 <td>
-                                                    @Html.DisplayFor(modelItem => item.IdMaterialNavigation.PriceMaterials.First().Price)
+                                                    @Html.DisplayFor(modelItem => item.Price)
                                                 </td>
                                                 <td>
                                                     @totalPrice

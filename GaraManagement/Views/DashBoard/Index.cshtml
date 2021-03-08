@@ -1,13 +1,528 @@
-﻿<div class="dashBoard">
-    
+﻿
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/data.js"></script>
+<script src="https://code.highcharts.com/modules/drilldown.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+<div class="row">
+    <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="card card-stats">
+            <div class="card-header card-header-warning card-header-icon">
+                <div class="card-icon">
+                    <i class="material-icons">content_copy</i>
+                </div>
+                <p class="card-category">Khách hàng</p>
+                <h3 class="card-title">
+                    @ViewData["CountCustomer"]
+                    <small>GB</small>
+                </h3>
+            </div>
+            <div class="card-footer">
+                <div class="stats">
+                    <i class="material-icons text-danger">warning</i>
+                    <a href="javascript:;">Get More Space...</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="card card-stats">
+            <div class="card-header card-header-success card-header-icon">
+                <div class="card-icon">
+                    <i class="material-icons">store</i>
+                </div>
+                <p class="card-category">Lượt sửa</p>
+                <h3 class="card-title">@ViewData["Countrepair"]</h3>
+            </div>
+            <div class="card-footer">
+                <div class="stats">
+                    <i class="material-icons">date_range</i> Last 24 Hours
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="card card-stats">
+            <div class="card-header card-header-danger card-header-icon">
+                <div class="card-icon">
+                    <i class="material-icons">info_outline</i>
+                </div>
+                <p class="card-category">Fixed Issues</p>
+                <h3 class="card-title">75</h3>
+            </div>
+            <div class="card-footer">
+                <div class="stats">
+                    <i class="material-icons">local_offer</i> Tracked from Github
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="card card-stats">
+            <div class="card-header card-header-info card-header-icon">
+                <div class="card-icon">
+                    <i class="fa fa-twitter"></i>
+                </div>
+                <p class="card-category">Followers</p>
+                <h3 class="card-title">+245</h3>
+            </div>
+            <div class="card-footer">
+                <div class="stats">
+                    <i class="material-icons">update</i> Just Updated
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+<figure class="highcharts-figure2">
+    <div id="container2"></div>
+    <p class="highcharts-description">
+
+    </p>
+</figure>
+<figure class="highcharts-figure1">
+    <div id="container1"></div>
+    <p class="highcharts-description">
+
+    </p>
+</figure>
+
+<figure class="highcharts-figure3">
+    <div id="container3"></div>
+    <p class="highcharts-description">
+
+    </p>
+</figure>
+<figure class="highcharts-figure4">
+    <div id="container4"></div>
+    <p class="highcharts-description">
+
+    </p>
+</figure>
+<figure class="highcharts-figure4">
+    <div id="container5"></div>
+    <p class="highcharts-description">
+
+    </p>
+</figure>
+
+
 <style>
-    .dashBoard {
-        background-image: url('assets/img/dashboad.png');
-        background-size: 1250px;
-        background-repeat:no-repeat;
-        width:100%;
-        height:100%;
-        position:absolute;
+    .main-panel {
+        overflow: scroll;
+    }
+
+    .highcharts-figure, .highcharts-data-table table {
+        min-width: 310px;
+        max-width: 800px;
+        margin: 1em auto;
+    }
+
+    .highcharts-credits {
+        display: none;
+    }
+
+    #container {
+        height: 400px;
+    }
+
+    .highcharts-data-table table {
+        font-family: Verdana, sans-serif;
+        border-collapse: collapse;
+        border: 1px solid #EBEBEB;
+        margin: 10px auto;
+        text-align: center;
+        width: 100%;
+        max-width: 500px;
+    }
+
+    .highcharts-data-table caption {
+        padding: 1em 0;
+        font-size: 1.2em;
+        color: #555;
+    }
+
+    .highcharts-data-table th {
+        font-weight: 600;
+        padding: 0.5em;
+    }
+
+    .highcharts-data-table td, .highcharts-data-table th, .highcharts-data-table caption {
+        padding: 0.5em;
+    }
+
+    .highcharts-data-table thead tr, .highcharts-data-table tr:nth-child(even) {
+        background: #f8f8f8;
+    }
+
+    .highcharts-data-table tr:hover {
+        background: #f1f7ff;
     }
 </style>
+
+@{ 
+
+}
+
+<script src="~/assets/js/core/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            url: '@Url.Action("GetcountData")',
+            type: "GET",
+            success: function (data) {
+                console.log("data: ", data);
+                Highcharts.chart('container1', {
+                    chart: {
+                        type: 'column'
+                    },
+                    title: {
+                        text: 'Thống kê số lượng xe theo các tháng'
+                    },
+
+                    accessibility: {
+                        announceNewData: {
+                            enabled: true
+                        }
+                    },
+                    xAxis: {
+                        type: 'category'
+                    },
+                    yAxis: {
+                        min: 0,
+                        max: 10,
+                        title: {
+                            text: 'Số lượng xe'
+                        }
+
+                    },
+
+                    plotOptions: {
+                        series: {
+                            borderWidth: 0,
+                            dataLabels: {
+                                enabled: true,
+
+                            }
+                        }
+                    },
+
+
+                    series: [
+                        {
+                            name: "Lượng xe",
+                            colorByPoint: true,
+                            data: [
+                                {
+                                    name: "Tháng 1",
+                                    y: data.thang1
+                                },
+                                {
+                                    name: "Tháng 2",
+                                    y: data.thang2
+                                },
+                                {
+                                    name: "Tháng 3",
+                                    y: data.thang3
+                                },
+                                {
+                                    name: "Tháng 4",
+                                    y: data.thang4
+                                },
+                                {
+                                    name: "Tháng 5",
+                                    y: data.thang5
+                                },
+                                {
+                                    name: "Tháng 6",
+                                    y: data.thang6
+                                },
+                                {
+                                    name: "Tháng 7",
+                                    y: data.thang7
+                                },
+                                {
+                                    name: "Tháng 8",
+                                    y: data.thang8
+                                },
+                                {
+                                    name: "Tháng 9",
+                                    y: data.thang9
+                                },
+                                {
+                                    name: "Tháng 10",
+                                    y: data.thang10
+                                },
+                                {
+                                    name: "Tháng 11",
+                                    y: data.thang11
+                                },
+                                {
+                                    name: "Tháng 12",
+                                    y: data.thang12
+                                }
+                            ]
+
+                        }
+                    ]
+                });
+            }
+        });
+
+        $.ajax({
+            url: '@Url.Action("GetRevenueData")',
+            type: "GET",
+            success: function (data) {
+                console.log("data2:", data);
+                Highcharts.chart('container2', {
+                    chart: {
+                        type: 'column'
+                    },
+                    title: {
+                        text: 'Thống kê lợi nhuận bán hàng các tháng trong năm'
+                    },
+                    subtitle: {
+                        text: 'Source: WorldClimate.com'
+                    },
+                    xAxis: {
+                        categories: [
+                            'Tháng 1',
+                            'Tháng 2',
+                            'Tháng 3',
+                            'Tháng 4',
+                            'Tháng 5',
+                            'Tháng 6',
+                            'Tháng 7',
+                            'Tháng 8',
+                            'Tháng 9',
+                            'Tháng 10',
+                            'Tháng 11',
+                            'Tháng 12'
+                        ],
+                        crosshair: true
+                    },
+                    yAxis: {
+
+                        title: {
+                            text: 'Vnđ'
+                        }
+                    },
+
+                    series: [{
+                        name: 'Nhập vào',
+                        color: '#00BFFF',
+                        data: data.nhaphang
+
+
+                    }, {
+                        name: 'Bán ra',
+                        color: '#ff7c0c',
+                        data: data.banhang
+
+                    }, {
+                        name: 'Lợi nhuận bán hàng',
+                        color: '#51cf5f',
+                        data: data.doanhthuvattu
+
+                    }]
+                });
+            }
+        });
+
+        $.ajax({
+            url: '@Url.Action("GetRevenueData")',
+            type: "GET",
+            success: function (data) {
+                console.log("data2:", data);
+                Highcharts.chart('container3', {
+                    chart: {
+                        type: 'column'
+                    },
+                    title: {
+                        text: 'Tổng doanh thu và lợi nhuận ròng'
+                    },
+                    xAxis: {
+                        categories: [
+                            'Tháng 1',
+                            'Tháng 2',
+                            'Tháng 3',
+                            'Tháng 4',
+                            'Tháng 5',
+                            'Tháng 6',
+                            'Tháng 7',
+                            'Tháng 8',
+                            'Tháng 9',
+                            'Tháng 10',
+                            'Tháng 11',
+                            'Tháng 12'
+                        ]
+                    },
+                    yAxis: {
+
+                        title: {
+                            text: 'Total fruit consumption'
+                        },
+                        stackLabels: {
+                            enabled: true,
+                            style: {
+                                fontWeight: 'bold',
+                                color: ( // theme
+                                    Highcharts.defaultOptions.title.style &&
+                                    Highcharts.defaultOptions.title.style.color
+                                ) || 'gray'
+                            }
+                        }
+                    },
+                    legend: {
+                        align: 'right',
+                        x: -30,
+                        verticalAlign: 'top',
+                        y: 25,
+                        floating: true,
+                        backgroundColor:
+                            Highcharts.defaultOptions.legend.backgroundColor || 'white',
+                        borderColor: '#CCC',
+                        borderWidth: 1,
+                        shadow: false
+                    },
+                    tooltip: {
+                        headerFormat: '<b>{point.x}</b><br/>',
+                        pointFormat: '{series.name}: {point.y}<br/>'
+                    },
+
+                    series: [{
+                        name: 'Tổng doanh thu ',
+                        data: data.tongdoanhthu,
+                        color: '#5bc8ac'
+                    },
+                    {
+                        name: 'lợi nhuận ròng ',
+                        data: data.loinhuanrong,
+                        color: '#eda625'
+                    }]
+                });
+            }
+        });
+
+        $.ajax({
+            url: '@Url.Action("GetPayData")',
+            type: "GET",
+            success: function (data) {
+                console.log("data2:", data);
+                Highcharts.chart('container4', {
+                    chart: {
+                        type: 'column'
+                    },
+                    title: {
+                        text: 'Thống kê biên lai'
+                    },
+                    xAxis: {
+                        categories: [
+                            'Tháng 1',
+                            'Tháng 2',
+                            'Tháng 3',
+                            'Tháng 4',
+                            'Tháng 5',
+                            'Tháng 6',
+                            'Tháng 7',
+                            'Tháng 8',
+                            'Tháng 9',
+                            'Tháng 10',
+                            'Tháng 11',
+                            'Tháng 12'
+                        ]
+                    },
+                    yAxis: {
+                        min: 0,
+                        title: {
+                            text: 'Total fruit consumption'
+                        },
+                        stackLabels: {
+                            enabled: true,
+                            style: {
+                                fontWeight: 'bold',
+                                color: ( // theme
+                                    Highcharts.defaultOptions.title.style &&
+                                    Highcharts.defaultOptions.title.style.color
+                                ) || 'gray'
+                            }
+                        }
+                    },
+                    legend: {
+                        align: 'right',
+                        x: -30,
+                        verticalAlign: 'top',
+                        y: 25,
+                        floating: true,
+                        backgroundColor:
+                            Highcharts.defaultOptions.legend.backgroundColor || 'white',
+                        borderColor: '#CCC',
+                        borderWidth: 1,
+                        shadow: false
+                    },
+                    tooltip: {
+                        headerFormat: '<b>{point.x}</b><br/>',
+                        pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+                    },
+                    plotOptions: {
+                        column: {
+                            stacking: 'normal',
+                            dataLabels: {
+                                enabled: true
+                            }
+                        }
+                    },
+                    series: [{
+                        name: 'Đã thanh toán',
+                        data: data.paid,
+                        color: '#bc3353'
+                    }, {
+                        name: 'Còn nợ',
+                        data: data.owe,
+                        color: '#404040'
+                    }]
+                });
+            }
+        });
+
+        
+        /////////////////////////////////////
+        var options = new Object();
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("GetServiceData")',
+            success: function (list) {
+            
+
+            options.chart = new Object();
+            options.chart.renderTo = 'container5';
+            options.chart.type = 'pie';
+            options.tooltip = new Object();
+            options.tooltip.pointFormat = '{series.name}: <b>{point.percentage:.1f}%</b>';
+
+
+            options.series = new Array();
+            options.series[0] = new Object();
+            options.series[0].name = 'Tỷ lệ'
+            options.series[0].data = new Array();
+                $.each(list, function (key, item) {
+                    options.series[0].data[key] = new Object();
+                    options.series[0].data[key].name = item.name,
+                        options.series[0].data[key].y = item.data,
+                    console.log("option:", options);
+                   
+                });
+                var chart = new Highcharts.Chart(options);
+                }
+            });
+       
+
+});
+
+
+    // Create the chart
+
+</script>

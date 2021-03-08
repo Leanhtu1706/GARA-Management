@@ -46,8 +46,10 @@ namespace GaraManagement.Controllers
                 .Include(r => r.IdRepairNavigation.GoodsDeliveryNotes)
                 .ThenInclude(r => r.DetailGoodsDeliveryNotes)
                 .ThenInclude(r => r.IdMaterialNavigation)
+                .ThenInclude(r => r.PriceMaterials)
                 .Include(r => r.IdRepairNavigation.DetailRepairs)
                 .ThenInclude(r => r.IdWorkNavigation)
+                .Include(r => r.IdRepairNavigation.IdCarNavigation.IdCarModelNavigation)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (pay == null)
             {
@@ -73,7 +75,32 @@ namespace GaraManagement.Controllers
         public async Task<IActionResult> Create( Pay pay)
         {
             if (ModelState.IsValid)
-            {
+            {   
+                int ? workCost = 0;
+                var workCostData = await _context.DetailRepairs.Include(r => r.IdWorkNavigation).Where(r =>r.IdRepair == pay.IdRepair).ToListAsync();
+                if (workCostData.Any())
+                {
+
+                    foreach (var item in workCostData)
+                    {
+                        workCost += item.IdWorkNavigation.Cost * item.Amount;
+
+                    }
+
+                }
+                int ? materialCost = 0;
+                var materialCostData = await _context.GoodsDeliveryNotes.Include(r => r.DetailGoodsDeliveryNotes).Where(r =>r.IdRepair == pay.IdRepair).Select(r => r.DetailGoodsDeliveryNotes).FirstAsync();
+                if (materialCostData.Any())
+                {
+
+                    foreach (var item in materialCostData)
+                    {
+                        materialCost += item.Price * item.Amount;
+
+                    }
+
+                }
+                pay.Total = workCost + materialCost;
                 _context.Add(pay);
                 await _context.SaveChangesAsync();
                 HttpContext.Session.SetString("SuccessMessage", "Thêm mới biên lai thành công");

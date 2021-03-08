@@ -31,9 +31,6 @@
                         @Html.DisplayNameFor(model => model.Image)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.IdCarModelNavigation.ModelName)
-                    </th>
-                    <th>
                         @Html.DisplayNameFor(model => model.Name)
                     </th>
                     <th>
@@ -57,9 +54,6 @@
                 <tr>
                     <td>
                         <img class="image-field" src="@item.Image" alt="Alternate Text" />
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.IdCarModelNavigation.ModelName)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Name)

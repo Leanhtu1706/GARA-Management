@@ -74,6 +74,7 @@ namespace GaraManagement.Controllers
         {
             if (ModelState.IsValid)
             {
+                detailGoodsDeliveryNote.Price = _context.PriceMaterials.Where(m => m.IdMaterial == detailGoodsDeliveryNote.IdMaterial).OrderByDescending(m => m.UpdateAt).FirstOrDefault().Price;
                 _context.Add(detailGoodsDeliveryNote);
                 await _context.SaveChangesAsync();
                 var idRepair = _context.GoodsDeliveryNotes.Include(a => a.IdRepairNavigation).Where(a => a.Id == detailGoodsDeliveryNote.IdGoodsDeliveryNote).FirstOrDefault().IdRepair;
@@ -120,6 +121,7 @@ namespace GaraManagement.Controllers
             {
                 try
                 {
+                    
                     _context.Update(detailGoodsDeliveryNote);
                     await _context.SaveChangesAsync();
                     HttpContext.Session.SetString("SuccessMessage", "cập nhật vật tư thành công");   

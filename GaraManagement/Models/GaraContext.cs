@@ -273,11 +273,6 @@ namespace GaraManagement.Models
                     .HasColumnType("datetime")
                     .HasColumnName("Update_at");
 
-                entity.HasOne(d => d.IdCarModelNavigation)
-                    .WithMany(p => p.Materials)
-                    .HasForeignKey(d => d.IdCarModel)
-                    .HasConstraintName("FK_Material_CarModel");
-
                 entity.HasOne(d => d.IdTypeNavigation)
                     .WithMany(p => p.Materials)
                     .HasForeignKey(d => d.IdType)

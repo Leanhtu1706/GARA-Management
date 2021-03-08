@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GaraManagement.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace GaraManagement.Controllers
 {
@@ -21,6 +22,20 @@ namespace GaraManagement.Controllers
         // GET: CarModels
         public async Task<IActionResult> Index()
         {
+            if (HttpContext.Session.GetString("SessionUserName") == null)
+            {
+                return RedirectToAction("Index", "Login");
+            }
+            if (HttpContext.Session.GetString("SuccessMessage") != null)
+            {
+                ViewBag.SuccessMessage = HttpContext.Session.GetString("SuccessMessage");
+                HttpContext.Session.Remove("SuccessMessage");
+            }
+            if (HttpContext.Session.GetString("ErrorMessage") != null)
+            {
+                ViewBag.ErrorMessage = HttpContext.Session.GetString("ErrorMessage");
+                HttpContext.Session.Remove("ErrorMessage");
+            }
             return View(await _context.CarModels.ToListAsync());
         }
 
@@ -43,8 +58,9 @@ namespace GaraManagement.Controllers
         }
 
         // GET: CarModels/Create
-        public IActionResult Create()
+        public IActionResult Create(string layout = "_")
         {
+            ViewData["Layout"] = layout == "_" ? "" : layout;
             return View();
         }
 
@@ -53,19 +69,20 @@ namespace GaraManagement.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,ModelName")] CarModel carModel)
+        public async Task<IActionResult> Create(CarModel carModel)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(carModel);
                 await _context.SaveChangesAsync();
+                HttpContext.Session.SetString("SuccessMessage", "Thêm mới thành công");
                 return RedirectToAction(nameof(Index));
             }
             return View(carModel);
         }
 
         // GET: CarModels/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int? id, string layout = "_")
         {
             if (id == null)
             {
@@ -73,6 +90,7 @@ namespace GaraManagement.Controllers
             }
 
             var carModel = await _context.CarModels.FindAsync(id);
+            ViewData["Layout"] = layout == "_" ? "" : layout;
             if (carModel == null)
             {
                 return NotFound();
@@ -98,6 +116,7 @@ namespace GaraManagement.Controllers
                 {
                     _context.Update(carModel);
                     await _context.SaveChangesAsync();
+                    HttpContext.Session.SetString("SuccessMessage", "Cập nhật thành công");
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -115,33 +134,45 @@ namespace GaraManagement.Controllers
             return View(carModel);
         }
 
-        // GET: CarModels/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //// GET: CarModels/Delete/5
+        //public async Task<IActionResult> Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var carModel = await _context.CarModels
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (carModel == null)
-            {
-                return NotFound();
-            }
+        //    var carModel = await _context.CarModels
+        //        .FirstOrDefaultAsync(m => m.Id == id);
+        //    if (carModel == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return View(carModel);
-        }
+        //    return View(carModel);
+        //}
 
         // POST: CarModels/Delete/5
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
+
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var carModel = await _context.CarModels.FindAsync(id);
-            _context.CarModels.Remove(carModel);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.CarModels.Remove(carModel);
+                    await _context.SaveChangesAsync();
+                    HttpContext.Session.SetString("SuccessMessage", "Xóa thành công");
+                }
+                catch (Exception)
+                {
+                    HttpContext.Session.SetString("ErrorMessage", "Hiện tại không thể xóa dòng xe này vì còn ràng buộc với các bản ghi khác. Vui lòng kiểm tra lại!");
+                }
+            }
+            
+            return Json(new { redirectToUrl = Url.Action("Index", "CarModels")});
         }
 
         private bool CarModelExists(int id)

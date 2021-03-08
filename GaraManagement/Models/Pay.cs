@@ -15,6 +15,8 @@ namespace GaraManagement.Models
         public DateTime? DateOfPayment { get; set; }
         [DisplayName("Đã thanh toán")]
         public int Paid { get; set; }
+        [DisplayName("Tổng tiền thanh toán")]
+        public int? Total { get; set; }
         [DisplayName("Ngày cập nhật")]
         public DateTime? Update_at { get; set; }
 

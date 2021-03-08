@@ -14,7 +14,7 @@
             <li class="breadcrumb-item"><a href="#">Admin</a></li>
             <li class="breadcrumb-item">QL Sửa chữa</li>
             <li class="breadcrumb-item"><a asp-action="Index">Nhập xuất xưởng</a></li>
-            <li class="breadcrumb-item active">Chi tiết phiếu sửa chữa</li>
+            <li class="breadcrumb-item active">Chi tiết phiếu sửa chữa | id: @Model.Id</li>
 
         </ol>
     </div>
@@ -92,6 +92,9 @@
                                 <th>
                                     Tên công việc
                                 </th>
+                                <th>
+                                    Số lượng
+                                </th>
                                 <th class="col-action">Action</th>
                             </tr>
                         </thead>
@@ -104,7 +107,11 @@
                                         <td>
                                             @Html.DisplayFor(modelItem => item.IdWorkNavigation.WorkName)
                                         </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Amount)
+                                        </td>
                                         <td class="action-button">
+                                            <a class="btn btn-sm btn-warning edit-work-btn" data-toggle='modal' data-target='#editModal' data-id-repair="@item.IdRepair" data-id-work="@item.IdWork">Cập nhật</a>
                                             <a class="btn btn-sm btn-danger delete-btn" data-toggle='modal' data-target='#deleteConfirmModal' data-id-repair="@item.IdRepair" data-id-work="@item.IdWork">Xóa</a>
                                         </td>
                                     </tr>
@@ -161,8 +168,8 @@
                                             @Html.DisplayFor(modelItem => item.Amount)
                                         </td>
                                         <td class="action-button">
-                                            <a class="btn btn-sm btn-danger delete-material-btn" data-toggle='modal' data-target='#deleteConfirmModal' data-id-goodDelivery="@item.IdGoodsDeliveryNote" data-id-material="@item.IdMaterial">Xóa</a>
                                             <a class="btn btn-sm btn-warning edit-material-btn" data-toggle='modal' data-target='#editModal' data-id-goodDelivery="@item.IdGoodsDeliveryNote" data-id-material="@item.IdMaterial">Cập nhật</a>
+                                            <a class="btn btn-sm btn-danger delete-material-btn" data-toggle='modal' data-target='#deleteConfirmModal' data-id-goodDelivery="@item.IdGoodsDeliveryNote" data-id-material="@item.IdMaterial">Xóa</a>
                                         </td>
                                     </tr>
                                 }
@@ -414,6 +421,23 @@
             data: { idRepair: idRepair, layout: "_ModalLayout"},
             success: function (data) {
                 $("#createModal .modal-content").html(data);
+            }
+        });
+    });
+    // edit work
+    $(".edit-work-btn").click(function () {
+        
+        var idRepair = $(this).attr("data-id-repair");
+        var idWork = $(this).attr("data-id-work");
+
+        $.ajax({
+            /**/
+            url: '@Url.Action("Edit","DetailRepairs")',
+            /**/
+            type: "Get",
+            data: { id: idRepair, idWork: idWork, layout: "_ModalLayout"},
+            success: function (data) {
+                $("#editModal .modal-content").html(data);
             }
         });
     });

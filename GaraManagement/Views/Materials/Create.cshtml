@@ -20,14 +20,6 @@
                 </div>
                 <div class="row form-group">
                     <div class="col-sm-4">
-                        <label asp-for="IdCarModel" class="control-label">Dòng xe</label>
-                    </div>
-                    <div class="col-sm-8">
-                        <select id="select-carmodel" class="custom-select" asp-for="IdCarModel" asp-items="ViewBag.CarName"></select>
-                    </div>
-                </div>
-                <div class="row form-group">
-                    <div class="col-sm-4">
                         <label asp-for="Name" class="control-label" name="Name"></label>
                     </div>
                     <div class="col-sm-8">
@@ -101,9 +93,6 @@
         var path = "../assets/img/" + e.target.files[0].name;
         $(".image-edit").attr("src", path);
 
-        $('#select-carmodel').select2({
-            dropdownParent: $('#createModal')
-        });
     });
 </script>
 @section Scripts {

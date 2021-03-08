@@ -20,8 +20,7 @@ namespace GaraManagement.Models
 
         public int Id { get; set; }
         public int? IdType { get; set; }
-        [DisplayName("Dòng xe")]
-        public int? IdCarModel { get; set; }
+
         [DisplayName("Tên vật tư")]
         public string Name { get; set; }
         [DisplayName("Đơn vị tính")]
@@ -40,9 +39,9 @@ namespace GaraManagement.Models
         [NotMapped]
         public IFormFile ImageFile { get; set; }
         [NotMapped]
+        [DisplayName("Giá")]
         public int? Price { get; set; }
 
-        public virtual CarModel IdCarModelNavigation { get; set; }
         public virtual TypeOfSupply IdTypeNavigation { get; set; }
         public virtual ICollection<DetailGoodsDeliveryNote> DetailGoodsDeliveryNotes { get; set; }
         public virtual ICollection<DetailGoodsReceivedNote> DetailGoodsReceivedNotes { get; set; }

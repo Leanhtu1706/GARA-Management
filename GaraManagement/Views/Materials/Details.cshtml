@@ -25,18 +25,17 @@
                 <dd class="col-sm-8">
                     @Html.DisplayFor(model => model.Unit)
                 </dd>
-                
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.Price)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.PriceMaterials.Where(p => p.IdMaterial == model.Id).OrderByDescending(p => p.UpdateAt).First().Price)
+                </dd>
                 <dt class="col-sm-4">
                     @Html.DisplayNameFor(model => model.Amount)
                 </dt>
                 <dd class="col-sm-8">
                     @Html.DisplayFor(model => model.Amount)
-                </dd>
-                <dt class="col-sm-4">
-                    @Html.DisplayNameFor(model => model.Description)
-                </dt>
-                <dd class="col-sm-8">
-                    @Html.DisplayFor(model => model.Description)
                 </dd>
                 <dt class="col-sm-4">
                     @Html.DisplayNameFor(model => model.CreateAt)
@@ -56,6 +55,12 @@
                 <dd class="col-sm-8">
                     @Html.DisplayFor(model => model.IdTypeNavigation.Name)
                 </dd>
+                <dt class="col-sm-4">
+                    @Html.DisplayNameFor(model => model.Description)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.Description)
+                </dd>
             </dl>
         </div>
         <div class="col-md-6">
@@ -69,10 +74,45 @@
             </dl>
         </div>
     </div>
+</div>
+<hr data-content="Chi tiết cập nhật giá" class="hr-text hr-detail">
+<br />
+@{var i = 1; }
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Stt
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UpdateAt)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.PriceMaterials.OrderByDescending(p => p.UpdateAt))
+        {
+            <tr>
+                <td>
+                    @i
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UpdateAt)
+                </td>
+            </tr>
+            i += 1;
+        }
+    </tbody>
+</table>
+<div class="footer-detail">
 
 </div>
-<div class="footer-detail">
-    <hr />
-    <a asp-action="Index">Back to List</a>
-</div>
+<hr />
+<a asp-action="Index">Back to List</a>
 <link href="~/assets/css/customStyleLayout.css" rel="stylesheet" />
