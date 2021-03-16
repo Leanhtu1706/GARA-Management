@@ -119,13 +119,21 @@
 
                                     }
                                 }
-                               
+
                                 var moneyMaterial = String.Format(info, "{0:c}", totalMaterial);
                             }
                         </tbody>
                     </table>
 
-                    <h4>Tổng tiền vật tư: &ensp;@moneyMaterial</h4>
+                    <div class="row" style="position: relative; top: 10px;">
+                        <div class="col-md-10">
+                            <h4>Tổng tiền vật tư: &ensp;@moneyMaterial</h4>
+                        </div>
+                        <div class="col-md-2">
+                            <a class="btn btn-sm btn-outline-success" style="text-align:right;" asp-action="Export" asp-route-id="@Model.Id">Xuất Excel</a>
+                        </div>
+
+                    </div>
                 </div>
             </div>
         </div>
@@ -141,7 +149,7 @@
     }
     <div class="row">
         <div class="col-md-12">
-            <div class="table-area row">
+            <div class="table-area row" style="padding-bottom:0;">
                 <div class="col-md-5">
                     <h4 style="color: #ff870c">Tổng chi phí phải thanh toán: &ensp; @totalMoney</h4>
                 </div>
@@ -152,9 +160,9 @@
                     <h4 style="color: #c50c0c">Còn nợ: &ensp; @oweMoney</h4>
                 </div>
                 @*<div class="col-md-2">
-                    <a class="btn btn-sm btn-warning paybtn" data-id-create="@Model.Id" data-toggle='modal' data-target='#createModal'>Thanh toán</a>
-                    <a class="btn btn-sm btn-warning owebtn" data-id-edit="@Model.Id" data-toggle='modal' data-target='#editModal'>Trả nợ</a>
-                </div>*@
+                        <a class="btn btn-sm btn-warning paybtn" data-id-create="@Model.Id" data-toggle='modal' data-target='#createModal'>Thanh toán</a>
+                        <a class="btn btn-sm btn-warning owebtn" data-id-edit="@Model.Id" data-toggle='modal' data-target='#editModal'>Trả nợ</a>
+                    </div>*@
             </div>
         </div>
 
@@ -191,9 +199,11 @@
 
 <style>
     .table-area {
-        margin: 5px 0;
+        margin: 2px 0;
     }
-
+    .dataTables_scrollBody{
+        height: 195px !important;
+    }
 </style>
 
 <script src="~/assets/js/core/jquery.min.js"></script>
@@ -210,7 +220,7 @@
             $('.owebtn').css("display", "none");
         }
 
-        // table 
+        // table
         $('#dtTableBaogia').DataTable(
             {
                 "lengthChange": false, //Hide the Show Entries dropdown
@@ -231,7 +241,7 @@
             });
     });
 
-    
+
     // trả nợ
     @*$(".owebtn").click(function () {
         var idRepair = $(this).attr("data-id-edit");

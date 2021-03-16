@@ -1,4 +1,7 @@
 ﻿/*xử lý chung*/
+.dataTables_scrollHead{
+    height:35px;
+}
 .title {
     color: #3b3b3b;
     margin-bottom: 10px !important;

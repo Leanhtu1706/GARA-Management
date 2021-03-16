@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="EPPlus.Core" Version="1.5.4" />
     <PackageReference Include="HD.AspNetCore.Mvc.Core" Version="4.1.0-ci20200603.1" />
     <PackageReference Include="HD.Station.Core" Version="4.1.0-ci20200430.2" />
     <PackageReference Include="HD.Station.WebComponents.Common" Version="4.1.0-ci20200225.1" />
