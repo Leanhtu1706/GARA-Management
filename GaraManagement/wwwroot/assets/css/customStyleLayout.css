@@ -7,12 +7,17 @@
     margin-bottom: 10px !important;
 }
 .logo img {
-    margin-right: 10px;
+    margin-right: 5px;
     width: 50px;
     height: 50px;
+    float: left;
     border-radius: 55px;
 }
-.pl-3, .px-3{
+.text-username {
+    padding-top: 13px !important;
+    margin-bottom: 20px;
+}
+.pl-3, .px-3 {
     padding: 0 !important;
 }
 .c-subheader{
@@ -235,7 +240,7 @@ i.fas.fa-tools {
 }
 /* Xử lý submenu Tài khoản*/
 .nav .subAccount.show {
-    max-height: 8em;
+    max-height: 14em;
     margin-top: 5px;
 }
 

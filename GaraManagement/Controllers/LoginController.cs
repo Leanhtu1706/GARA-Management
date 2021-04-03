@@ -44,7 +44,7 @@ namespace GaraManagement.Controllers
         {
             var username = account.UserName;
             var password = account.Password;
-            var loginResult =  _context.Accounts.Include(a=>a.IdEmployeeNavigation).Where(a=>(a.UserName == username && a.Password == MD5Hash(password))).FirstOrDefault();
+            var loginResult =  _context.Accounts.Include(a=>a.IdEmployeeNavigation).Include(a => a.Permissions).Where(a=>(a.UserName == username && a.Password == MD5Hash(password))).FirstOrDefault();
             if (loginResult != null)
             {
                 HttpContext.Session.SetString("SessionUserName", loginResult.UserName);

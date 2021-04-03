@@ -36,7 +36,7 @@
             -->
             <div class="logo">
                 <img src="../../img/@Context.Session.GetString("SessionAvatar")" alt="Avatar" />
-                @Context.Session.GetString("SessionName")
+                <h5 class="text-username">@Context.Session.GetString("SessionName")</h5>
             </div>
             <div class="sidebar-wrapper">
                 <ul class="nav">
@@ -98,8 +98,9 @@
                     </li>
                     <li class="nav-item CarModel">
                         <!-- menu quản lý dòng xe-->
-                        <a class="nav-link" asp-controller="CarModels" asp-action="Index">Dòng xe<i class="far fa-user-circle"></i>
-                        </a>  
+                        <a class="nav-link" asp-controller="CarModels" asp-action="Index">
+                            Dòng xe<i class="far fa-user-circle"></i>
+                        </a>
                     </li>
                     <li class="nav-item ">
                         <!--sub menu quản lý Tài khoản-->
@@ -108,16 +109,19 @@
                             <p>Quản lý tài khoản <span class="fas fa-caret-down account"></span></p>
                         </a>
                         <ul class="nav subAccount">
-                            <li class="nav-item profile_info"><a class="nav-link" asp-controller="Profile" asp-action="Index"><i class="far fa-id-badge"></i><p>Thông tin tài khoản</p></a></li>
+                            <li class="nav-item profile_info"><a class="nav-link" asp-controller="Profile" asp-action="Index"><i class="far fa-id-badge"></i><p>Tài khoản cá nhân</p></a></li>
+                            <li class="nav-item account_management"><a class="nav-link" asp-controller="Accounts" asp-action="Index"><i class="far fa-id-badge"></i><p>Quản lý tài khoản</p></a></li>
+                            <li class="nav-item position_management"><a class="nav-link" asp-controller="Positions" asp-action="Index"><i class="far fa-id-badge"></i><p>Quản lý chức vụ</p></a></li>
+                            <li class="nav-item history"><a class="nav-link" asp-controller="Histories" asp-action="Index"><i class="far fa-id-badge"></i><p>Lịch sử</p></a></li>
 
                         </ul>
                     </li>
                     @*<li class="nav-item ">
-            <a class="nav-link" href="./notifications.html">
-                <i class="material-icons">notifications</i>
-                <p>Notifications</p>
-            </a>
-        </li>*@
+                            <a class="nav-link" href="./notifications.html">
+                                <i class="material-icons">notifications</i>
+                                <p>Notifications</p>
+                            </a>
+                        </li>*@
                 </ul>
             </div>
             <div class="sidebar-background" style="background-image: url(../assets/img/sidebar-2.jpg)"></div>
@@ -191,6 +195,10 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-growl/1.0.0/jquery.bootstrap-growl.min.js"></script>
+
+
+
+    <script type="text/javascript" src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
     @RenderSection("Scripts", required: false)
 
 

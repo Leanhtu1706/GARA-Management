@@ -1,0 +1,50 @@
+﻿@model IEnumerable<GaraManagement.Models.Position>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<style>
+    .position_management {
+        background-color: #29a6c8;
+        border-radius: 4px;
+    }
+</style>
+<script src="~/assets/js/core/jquery.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('.nav .subAccount').toggleClass("show");
+        $('.sidebar-wrapper .nav li a .account').toggleClass("rotate");
+    });
+</script>

@@ -184,7 +184,14 @@ namespace GaraManagement.Controllers
                         throw;
                     }
                 }
-
+                //History   
+                History history = new History();
+                history.DateHistory = DateTime.Now;
+                history.UserName = HttpContext.Session.GetString("SessionUserName");
+                history.Event = "Sửa thông tin nhân viên " + employee.Name;
+                _context.Add(history);
+                await _context.SaveChangesAsync();
+                //--------------------------------------------------------------------------------
                 return RedirectToAction(nameof(Index));
             }
             return View(employee);

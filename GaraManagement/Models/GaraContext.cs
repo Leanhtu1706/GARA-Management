@@ -35,6 +35,11 @@ namespace GaraManagement.Models
         public virtual DbSet<Supplier> Suppliers { get; set; }
         public virtual DbSet<TypeOfSupply> TypeOfSupplies { get; set; }
         public virtual DbSet<Work> Works { get; set; }
+        public virtual DbSet<History> Historys { get; set; }
+        public virtual DbSet<Position> Positions { get; set; }
+        public virtual DbSet<Permission> Permissions { get; set; }
+
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -66,6 +71,43 @@ namespace GaraManagement.Models
                     .WithMany(p => p.Accounts)
                     .HasForeignKey(d => d.IdEmployee)
                     .HasConstraintName("FK_Account_Employee");
+            });
+
+            modelBuilder.Entity<History>(entity =>
+            {
+                entity.HasKey(e => e.DateHistory);
+                entity.ToTable("History");
+
+                entity.HasOne(d => d.UserNameNavigation)
+                    .WithMany(p => p.Historys)
+                    .HasForeignKey(d => d.UserName)
+                    .HasConstraintName("FK_History_UserName");
+            });
+
+            modelBuilder.Entity<Position>(entity =>
+            {
+                entity.ToTable("Position");
+
+                entity.Property(e => e.Name);
+            });
+
+            modelBuilder.Entity<Permission>(entity =>
+            {
+                entity.HasKey(e => new { e.UserName, e.PositionId });
+
+                entity.ToTable("Permission");
+
+                entity.HasOne(d => d.IdAccountNavigation)
+                    .WithMany(p => p.Permissions)
+                    .HasForeignKey(d => d.UserName)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Permission_Account");
+
+                entity.HasOne(d => d.IdPositionNavigation)
+                    .WithMany(p => p.Permissions)
+                    .HasForeignKey(d => d.PositionId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Permission_Position");
             });
 
             modelBuilder.Entity<Car>(entity =>
