@@ -22,7 +22,7 @@ namespace GaraManagement.Controllers
         public EmployeesController(GaraContext context, IWebHostEnvironment hostEnvironment)
         {
             _context = context;
-            this._hostEnvironment = hostEnvironment;
+            this._hostEnvironment = hostEnvironment;    
         }
 
         [HttpGet]
@@ -110,6 +110,16 @@ namespace GaraManagement.Controllers
                 _context.Add(employee);
                 await _context.SaveChangesAsync();
                 HttpContext.Session.SetString("SuccessMessage", "Thêm mới thành công");
+
+                //History
+                History history = new History();
+                history.DateHistory = DateTime.Now;
+                history.UserName = HttpContext.Session.GetString("SessionUserName");
+                history.Event = "Thêm nhân viên " + employee.Name;
+                _context.Add(history);
+                await _context.SaveChangesAsync();
+                //============================
+
                 return RedirectToAction(nameof(Index));
             }
             return View(employee);
@@ -172,6 +182,15 @@ namespace GaraManagement.Controllers
                     _context.Update(employee);
                     await _context.SaveChangesAsync();
                     HttpContext.Session.SetString("SuccessMessage","Cập nhật thành công");
+
+                    //History
+                    History history = new History();
+                    history.DateHistory = DateTime.Now;
+                    history.UserName = HttpContext.Session.GetString("SessionUserName");
+                    history.Event = "Cập nhật thông tin nhân viên " + employee.Name;
+                    _context.Add(history);
+                    await _context.SaveChangesAsync();
+                    //============================
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -184,13 +203,7 @@ namespace GaraManagement.Controllers
                         throw;
                     }
                 }
-                //History   
-                History history = new History();
-                history.DateHistory = DateTime.Now;
-                history.UserName = HttpContext.Session.GetString("SessionUserName");
-                history.Event = "Sửa thông tin nhân viên " + employee.Name;
-                _context.Add(history);
-                await _context.SaveChangesAsync();
+
                 //--------------------------------------------------------------------------------
                 return RedirectToAction(nameof(Index));
             }
@@ -224,13 +237,24 @@ namespace GaraManagement.Controllers
             _context.Employees.Remove(employee);
             await _context.SaveChangesAsync();
             HttpContext.Session.SetString("SuccessMessage", "Xóa thành công");
+            
+            //History
+            History history = new History();
+            history.DateHistory = DateTime.Now;
+            history.UserName = HttpContext.Session.GetString("SessionUserName");
+            history.Event = "Xóa nhân viên " + employee.Name;
+            _context.Add(history);
+            await _context.SaveChangesAsync();
+            //============================
 
             return RedirectToAction(nameof(Index));
         }
-
+        
         private bool EmployeeExists(int? id)
         {
             return _context.Employees.Any(e => e.Id == id);
         }
+
+        
     }
 }

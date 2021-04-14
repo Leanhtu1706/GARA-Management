@@ -134,6 +134,15 @@ namespace GaraManagement.Controllers
                 await _context.SaveChangesAsync();
                 HttpContext.Session.SetString("SuccessMessage", "Thêm mới thành công");
 
+                //History
+                History history = new History();
+                history.DateHistory = DateTime.Now;
+                history.UserName = HttpContext.Session.GetString("SessionUserName");
+                history.Event = "Thêm vật tư " + material.Name;
+                _context.Add(history);
+                await _context.SaveChangesAsync();
+                //============================
+
                 return RedirectToAction(nameof(Index));
             }
             ViewData["TypeName"] = new SelectList(_context.TypeOfSupplies, "Id", "Name", type);
@@ -215,6 +224,15 @@ namespace GaraManagement.Controllers
                     
                     HttpContext.Session.SetString("SuccessMessage", "Cập nhật thành công");
 
+                    //History
+                    History history = new History();
+                    history.DateHistory = DateTime.Now;
+                    history.UserName = HttpContext.Session.GetString("SessionUserName");
+                    history.Event = "Cập nhật thông tin vật tư " + material.Name;
+                    _context.Add(history);
+                    await _context.SaveChangesAsync();
+                    //============================
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -278,6 +296,15 @@ namespace GaraManagement.Controllers
             _context.Materials.Remove(supply);
             await _context.SaveChangesAsync();
             HttpContext.Session.SetString("SuccessMessage", "Xóa thành công");
+
+            //History
+            History history = new History();
+            history.DateHistory = DateTime.Now;
+            history.UserName = HttpContext.Session.GetString("SessionUserName");
+            history.Event = "Xóa vật tư " + supply.Name;
+            _context.Add(history);
+            await _context.SaveChangesAsync();
+            //============================
 
             return RedirectToAction(nameof(Index));
         }

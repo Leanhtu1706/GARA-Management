@@ -64,7 +64,11 @@
 
         $('#dtTable').DataTable(
             {
-                "pageLength": 30
+                "order": [[0, "desc"]],
+                "scrollY": "550px",
+                "scrollCollapse": true,
+                "bPaginate": false,
+                "bInfo": false,
             });
     });
 </script>

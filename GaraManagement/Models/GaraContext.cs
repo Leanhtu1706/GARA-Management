@@ -81,7 +81,7 @@ namespace GaraManagement.Models
                 entity.HasOne(d => d.UserNameNavigation)
                     .WithMany(p => p.Historys)
                     .HasForeignKey(d => d.UserName)
-                    .HasConstraintName("FK_History_UserName");
+                    .HasConstraintName("FK_History_Account");
             });
 
             modelBuilder.Entity<Position>(entity =>
@@ -417,5 +417,6 @@ namespace GaraManagement.Models
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+        
     }
 }

@@ -52,9 +52,7 @@ namespace GaraManagement.Controllers
             //}
             else
             {
-                //Tí nhớ xóa 2 dòng này nha
-                //var customer = _context.Customers.Select(i => i.Name).ToList();
-                //ViewData["Customer"] = new SelectList(_context.Customers, "Id", "Name", customer);
+                
                 var carData = _context.Cars.Include(c => c.IdCustomerNavigation).Include(i => i.IdCarModelNavigation);
                 return View(await carData.ToListAsync());
             }
@@ -129,6 +127,16 @@ namespace GaraManagement.Controllers
                 await _context.SaveChangesAsync();
                 HttpContext.Session.SetString("SuccessMessage", "Thêm mới thành công");
 
+                //History
+                History history = new History();
+                history.DateHistory = DateTime.Now;
+                history.UserName = HttpContext.Session.GetString("SessionUserName");
+                var infoCar = _context.Cars.Include(c => c.IdCustomerNavigation).Where(c => c.IdCustomer == car.IdCustomer).FirstOrDefault();
+                history.Event = "Thêm xe của khách hàng" + infoCar.IdCustomerNavigation.Name;
+                _context.Add(history);
+                await _context.SaveChangesAsync();
+                //============================
+
                 return RedirectToAction(nameof(Index));
             }
            
@@ -198,6 +206,16 @@ namespace GaraManagement.Controllers
                     await _context.SaveChangesAsync();
                     HttpContext.Session.SetString("SuccessMessage", "Cập nhật thành công");
 
+                    //History
+                    History history = new History();
+                    history.DateHistory = DateTime.Now;
+                    history.UserName = HttpContext.Session.GetString("SessionUserName");
+                    var infoCar = _context.Cars.Include(c => c.IdCustomerNavigation).Where(c => c.IdCustomer == car.IdCustomer).FirstOrDefault();
+                    history.Event = "Cập nhật thông tin xe của khách hàng " + infoCar.IdCustomerNavigation.Name;
+                    _context.Add(history);
+                    await _context.SaveChangesAsync();
+                    //============================
+
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -241,10 +259,19 @@ namespace GaraManagement.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var car = await _context.Cars.FindAsync(id);
+            var car = await _context.Cars.Include(a=>a.IdCustomerNavigation).Where(a => a.Id == id).FirstOrDefaultAsync();
             _context.Cars.Remove(car);
             await _context.SaveChangesAsync();
             HttpContext.Session.SetString("SuccessMessage", "Xóa thành công");
+
+            //History
+            History history = new History();
+            history.DateHistory = DateTime.Now;
+            history.UserName = HttpContext.Session.GetString("SessionUserName");
+            history.Event = "Xóa xe của khách hàng " + car.IdCustomerNavigation.Name;
+            _context.Add(history);
+            await _context.SaveChangesAsync();
+            //============================
 
             return RedirectToAction(nameof(Index));
         }

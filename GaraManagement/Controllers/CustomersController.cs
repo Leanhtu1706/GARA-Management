@@ -83,6 +83,14 @@ namespace GaraManagement.Controllers
                 await _context.SaveChangesAsync();
                 HttpContext.Session.SetString("SuccessMessage", "Thêm mới thành công");
 
+                //History
+                History history = new History();
+                history.DateHistory = DateTime.Now;
+                history.UserName = HttpContext.Session.GetString("SessionUserName");
+                history.Event = "Thêm khách hàng " + customer.Name;
+                _context.Add(history);
+                await _context.SaveChangesAsync();
+                //============================
                 return RedirectToAction(nameof(Index));
             }           
             return View(customer);
@@ -123,6 +131,15 @@ namespace GaraManagement.Controllers
                     _context.Update(customer);
                     await _context.SaveChangesAsync();
                     HttpContext.Session.SetString("SuccessMessage", "Cập nhật thành công");
+
+                    //History
+                    History history = new History();
+                    history.DateHistory = DateTime.Now;
+                    history.UserName = HttpContext.Session.GetString("SessionUserName");
+                    history.Event = "Cập nhật thông tin khách hàng " + customer.Name;
+                    _context.Add(history);
+                    await _context.SaveChangesAsync();
+                    //============================
 
                 }
                 catch (DbUpdateConcurrencyException)
@@ -171,6 +188,14 @@ namespace GaraManagement.Controllers
             await _context.SaveChangesAsync();
             HttpContext.Session.SetString("SuccessMessage", "Xóa thành công");
 
+            //History
+            History history = new History();
+            history.DateHistory = DateTime.Now;
+            history.UserName = HttpContext.Session.GetString("SessionUserName");
+            history.Event = "Xóa khách hàng " + customer.Name;
+            _context.Add(history);
+            await _context.SaveChangesAsync();
+            //============================
             return RedirectToAction(nameof(Index));
         }
 
