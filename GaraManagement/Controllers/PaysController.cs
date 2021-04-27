@@ -22,6 +22,14 @@ namespace GaraManagement.Controllers
         // GET: Pays
         public async Task<IActionResult> Index()
         {
+            if (HttpContext.Session.GetString("SessionUserName") == null || HttpContext.Session.GetString("PermissionAdmin") != "Yes")
+            {
+                if (HttpContext.Session.GetString("PermissionCoVan") != "Yes")
+                {
+                    return RedirectToAction("Index", "Login");
+                }
+            }
+
             if (HttpContext.Session.GetString("SuccessMessage") != null)
             {
                 ViewBag.SuccessMessage = HttpContext.Session.GetString("SuccessMessage");

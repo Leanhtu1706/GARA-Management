@@ -23,6 +23,10 @@ namespace GaraManagement.Controllers
         }
         public IActionResult Index()
         {
+            if (HttpContext.Session.GetString("SessionUserName") == null || HttpContext.Session.GetString("PermissionAdmin") != "Yes")
+            {
+                return RedirectToAction("Index", "Login");
+            }
             ViewData["CountCustomer"] = _context.Customers.Count();
             ViewData["CountRepair"] = _context.Repairs.Count();
             return View();

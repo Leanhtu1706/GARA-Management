@@ -23,6 +23,13 @@ namespace GaraManagement.Controllers
         // GET: GoodsReceivedNotes
         public IActionResult Index(string search)
         {
+            if (HttpContext.Session.GetString("SessionUserName") == null || HttpContext.Session.GetString("PermissionAdmin") != "Yes")
+            {
+                if (HttpContext.Session.GetString("PermissionThuKho") != "Yes")
+                {
+                    return RedirectToAction("Index", "Login");
+                }
+            }
 
             if (HttpContext.Session.GetString("SuccessMessage") != null)
             {

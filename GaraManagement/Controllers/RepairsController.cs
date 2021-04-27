@@ -25,9 +25,12 @@ namespace GaraManagement.Controllers
         // GET: Repairs
         public async Task<IActionResult> Index(int? IdCar, string date, StateType? state, string search)
         {
-            if (HttpContext.Session.GetString("SessionUserName") == null)
+            if (HttpContext.Session.GetString("SessionUserName") == null || HttpContext.Session.GetString("PermissionAdmin") != "Yes")
             {
-                return RedirectToAction("Index", "Login");
+                if (HttpContext.Session.GetString("PermissionCoVan") != "Yes")
+                {
+                    return RedirectToAction("Index", "Login");
+                }
             }
             if (HttpContext.Session.GetString("SuccessMessage") != null)
             {

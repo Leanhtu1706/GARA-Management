@@ -51,6 +51,23 @@ namespace GaraManagement.Controllers
                 HttpContext.Session.SetString("SessionPassword", loginResult.Password);
                 HttpContext.Session.SetString("SessionName", loginResult.IdEmployeeNavigation.Name);
                 HttpContext.Session.SetString("SessionAvatar", loginResult.IdEmployeeNavigation.Image);
+                foreach(var item in loginResult.Permissions)
+                {
+                    if(item.PositionId == 1)
+                    {
+                        HttpContext.Session.SetString("PermissionAdmin", "Yes");
+                    }   
+                    if(item.PositionId == 2)
+                    {
+                        HttpContext.Session.SetString("PermissionCoVan", "Yes");
+                    }   
+                    if(item.PositionId == 3)
+                    {
+                        HttpContext.Session.SetString("PermissionThuKho", "Yes");
+                    } 
+
+                }    
+                
                 return Json(new { redirectToUrl = Url.Action("Index", "Home") });
 
             }

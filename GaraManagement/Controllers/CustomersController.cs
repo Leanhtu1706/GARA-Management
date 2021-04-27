@@ -23,10 +23,14 @@ namespace GaraManagement.Controllers
         [HttpGet]
         public  IActionResult Index(string search)
         {
-            if (HttpContext.Session.GetString("SessionUserName") == null)
+            if (HttpContext.Session.GetString("SessionUserName") == null || HttpContext.Session.GetString("PermissionAdmin") != "Yes")
             {
-                return RedirectToAction("Index", "Login");
+                if (HttpContext.Session.GetString("PermissionCoVan") != "Yes")
+                { 
+                    return RedirectToAction("Index", "Login");
+                }
             }
+            
             if (HttpContext.Session.GetString("SuccessMessage") != null)
             {
                 ViewBag.SuccessMessage = HttpContext.Session.GetString("SuccessMessage");

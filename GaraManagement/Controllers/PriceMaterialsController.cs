@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GaraManagement.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace GaraManagement.Controllers
 {
@@ -21,6 +22,13 @@ namespace GaraManagement.Controllers
         // GET: PriceMaterials
         public async Task<IActionResult> Index()
         {
+            if (HttpContext.Session.GetString("SessionUserName") == null || HttpContext.Session.GetString("PermissionAdmin") != "Yes")
+            {
+                if (HttpContext.Session.GetString("PermissionThuKho") != "Yes")
+                {
+                    return RedirectToAction("Index", "Login");
+                }
+            }
             var garaContext = _context.PriceMaterials.Include(p => p.IdMaterialNavigation);
             return View(await garaContext.ToListAsync());
         }

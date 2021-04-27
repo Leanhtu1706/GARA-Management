@@ -24,9 +24,12 @@ namespace GaraManagement.Controllers
         {
             //var garaContext = _context.Works.Include(w => w.IdServiceNavigation);
             //return View(await garaContext.ToListAsync());
-            if (HttpContext.Session.GetString("SessionUserName") == null)
+            if (HttpContext.Session.GetString("SessionUserName") == null || HttpContext.Session.GetString("PermissionAdmin") != "Yes")
             {
-                return RedirectToAction("Index", "Login");
+                if (HttpContext.Session.GetString("PermissionCoVan") != "Yes")
+                {
+                    return RedirectToAction("Index", "Login");
+                }
             }
             if (HttpContext.Session.GetString("SuccessMessage") != null)
             {

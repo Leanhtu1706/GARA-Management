@@ -40,13 +40,13 @@
             </div>
             <div class="sidebar-wrapper">
                 <ul class="nav">
-                    <li class="nav-item ">
+                    <li class="nav-item dashBoard">
                         <a class="nav-link" asp-controller="DashBoard" asp-action="Index">
                             <i class="fas fa-chart-line"></i>
                             <p>Dashboard</p>
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item employ">
                         <!--sub menu quản lý nhân viên-->
                         <a class="nav-link user-btn" href="#">
                             <i class="fas fa-user-cog"></i>
@@ -57,7 +57,7 @@
 
                         </ul>
                     </li>
-                    <li class="nav-item ">
+                    <li class="nav-item Custom">
                         <!--sub menu quản lý khách hàng-->
                         <a class="nav-link customer-btn" href="#">
                             <i class="fas fa-user-tie"></i>
@@ -68,7 +68,7 @@
                             <li class="nav-item car"><a class="nav-link" asp-controller="Cars" asp-action="Index"><i class="fas fa-car"></i><p>Thông tin xe</p></a></li>
                         </ul>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item repairMenu">
                         <!--sub menu quản lý sửa chữa-->
                         <a class="nav-link repair-btn" href="#">
                             <i class="fas fa-tools"></i>
@@ -82,7 +82,7 @@
                             <li class="nav-item pay"><a class="nav-link" asp-controller="Pays" asp-action="Index"><i class="fas fa-receipt"></i><p>Biên lai</p></a></li>
                         </ul>
                     </li>
-                    <li class="nav-item ">
+                    <li class="nav-item wareHouseMenu">
                         <!--sub menu quản lý kho vật tư-->
                         <a class="nav-link warehouse-btn" href="#">
                             <i class="fas fa-truck-loading"></i>
@@ -102,7 +102,7 @@
                             Dòng xe<i class="far fa-user-circle"></i>
                         </a>
                     </li>
-                    <li class="nav-item ">
+                    <li class="nav-item">
                         <!--sub menu quản lý Tài khoản-->
                         <a class="nav-link account-btn" href="#">
                             <i class="far fa-user-circle"></i>
@@ -202,7 +202,42 @@
     @RenderSection("Scripts", required: false)
 
 
-    <script>
+<script>
+
+    //Permission
+    $(document).ready(function () {
+        $(".account_management").css("display", "none");
+        $(".position_management").css("display", "none");
+        $(".history").css("display", "none");
+        $(".dashBoard").css("display", "none");
+        $(".employ").css("display", "none");
+        $(".Custom").css("display", "none");
+        $(".CarModel").css("display", "none");
+        $(".wareHouseMenu").css("display", "none");
+        $(".repairMenu").css("display", "none");
+
+        if ("@Context.Session.GetString("PermissionAdmin")" == "Yes") {
+            $(".account_management").css("display", "block");
+            $(".position_management").css("display", "block");
+            $(".history").css("display", "block");
+            $(".dashBoard").css("display", "block");
+            $(".employ").css("display", "block");
+            $(".Custom").css("display", "block");
+            $(".CarModel").css("display", "block");
+            $(".wareHouseMenu").css("display", "block");
+            $(".repairMenu").css("display", "block");
+
+        }
+        if ("@Context.Session.GetString("PermissionCoVan")" == "Yes") {
+            $(".repairMenu").css("display", "block");
+            $(".Custom").css("display", "block");
+            $(".CarModel").css("display", "block");
+        }
+        if ("@Context.Session.GetString("PermissionThuKho")" == "Yes") {
+            $(".wareHouseMenu").css("display", "block");
+        }
+        });
+
         //show submenu
 
         $('.user-btn').click(function () {
@@ -226,7 +261,8 @@
             $('.sidebar-wrapper .nav li a .account').toggleClass("rotate");
         });
 
-    </script>
+
+</script>
 </body>
 </html>
 
