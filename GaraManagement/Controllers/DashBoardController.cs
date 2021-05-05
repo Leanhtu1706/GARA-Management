@@ -27,26 +27,29 @@ namespace GaraManagement.Controllers
             {
                 return RedirectToAction("Index", "Login");
             }
+            var date = _context.Repairs.Select(r => r.DateOfFactoryEntry).FirstOrDefault();
+            var year = Convert.ToDateTime(date).Year;  // tách ngày tháng năm lấy năm
+            ViewData["Year"] = year;
             ViewData["CountCustomer"] = _context.Customers.Count();
             ViewData["CountRepair"] = _context.Repairs.Count();
             return View();
         }
 
-        public IActionResult GetcountData()
+        public IActionResult GetcountData(int year)
         {
             Month countCar = new Month();
-            countCar.Thang1 = _context.Repairs.Where(r => r.DateOfFactoryEntry >= DateTime.Parse("01/01/2021") && r.DateOfFactoryEntry < DateTime.Parse("01/02/2021")).Count();
-            countCar.Thang2 = _context.Repairs.Where(r => r.DateOfFactoryEntry >= DateTime.Parse("01/02/2021") && r.DateOfFactoryEntry < DateTime.Parse("01/03/2021")).Count();
-            countCar.Thang3 = _context.Repairs.Where(r => r.DateOfFactoryEntry >= DateTime.Parse("01/03/2021") && r.DateOfFactoryEntry < DateTime.Parse("01/04/2021")).Count();
-            countCar.Thang4 = _context.Repairs.Where(r => r.DateOfFactoryEntry >= DateTime.Parse("01/04/2021") && r.DateOfFactoryEntry < DateTime.Parse("01/05/2021")).Count();
-            countCar.Thang5 = _context.Repairs.Where(r => r.DateOfFactoryEntry >= DateTime.Parse("01/05/2021") && r.DateOfFactoryEntry < DateTime.Parse("01/06/2021")).Count();
-            countCar.Thang6 = _context.Repairs.Where(r => r.DateOfFactoryEntry >= DateTime.Parse("01/06/2021") && r.DateOfFactoryEntry < DateTime.Parse("01/07/2021")).Count();
-            countCar.Thang7 = _context.Repairs.Where(r => r.DateOfFactoryEntry >= DateTime.Parse("01/07/2021") && r.DateOfFactoryEntry < DateTime.Parse("01/08/2021")).Count();
-            countCar.Thang8 = _context.Repairs.Where(r => r.DateOfFactoryEntry >= DateTime.Parse("01/08/2021") && r.DateOfFactoryEntry < DateTime.Parse("01/09/2021")).Count();
-            countCar.Thang9 = _context.Repairs.Where(r => r.DateOfFactoryEntry >= DateTime.Parse("01/09/2021") && r.DateOfFactoryEntry < DateTime.Parse("01/10/2021")).Count();
-            countCar.Thang10 = _context.Repairs.Where(r => r.DateOfFactoryEntry >= DateTime.Parse("01/10/2021") && r.DateOfFactoryEntry < DateTime.Parse("01/11/2021")).Count();
-            countCar.Thang11 = _context.Repairs.Where(r => r.DateOfFactoryEntry >= DateTime.Parse("01/11/2021") && r.DateOfFactoryEntry < DateTime.Parse("01/12/2021")).Count();
-            countCar.Thang12 = _context.Repairs.Where(r => r.DateOfFactoryEntry >= DateTime.Parse("01/12/2021") && r.DateOfFactoryEntry < DateTime.Parse("31/12/2021")).Count();
+            countCar.Thang1 = _context.Repairs.Where(r => r.DateOfFactoryEntry >= DateTime.Parse("01/01/" + year) && r.DateOfFactoryEntry < DateTime.Parse("01/02/" + year)).Count();
+            countCar.Thang2 = _context.Repairs.Where(r => r.DateOfFactoryEntry >= DateTime.Parse("01/02/" + year) && r.DateOfFactoryEntry < DateTime.Parse("01/03/" + year)).Count();
+            countCar.Thang3 = _context.Repairs.Where(r => r.DateOfFactoryEntry >= DateTime.Parse("01/03/" + year) && r.DateOfFactoryEntry < DateTime.Parse("01/04/" + year)).Count();
+            countCar.Thang4 = _context.Repairs.Where(r => r.DateOfFactoryEntry >= DateTime.Parse("01/04/" + year) && r.DateOfFactoryEntry < DateTime.Parse("01/05/" + year)).Count();
+            countCar.Thang5 = _context.Repairs.Where(r => r.DateOfFactoryEntry >= DateTime.Parse("01/05/" + year) && r.DateOfFactoryEntry < DateTime.Parse("01/06/" + year)).Count();
+            countCar.Thang6 = _context.Repairs.Where(r => r.DateOfFactoryEntry >= DateTime.Parse("01/06/" + year) && r.DateOfFactoryEntry < DateTime.Parse("01/07/" + year)).Count();
+            countCar.Thang7 = _context.Repairs.Where(r => r.DateOfFactoryEntry >= DateTime.Parse("01/07/" + year) && r.DateOfFactoryEntry < DateTime.Parse("01/08/" + year)).Count();
+            countCar.Thang8 = _context.Repairs.Where(r => r.DateOfFactoryEntry >= DateTime.Parse("01/08/" + year) && r.DateOfFactoryEntry < DateTime.Parse("01/09/" + year)).Count();
+            countCar.Thang9 = _context.Repairs.Where(r => r.DateOfFactoryEntry >= DateTime.Parse("01/09/" + year) && r.DateOfFactoryEntry < DateTime.Parse("01/10/" + year)).Count();
+            countCar.Thang10 = _context.Repairs.Where(r => r.DateOfFactoryEntry >= DateTime.Parse("01/10/" + year) && r.DateOfFactoryEntry < DateTime.Parse("01/11/" + year)).Count();
+            countCar.Thang11 = _context.Repairs.Where(r => r.DateOfFactoryEntry >= DateTime.Parse("01/11/" + year) && r.DateOfFactoryEntry < DateTime.Parse("01/12/" + year)).Count();
+            countCar.Thang12 = _context.Repairs.Where(r => r.DateOfFactoryEntry >= DateTime.Parse("01/12/" + year) && r.DateOfFactoryEntry < DateTime.Parse("31/12/" + year)).Count();
             //List<CountCar> listCountCar = new List<CountCar>();
             //for (int i = 1; i <= 12; i++)
             //{
@@ -68,7 +71,7 @@ namespace GaraManagement.Controllers
             return Json(countCar);
         }
 
-        public IActionResult GetRevenueData()
+        public IActionResult GetRevenueData(int year)
         {
             // tổng tiền nhập hàng theo tháng
             List<int?> arrayNhapHang = new List<int?>();
@@ -78,7 +81,7 @@ namespace GaraManagement.Controllers
                 int? tiennhaphang = 0;
                 if (i==12)
                 {
-                    var nhaphangT12 = _context.GoodsReceivedNotes.Include(a => a.DetailGoodsReceivedNotes).Where(d => d.ImportDate >= DateTime.Parse("01/" + i + "/2021") && d.ImportDate < DateTime.Parse("31/" + i + "/2021")).ToList();
+                    var nhaphangT12 = _context.GoodsReceivedNotes.Include(a => a.DetailGoodsReceivedNotes).Where(d => d.ImportDate >= DateTime.Parse("01/" + i + "/" + year) && d.ImportDate < DateTime.Parse("31/" + i + "/" + year)).ToList();
                     foreach (var item in nhaphangT12)
                     {
                         foreach (var item2 in item.DetailGoodsReceivedNotes)
@@ -88,7 +91,7 @@ namespace GaraManagement.Controllers
                     }
                 }
                 else {
-                    var nhaphang = _context.GoodsReceivedNotes.Include(a => a.DetailGoodsReceivedNotes).Where(d => d.ImportDate >= DateTime.Parse("01/" + i + "/2021") && d.ImportDate < DateTime.Parse("01/" + (i + 1) + "/2021")).ToList();
+                    var nhaphang = _context.GoodsReceivedNotes.Include(a => a.DetailGoodsReceivedNotes).Where(d => d.ImportDate >= DateTime.Parse("01/" + i + "/" + year) && d.ImportDate < DateTime.Parse("01/" + (i + 1) + "/" + year)).ToList();
                     foreach (var item in nhaphang)
                     {
                         foreach (var item2 in item.DetailGoodsReceivedNotes)
@@ -108,7 +111,7 @@ namespace GaraManagement.Controllers
                 int? tienbanhang = 0;
                 if (i == 12)
                 {
-                    var banhangT12 = _context.GoodsDeliveryNotes.Include(a => a.DetailGoodsDeliveryNotes).Where(d => d.ExportDate >= DateTime.Parse("01/" + i + "/2021") && d.ExportDate < DateTime.Parse("31/" + i + "/2021")).ToList();
+                    var banhangT12 = _context.GoodsDeliveryNotes.Include(a => a.DetailGoodsDeliveryNotes).Where(d => d.ExportDate >= DateTime.Parse("01/" + i + "/" + year) && d.ExportDate < DateTime.Parse("31/" + i + "/" + year)).ToList();
                     foreach (var item in banhangT12)
                     {
                         foreach (var item2 in item.DetailGoodsDeliveryNotes)
@@ -119,7 +122,7 @@ namespace GaraManagement.Controllers
                 }
                 else
                 {
-                    var nhaphang = _context.GoodsDeliveryNotes.Include(a => a.DetailGoodsDeliveryNotes).Where(d => d.ExportDate >= DateTime.Parse("01/" + i + "/2021") && d.ExportDate < DateTime.Parse("01/" + (i + 1) + "/2021")).ToList();
+                    var nhaphang = _context.GoodsDeliveryNotes.Include(a => a.DetailGoodsDeliveryNotes).Where(d => d.ExportDate >= DateTime.Parse("01/" + i + "/" + year) && d.ExportDate < DateTime.Parse("01/" + (i + 1) + "/" + year)).ToList();
                     foreach (var item in nhaphang)
                     {
                         foreach (var item2 in item.DetailGoodsDeliveryNotes)
@@ -148,7 +151,7 @@ namespace GaraManagement.Controllers
                 int? chiphisua = 0;
                 if(i == 12)
                 {
-                    var repairCost = _context.DetailRepairs.Include(dt => dt.IdRepairNavigation).ThenInclude(dt => dt.Pays).Where(dt => dt.IdRepairNavigation.Pays.First().DateOfPayment >= DateTime.Parse("01/" + i + "/2021") && dt.IdRepairNavigation.Pays.First().DateOfPayment < DateTime.Parse("31/" + i + "/2021"));
+                    var repairCost = _context.DetailRepairs.Include(dt => dt.IdRepairNavigation).ThenInclude(dt => dt.Pays).Where(dt => dt.IdRepairNavigation.Pays.First().DateOfPayment >= DateTime.Parse("01/" + i + "/" + year) && dt.IdRepairNavigation.Pays.First().DateOfPayment < DateTime.Parse("31/" + i + "/" + year));
                     foreach (var item in repairCost)
                     {
                         chiphisua += item.Amount * item.IdWorkNavigation.Cost;
@@ -156,7 +159,7 @@ namespace GaraManagement.Controllers
                 }
                 else
                 {
-                    var repairCost = _context.DetailRepairs.Include(dt => dt.IdWorkNavigation).Include(dt => dt.IdRepairNavigation).ThenInclude(dt => dt.Pays).Where(dt => dt.IdRepairNavigation.Pays.First().DateOfPayment >= DateTime.Parse("01/" + i + "/2021") && dt.IdRepairNavigation.Pays.First().DateOfPayment < DateTime.Parse("01/" + (i + 1) + "/2021"));
+                    var repairCost = _context.DetailRepairs.Include(dt => dt.IdWorkNavigation).Include(dt => dt.IdRepairNavigation).ThenInclude(dt => dt.Pays).Where(dt => dt.IdRepairNavigation.Pays.First().DateOfPayment >= DateTime.Parse("01/" + i + "/" + year) && dt.IdRepairNavigation.Pays.First().DateOfPayment < DateTime.Parse("01/" + (i + 1) + "/" + year));
                     foreach(var item in repairCost)
                     {
                         chiphisua += item.Amount * item.IdWorkNavigation.Cost;
@@ -201,7 +204,7 @@ namespace GaraManagement.Controllers
             return Json(doanhThu);
             
         }
-        public IActionResult GetPayData()
+        public IActionResult GetPayData(int year)
         {
             List<int?> arrayPay = new List<int?>();
             for (var i = 1; i <= 12; i++)
@@ -209,7 +212,7 @@ namespace GaraManagement.Controllers
                 int? pay = 0;
                 if (i == 12)
                 {
-                    var paid = _context.Pays.Where(p => p.DateOfPayment >= DateTime.Parse("01/" + i + "/2021") && p.DateOfPayment < DateTime.Parse("31/" + i + "/2021"));
+                    var paid = _context.Pays.Where(p => p.DateOfPayment >= DateTime.Parse("01/" + i + "/" + year) && p.DateOfPayment < DateTime.Parse("31/" + i + "/" + year));
                     foreach (var item in paid)
                     {
                         pay += item.Paid;
@@ -217,7 +220,7 @@ namespace GaraManagement.Controllers
                 }
                 else
                 {
-                    var paid = _context.Pays.Where(p => p.DateOfPayment >= DateTime.Parse("01/" + i + "/2021") && p.DateOfPayment < DateTime.Parse("01/" + (i + 1) + "/2021"));
+                    var paid = _context.Pays.Where(p => p.DateOfPayment >= DateTime.Parse("01/" + i + "/" + year) && p.DateOfPayment < DateTime.Parse("01/" + (i + 1) + "/" + year));
                     foreach (var item in paid)
                     {
                         pay += item.Paid;
@@ -233,7 +236,7 @@ namespace GaraManagement.Controllers
                 int? sumTotal = 0;
                 if (i == 12)
                 {
-                    var paid = _context.Pays.Where(p => p.DateOfPayment >= DateTime.Parse("01/" + i + "/2021") && p.DateOfPayment < DateTime.Parse("31/" + i + "/2021"));
+                    var paid = _context.Pays.Where(p => p.DateOfPayment >= DateTime.Parse("01/" + i + "/" + year) && p.DateOfPayment < DateTime.Parse("31/" + i + "/" + year));
                     foreach (var item in paid)
                     {
                         sumTotal += item.Total;
@@ -241,7 +244,7 @@ namespace GaraManagement.Controllers
                 }
                 else
                 {
-                    var paid = _context.Pays.Where(p => p.DateOfPayment >= DateTime.Parse("01/" + i + "/2021") && p.DateOfPayment < DateTime.Parse("01/" + (i + 1) + "/2021"));
+                    var paid = _context.Pays.Where(p => p.DateOfPayment >= DateTime.Parse("01/" + i + "/" + year) && p.DateOfPayment < DateTime.Parse("01/" + (i + 1) + "/" + year));
                     foreach (var item in paid)
                     {
                         sumTotal += item.Total;

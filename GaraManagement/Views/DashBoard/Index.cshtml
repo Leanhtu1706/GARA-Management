@@ -76,6 +76,18 @@
         </div>
     </div>
 </div>
+<div class="dropdown" style=" width: 10%;">
+    <select id="select-year" class="custom-select">
+        @{
+            var year = Convert.ToInt32(ViewData["year"]);
+            for (var i = 2020; i <= year; i++)
+            {
+                <option value="@i">@i</option>
+
+            }
+        }
+    </select>
+</div>
 
 <figure class="highcharts-figure2">
     <div id="container2"></div>
@@ -174,9 +186,17 @@
 <script src="~/assets/js/core/jquery.min.js"></script>
 <script>
     $(document).ready(function () {
+        var year;
+        $('#select-year').select2({});
+
+        $("#select-year").change(function () {
+        year = $("#select-year option:selected").val();
+        console.log("Year:", year);
+        
         $.ajax({
             url: '@Url.Action("GetcountData")',
             type: "GET",
+            data: { year: year },
             success: function (data) {
                 console.log("data: ", data);
                 Highcharts.chart('container1', {
@@ -184,7 +204,7 @@
                         type: 'column'
                     },
                     title: {
-                        text: 'Thống kê số lượng xe theo các tháng'
+                        text: 'Thống kê số lượng xe năm ' + year
                     },
 
                     accessibility: {
@@ -279,6 +299,7 @@
         $.ajax({
             url: '@Url.Action("GetRevenueData")',
             type: "GET",
+            data: { year: year },
             success: function (data) {
                 console.log("data2:", data);
                 Highcharts.chart('container2', {
@@ -286,7 +307,7 @@
                         type: 'column'
                     },
                     title: {
-                        text: 'Thống kê lợi nhuận bán hàng các tháng trong năm'
+                        text: 'Thống kê lợi nhuận bán hàng năm ' + year
                     },
                     subtitle: {
                         text: 'Source: WorldClimate.com'
@@ -339,6 +360,7 @@
         $.ajax({
             url: '@Url.Action("GetRevenueData")',
             type: "GET",
+            data: { year: year },
             success: function (data) {
                 console.log("data2:", data);
                 Highcharts.chart('container3', {
@@ -346,7 +368,7 @@
                         type: 'column'
                     },
                     title: {
-                        text: 'Tổng doanh thu và lợi nhuận ròng'
+                        text: 'Tổng doanh thu và lợi nhuận ròng năm ' + year
                     },
                     xAxis: {
                         categories: [
@@ -414,6 +436,7 @@
         $.ajax({
             url: '@Url.Action("GetPayData")',
             type: "GET",
+            data: { year: year },
             success: function (data) {
                 console.log("data2:", data);
                 Highcharts.chart('container4', {
@@ -421,7 +444,7 @@
                         type: 'column'
                     },
                     title: {
-                        text: 'Thống kê biên lai'
+                        text: 'Thống kê biên lai năm ' + year
                     },
                     xAxis: {
                         categories: [
@@ -492,14 +515,15 @@
             }
         });
 
-        
+
         /////////////////////////////////////
         var options = new Object();
         $.ajax({
             type: "GET",
             url: '@Url.Action("GetServiceData")',
+            data: { year: year },
             success: function (list) {
-            
+
 
             options.chart = new Object();
             options.chart.renderTo = 'container5';
@@ -517,16 +541,17 @@
                     options.series[0].data[key].name = item.name,
                         options.series[0].data[key].y = item.data,
                     console.log("option:", options);
-                   
+
                 });
                 var chart = new Highcharts.Chart(options);
                 }
             });
-       
+        });
 
 });
 
 
     // Create the chart
+
 
 </script>
