@@ -343,7 +343,7 @@ namespace GaraManagement.Controllers
                 sheet.Cells["A9"].Value = "Địa chỉ:   " + repair.IdCarNavigation.IdCustomerNavigation.Address;
                 sheet.Cells["A10"].Value = "Số CMND:   " + repair.IdCarNavigation.IdCustomerNavigation.IdentityCardNumber; 
 
-                sheet.Cells["D6"].Value = "Thời gian:" + DateTime.Now.ToString("dd/MM/yyyy HH:mm");
+                sheet.Cells["D6"].Value = "Thời gian: " + DateTime.Now.ToString("dd/MM/yyyy HH:mm");
                 sheet.Cells["D7"].Value = "Biển số:"; sheet.Cells["E7"].Value = repair.IdCarNavigation.LicensePlates;
                 sheet.Cells["D8"].Value = "Dòng xe:"; sheet.Cells["E8"].Value = repair.IdCarNavigation.IdCarModelNavigation.ModelName;
                 sheet.Cells["D9"].Value = "Màu:"; sheet.Cells["E9"].Value = repair.IdCarNavigation.Color;
@@ -354,16 +354,17 @@ namespace GaraManagement.Controllers
                 sheet.Cells["C12"].Value = "Số lượng";
                 sheet.Cells["D12"].Value = "Đơn giá";
                 sheet.Cells["E12"].Value = "thành tiền";
+                sheet.Cells[12, 5, 12, 6].Merge = true;
 
-                using (ExcelRange exr = sheet.Cells[7,1,7,5])
+                using (ExcelRange exr = sheet.Cells[7,1,7,6])
                 {
                     exr.Style.Border.Top.Style = ExcelBorderStyle.Thin;  
                 }
-                using (ExcelRange exr = sheet.Cells[10,1,10,5])
+                using (ExcelRange exr = sheet.Cells[10,1,10,6])
                 {
                     exr.Style.Border.Bottom.Style = ExcelBorderStyle.Thin;  
                 }
-                using (ExcelRange exr = sheet.Cells[7,5,10,5])
+                using (ExcelRange exr = sheet.Cells[7,6,10,6])
                 {
                     exr.Style.Border.Right.Style = ExcelBorderStyle.Thin;  
                 }
@@ -381,17 +382,22 @@ namespace GaraManagement.Controllers
                 //Show danh sách vật tư
                 var rowNumber = 13;
                 int? tongTienVatTu = 0;
-                foreach (var item in repair.GoodsDeliveryNotes.Where(r => r.IdRepair == id).FirstOrDefault().DetailGoodsDeliveryNotes)
+                if(repair.GoodsDeliveryNotes.Count() != 0)
                 {
-                    sheet.Cells["A" + rowNumber].Value = item.IdMaterialNavigation.Name;
-                    sheet.Cells["B" + rowNumber].Value = item.IdMaterialNavigation.Unit;
-                    sheet.Cells["C" + rowNumber].Value = item.Amount;
-                    sheet.Cells["D" + rowNumber].Value = String.Format(info, "{0:c}", item.Price);
-                    sheet.Cells["E" + rowNumber].Value = String.Format(info, "{0:c}", item.Amount * item.Price);
-                    tongTienVatTu += item.Amount * item.Price;
-                    rowNumber++;
-                }
-                using (ExcelRange exr = sheet.Cells[12, 1, rowNumber-1, 5])
+                    foreach (var item in repair.GoodsDeliveryNotes.Where(r => r.IdRepair == id).FirstOrDefault().DetailGoodsDeliveryNotes)
+                    {
+                        sheet.Cells[rowNumber, 5, rowNumber, 6].Merge = true;
+                        sheet.Cells["A" + rowNumber].Value = item.IdMaterialNavigation.Name;
+                        sheet.Cells["B" + rowNumber].Value = item.IdMaterialNavigation.Unit;
+                        sheet.Cells["C" + rowNumber].Value = item.Amount;
+                        sheet.Cells["D" + rowNumber].Value = String.Format(info, "{0:c}", item.Price);
+                        sheet.Cells["E" + rowNumber].Value = String.Format(info, "{0:c}", item.Amount * item.Price);
+                        tongTienVatTu += item.Amount * item.Price;
+                        rowNumber++;
+                    }
+                }    
+                
+                using (ExcelRange exr = sheet.Cells[12, 1, rowNumber-1, 6])
                 {
                     //exr.AutoFitColumns();
                     exr.Style.Border.Top.Style = ExcelBorderStyle.Thin;
@@ -408,7 +414,7 @@ namespace GaraManagement.Controllers
                 sheet.Cells["B" + (rowNumber + 1)].Value = "Số lượng";
                 sheet.Cells["C" + (rowNumber + 1)].Value = "Chi phí";
                 sheet.Cells["D" + (rowNumber + 1)].Value = "thành tiền";
-                sheet.Cells[rowNumber + 1, 4, rowNumber + 1, 5].Merge = true;
+                sheet.Cells[rowNumber + 1, 4, rowNumber + 1, 6].Merge = true;
 
                 sheet.Cells["A" + rowNumber].Style.Font.Bold = true;
                 sheet.Cells["A" + (rowNumber + 1)].Style.Font.Bold = true;
@@ -417,7 +423,7 @@ namespace GaraManagement.Controllers
                 sheet.Cells["D" + (rowNumber + 1)].Style.Font.Bold = true;
                 foreach (var item in repair.DetailRepairs)
                 {
-                    sheet.Cells[rowNumberWork, 4, rowNumberWork, 5].Merge = true;
+                    sheet.Cells[rowNumberWork, 4, rowNumberWork, 6].Merge = true;
                     sheet.Cells["A" + rowNumberWork].Value = item.IdWorkNavigation.WorkName;
                     sheet.Cells["B" + rowNumberWork].Value = item.Amount;
                     sheet.Cells["C" + rowNumberWork].Value = String.Format(info, "{0:c}", item.IdWorkNavigation.Cost);
@@ -425,7 +431,7 @@ namespace GaraManagement.Controllers
                     tongTienCong += item.Amount * item.IdWorkNavigation.Cost;
                     rowNumberWork++;    
                 }
-                using (ExcelRange exr = sheet.Cells[rowNumber + 1, 1, rowNumberWork - 1, 5])
+                using (ExcelRange exr = sheet.Cells[rowNumber + 1, 1, rowNumberWork - 1, 6])
                 {
                     //exr.AutoFitColumns();
                     exr.Style.Border.Top.Style = ExcelBorderStyle.Thin;
@@ -441,16 +447,16 @@ namespace GaraManagement.Controllers
                 sheet.Cells["A11"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
                 sheet.Cells["A" + rowNumber].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
 
-                sheet.Cells["A" + (rowNumberWork + 1)].Value = "Cộng:  " + String.Format(info, "{0:c}", (tongTienCong + tongTienVatTu));
-                sheet.Cells["A" + (rowNumberWork + 2)].Value = "Thuế VAT(10%):  " + String.Format(info, "{0:c}", (((tongTienCong + tongTienVatTu) * 10) / 100));
-                sheet.Cells["A" + (rowNumberWork + 3)].Value = "Tổng:  " + String.Format(info, "{0:c}", ((tongTienCong + tongTienVatTu) + (((tongTienCong + tongTienVatTu) * 10) / 100)));
-                sheet.Cells["A" + (rowNumberWork + 1)].Style.Font.Bold = true;
-                sheet.Cells["A" + (rowNumberWork + 2)].Style.Font.Bold = true;
-                sheet.Cells["A" + (rowNumberWork + 3)].Style.Font.Bold = true;
+                sheet.Cells["B" + (rowNumberWork + 1)].Value = "Cộng:  " + String.Format(info, "{0:c}", (tongTienCong + tongTienVatTu));
+                sheet.Cells["B" + (rowNumberWork + 2)].Value = "Thuế VAT(10%):  " + String.Format(info, "{0:c}", (((tongTienCong + tongTienVatTu) * 10) / 100));
+                sheet.Cells["B" + (rowNumberWork + 3)].Value = "Tổng:  " + String.Format(info, "{0:c}", ((tongTienCong + tongTienVatTu) + (((tongTienCong + tongTienVatTu) * 10) / 100)));
+                sheet.Cells["B" + (rowNumberWork + 1)].Style.Font.Bold = true;
+                sheet.Cells["B" + (rowNumberWork + 2)].Style.Font.Bold = true;
+                sheet.Cells["B" + (rowNumberWork + 3)].Style.Font.Bold = true;
                 sheet.Cells["A" + (rowNumberWork + 5)].Style.Font.Bold = true;
                 sheet.Cells["D" + (rowNumberWork + 5)].Style.Font.Bold = true;
 
-                using (ExcelRange exr = sheet.Cells[rowNumberWork + 5, 1, rowNumberWork + 5, 5])
+                using (ExcelRange exr = sheet.Cells[rowNumberWork + 5, 1, rowNumberWork + 5, 6])
                 {
                     exr.Style.Border.Top.Style = ExcelBorderStyle.Thick;
                     
@@ -466,7 +472,7 @@ namespace GaraManagement.Controllers
             }
 
             stream.Position = 0;
-            var fileName = $"BaoGia_{DateTime.Now.ToString("yyyyMMddHHmmss")}.xlsx";
+            var fileName = $"BaoGia_{DateTime.Now.ToString("yyyyMMddHHmmss")}_"+ id +".xlsx";
             return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
         }
     }

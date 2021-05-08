@@ -23,6 +23,8 @@ namespace GaraManagement.Models
         public string Description { get; set; }
         [DisplayName("Thời gian cập nhật")]
         public DateTime? UpdateAt { get; set; }
+        [DisplayName("Trạng thái")]
+        public string Status { get; set; }
 
         public virtual Employee IdEmployeeNavigation { get; set; }
         public virtual Repair IdRepairNavigation { get; set; }

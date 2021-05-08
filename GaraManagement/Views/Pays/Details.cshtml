@@ -18,117 +18,125 @@
             <li class="breadcrumb-item active">Chi tiết biên lai</li>
         </ol>
     </div>
-    <div class="table-area">
-        <div class="row infor-repair">
-            <div class="col-md-4">
-                <div class="row form-group">
-                    <div class="col-md-4">
-                        <h5>Chủ xe:</h5>
+    <div class="table-area notMargin">
+        <div class="row infobar">
+            <div class="col-md-4"><h5>Thông tin khách hàng</h5></div>
+            <div class="col-md-4"><h5>Thông tin xe</h5></div>
+            <div class="col-md-4"><h5>Thông tin thanh toán</h5></div>
+        </div>
+        <div class="table-area">
+            <div class="row infor-repair">
+                <div class="col-md-4">
+                    <div class="row form-group">
+                        <div class="col-md-4">
+                            <h5>Chủ xe:</h5>
+                        </div>
+                        <div class="col-md-8">
+                            <h4>@Model.IdRepairNavigation.IdCarNavigation.IdCustomerNavigation.Name</h4>
+                        </div>
                     </div>
-                    <div class="col-md-8">
-                        <h4>@Model.IdRepairNavigation.IdCarNavigation.IdCustomerNavigation.Name</h4>
+                    <div class="row form-group">
+                        <div class="col-md-4">
+                            <h5>Điện thoại:</h5>
+                        </div>
+                        <div class="col-md-8">
+                            <h4>@Model.IdRepairNavigation.IdCarNavigation.IdCustomerNavigation.Phone</h4>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-md-4">
+                            <h5>Địa chỉ:</h5>
+                        </div>
+                        <div class="col-md-8">
+                            <h4>@Model.IdRepairNavigation.IdCarNavigation.IdCustomerNavigation.Address</h4>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-md-4">
+                            <h5>CMND:</h5>
+                        </div>
+                        <div class="col-md-8">
+                            <h4>@Model.IdRepairNavigation.IdCarNavigation.IdCustomerNavigation.IdentityCardNumber</h4>
+                        </div>
                     </div>
                 </div>
-                <div class="row form-group">
-                    <div class="col-md-4">
-                        <h5>Điện thoại:</h5>
+                <div class="col-md-4">
+                    <div class="row form-group">
+                        <div class="col-md-5">
+                            <h5>Tên xe:</h5>
+                        </div>
+                        <div class="col-md-7">
+                            <h4>@Model.IdRepairNavigation.IdCarNavigation.IdCarModelNavigation.ModelName</h4>
+                        </div>
                     </div>
-                    <div class="col-md-8">
-                        <h4>@Model.IdRepairNavigation.IdCarNavigation.IdCustomerNavigation.Phone</h4>
+                    <div class="row form-group">
+                        <div class="col-md-5">
+                            <h5>Biển số:</h5>
+                        </div>
+                        <div class="col-md-7">
+                            <h4>@Model.IdRepairNavigation.IdCarNavigation.LicensePlates</h4>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-md-5">
+                            <h5>Ngày nhập xưởng:</h5>
+                        </div>
+                        <div class="col-md-7">
+                            <h4>@Model.IdRepairNavigation.DateOfFactoryEntry</h4>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-md-5">
+                            <h5>Ngày xuất xưởng:</h5>
+                        </div>
+                        <div class="col-md-7">
+                            <h4>@Model.IdRepairNavigation.DateFinished</h4>
+                        </div>
                     </div>
                 </div>
-                <div class="row form-group">
-                    <div class="col-md-4">
-                        <h5>Địa chỉ:</h5>
+                <div class="col-md-4 pay">
+                    <div class="row form-group">
+                        <div class="col-md-5">
+                            <h5>Ngày thanh toán: </h5>
+                        </div>
+                        <div class="col-md-7">
+                            <h4>@Model.DateOfPayment</h4>
+                        </div>
                     </div>
-                    <div class="col-md-8">
-                        <h4>@Model.IdRepairNavigation.IdCarNavigation.IdCustomerNavigation.Address</h4>
+                    <div class="row form-group">
+                        <div class="col-md-5">
+                            <h5>Đã thanh toán: </h5>
+                        </div>
+                        <div class="col-md-7">
+                            @{
+                                var info = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
+                                var paid = String.Format(info, "{0:c}", Model.Paid);
+                            }
+                            <h4>@paid</h4>
+                        </div>
                     </div>
-                </div>
-                <div class="row form-group">
-                    <div class="col-md-4">
-                        <h5>CMND:</h5>
-                    </div>
-                    <div class="col-md-8">
-                        <h4>@Model.IdRepairNavigation.IdCarNavigation.IdCustomerNavigation.IdentityCardNumber</h4>
+                    @*<div class="row form-group">
+                        <div class="col-md-5">
+                            <h5>Tổng tiền: </h5>
+                        </div>
+                        <div class="col-md-7">
+                            @{
+                                var total1 = String.Format(info, "{0:c}", Model.Total);
+                            }
+                            <h4>@total1</h4>
+                        </div>
+                    </div>*@
+                    <div class="row form-group">
+                        <div class="col-md-5">
+                            <h5>Đã cập nhật: </h5>
+                        </div>
+                        <div class="col-md-7">
+                            <h4>@Model.Update_at</h4>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="row form-group">
-                    <div class="col-md-5">
-                        <h5>Tên xe:</h5>
-                    </div>
-                    <div class="col-md-7">
-                        <h4>@Model.IdRepairNavigation.IdCarNavigation.IdCarModelNavigation.ModelName</h4>
-                    </div>
-                </div>
-                <div class="row form-group">
-                    <div class="col-md-5">
-                        <h5>Biển số:</h5>
-                    </div>
-                    <div class="col-md-7">
-                        <h4>@Model.IdRepairNavigation.IdCarNavigation.LicensePlates</h4>
-                    </div>
-                </div>
-                <div class="row form-group">
-                    <div class="col-md-5">
-                        <h5>Ngày nhập xưởng:</h5>
-                    </div>
-                    <div class="col-md-7">
-                        <h4>@Model.IdRepairNavigation.DateOfFactoryEntry</h4>
-                    </div>
-                </div>
-                <div class="row form-group">
-                    <div class="col-md-5">
-                        <h5>Ngày xuất xưởng:</h5>
-                    </div>
-                    <div class="col-md-7">
-                        <h4>@Model.IdRepairNavigation.DateFinished</h4>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 pay">
-                <div class="row form-group">
-                    <div class="col-md-5">
-                        <h5>Ngày thanh toán: </h5>
-                    </div>
-                    <div class="col-md-7">
-                        <h4>@Model.DateOfPayment</h4>
-                    </div>
-                </div>
-                <div class="row form-group">
-                    <div class="col-md-5">
-                        <h5>Đã thanh toán: </h5>
-                    </div>
-                    <div class="col-md-7">
-                        @{
-                            var info = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
-                            var paid = String.Format(info, "{0:c}", Model.Paid);
-                        }
-                        <h4>@paid</h4>
-                    </div>
-                </div>
-                <div class="row form-group">
-                    <div class="col-md-5">
-                        <h5>Tổng tiền thanh toán: </h5>
-                    </div>
-                    <div class="col-md-7">
-                        @{
-                             var total1 = String.Format(info, "{0:c}", Model.Total);
-                        }
-                        <h4>@total1</h4>
-                    </div>
-                </div>
-                <div class="row form-group">
-                    <div class="col-md-5">
-                        <h5>Đã cập nhật: </h5>
-                    </div>
-                    <div class="col-md-7">
-                        <h4>@Model.Update_at</h4>
-                    </div>
-                </div>
-            </div>
+
         </div>
     </div>
     <div class="table-area detail-pay">
@@ -174,7 +182,7 @@
                                     }
 
                                 }
-                                
+
                                 var moneyCost = String.Format(info, "{0:c}", totalCost);
                             }
                         </tbody>
@@ -205,7 +213,7 @@
                         <tbody>
                             @{
                                 int? totalMaterial = 0;
-                                if (Model.IdRepairNavigation.GoodsDeliveryNotes.FirstOrDefault() != null)
+                                if (Model.IdRepairNavigation.GoodsDeliveryNotes.Count() != 0)
                                 {
                                     foreach (var item in Model.IdRepairNavigation.GoodsDeliveryNotes.FirstOrDefault().DetailGoodsDeliveryNotes)
                                     {
@@ -236,13 +244,14 @@
                         </tbody>
                     </table>
                     <h4>Tổng tiền vật tư: &ensp;@moneyMaterial</h4>
+
                 </div>
             </div>
         </div>
     </div>
 
     @{
-        int? total = totalCost + totalMaterial;
+        int? total = ((totalCost + totalMaterial) + ((totalCost + totalMaterial) * 10) / 100);
         int? p = Model.Paid;
         int? owe = total - p;
         var totalMoney = String.Format(info, "{0:c}", total);
@@ -252,16 +261,19 @@
         <div class="col-md-12">
             <div class="table-area row">
                 <div class="col-md-5">
-                    <h4 style="color: #ff870c">Tổng chi phí phải thanh toán: &ensp; @totalMoney</h4>
+                    <h4 style="color: #ff870c">Tổng chi phí phải thanh toán (+10% VAT): &ensp; @totalMoney</h4>
                 </div>
                 <div class="col-md-3">
                     <h4 style="color: #c50c0c">Còn nợ: &ensp; @oweMoney</h4>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-1">
                     <a class="btn btn-sm btn-warning owebtn" data-id-edit="@Model.IdRepair" data-toggle='modal' data-target='#editModal'>Trả nợ</a>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-1">
                     <a class="btn btn-sm btn-danger delete-btn" data-id="@Model.Id">Xóa biên lai</a>
+                </div>
+                <div class="col-md-1" style="margin-left:15px;">
+                    <a class="btn btn-sm btn-outline-success" style="text-align:right;" asp-action="Export" asp-route-id="@Model.IdRepair">Xuất Excel</a>
                 </div>
             </div>
         </div>
@@ -337,10 +349,13 @@
     }
 
     .detail-pay {
-        height: 400px;
+        height: 380px;
         margin-top: 5px;
     }
-
+    .notMargin .table-area{
+        padding-bottom:0;
+        margin:0;
+    }
     .table-area {
         margin: 5px 0;
     }
@@ -351,7 +366,9 @@
         color: white;
         position: relative;
     }
-
+    .btn{
+        margin:0;
+    }
     .works .title {
         background: #ff6a00;
         border-top-right-radius: 20px;
@@ -364,6 +381,19 @@
         border-top-left-radius: 20px;
         border-bottom-left-radius: 20px;
         left: 498px;
+    }
+    .infobar {
+        text-align: center;
+        border-radius: 5px 5px 0 0;
+        margin: 0px -10px;
+        background-image: linear-gradient(270deg, #473B7B 0%, #3584A7 51%, #30D2BE 100%);
+    }
+    .infobar h5{
+        margin:0px;
+        color:#eeebeb;
+    }
+    .notMargin{
+        padding-top:0;
     }
 </style>
 <link href="~/assets/js/MDB/css/addons/datatables.min.css" rel="stylesheet">

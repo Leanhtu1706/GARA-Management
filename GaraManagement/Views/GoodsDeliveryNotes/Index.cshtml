@@ -4,7 +4,7 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_TabsLayout.cshtml";
 }
-    <link href="~/assets/js/MDB/css/addons/datatables.min.css" rel="stylesheet">
+<link href="~/assets/js/MDB/css/addons/datatables.min.css" rel="stylesheet">
 <link href="~/assets/css/customStyleLayout.css" rel="stylesheet" />
 
 <div class="table-area">
@@ -17,7 +17,7 @@
             </form>
             <i class="fas fa-backspace"></i>
         </div>
-        <table id="dtTable" class="table table-striped table-bordered"  cellspacing="0" width="100%">
+        <table id="dtTable" class="table table-striped table-bordered" cellspacing="0" width="100%">
             <thead>
                 <tr>
                     <th>
@@ -35,6 +35,9 @@
                     <th>
                         @Html.DisplayNameFor(model => model.UpdateAt)
                     </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Status)
+                    </th>
 
                     <th class="col-action">Action</th>
                 </tr>
@@ -48,7 +51,7 @@
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.IdRepair)
-                        </td>                       
+                        </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.IdEmployeeNavigation.Name)
                         </td>
@@ -58,14 +61,27 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.UpdateAt)
                         </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Status)
+                        </td>
                         <td class="action-button">
                             @*<a class="btn btn-sm btn-warning edit-btn" data-toggle='modal' data-target='#editModal' data-id="@item.Id">Sửa</a> |*@
-                            <a class="btn btn-sm btn-info"  asp-controller="DetailGoodsDeliveryNotes" asp-action="Index" asp-route-id="@item.Id">Chi tiết</a>
+                            <a class="btn btn-sm btn-DaNhan" data-id="@item.Id" data-status="@item.Status">
+                                @{
+                                    if (item.Status == null) 
+                                    { <span>Đã nhận</span>
+                                    }
+                                    else 
+                                    { <span>Chưa nhận</span>
+                                    } 
+                                 }
+                            </a>
+                            <a class="btn btn-sm btn-info" asp-controller="DetailGoodsDeliveryNotes" asp-action="Index" asp-route-id="@item.Id">Chi tiết</a>
                             @*<a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-id="@item.Id">Xóa</a>*@
                         </td>
                     </tr>
                 }
-              
+
             </tbody>
         </table>
     </div>
@@ -136,6 +152,7 @@
 </style>
 
 <script src="~/assets/js/core/jquery.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
 <script>
     $(document).ready(function () {
         $('.nav .subWarehouse').toggleClass("show");
@@ -151,6 +168,24 @@
                 stackup_spacing: 30
             });
         }
+    });
+
+
+    $(".btn-DaNhan").click(function () {
+        var id = $(this).attr("data-id");
+        var status = $(this).attr("data-status");
+        
+        $.ajax({
+            /**/
+            url: '@Url.Action("Danhan", "GoodsDeliveryNotes")',
+            /**/
+            type: "POST",
+            data: { id: id , status:status},
+            success: function (data) {
+                window.location.href = data.redirectToUrl;
+            }
+        });
+
     });
 
     $(".create-btn").click(function () {

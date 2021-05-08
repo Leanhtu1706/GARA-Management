@@ -150,6 +150,31 @@ namespace GaraManagement.Controllers
             ViewData["IdRepair"] = new SelectList(_context.Repairs, "Id", "Id", goodsDeliveryNote.IdRepair);
             return View(goodsDeliveryNote);
         }
+        [HttpPost]
+        public async Task<IActionResult> Danhan(int? id, string status)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                var goodsDeliveryNote = _context.GoodsDeliveryNotes.Find(id);
+                if(status == null)
+                {
+                    goodsDeliveryNote.Status = "Đã nhận";
+
+                }
+                else
+                {
+                    goodsDeliveryNote.Status = null;
+
+                }
+                _context.Update(goodsDeliveryNote);
+                await _context.SaveChangesAsync();
+            }
+            return Json(new { redirectToUrl = Url.Action("Index") });
+        }
 
         // GET: GoodsDeliveryNotes/Delete/5
         public async Task<IActionResult> Delete(int? id)

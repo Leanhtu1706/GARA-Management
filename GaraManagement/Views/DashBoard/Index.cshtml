@@ -123,6 +123,22 @@
 
 
 <style>
+
+    .select2-container--default .select2-selection--single {
+        background-color: white;
+        border: 1px solid #aaa;
+        border-radius: 5px !important;
+        background-image: linear-gradient(to right, #ff0844 0%, #ffb199 100%);
+    }
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
+        color: white !important;
+        line-height: 28px;
+        border-radius: 5px !important;
+    }
+    .select2-container--default .select2-results__option--highlighted[aria-selected] {
+        color: white;
+        background-image: linear-gradient(to right, #ff0844 0%, #ffb199 100%);
+    }
     .dashBoard a.nav-link {
         background-color: rgba(200, 200, 200, 0.2);
         border-left: 5px solid #06b8ffc7 !important;
@@ -389,7 +405,7 @@
                     yAxis: {
 
                         title: {
-                            text: 'Total fruit consumption'
+                            text: 'Vnđ'
                         },
                         stackLabels: {
                             enabled: true,
@@ -465,7 +481,7 @@
                     yAxis: {
                         min: 0,
                         title: {
-                            text: 'Total fruit consumption'
+                            text: 'Vnđ'
                         },
                         stackLabels: {
                             enabled: true,

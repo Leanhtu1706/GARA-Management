@@ -140,7 +140,7 @@
     </div>
 
     @{
-        int? total = totalCost + totalMaterial;
+        int? total = ((totalCost + totalMaterial)+((totalCost + totalMaterial) * 10) / 100);
         int? paid = Model.Pays.Select(p => p.Paid).FirstOrDefault();
         int? owe = total - paid;
         var totalMoney = String.Format(info, "{0:c}", total);
