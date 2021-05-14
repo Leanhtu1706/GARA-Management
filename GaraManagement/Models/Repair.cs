@@ -18,7 +18,7 @@ namespace GaraManagement.Models
         public int Id { get; set; }
         public int? IdCar { get; set; }
         [DisplayName("Ngày nhập xưởng")]
-        public DateTime? DateOfFactoryEntry { get; set; }
+        public DateTime DateOfFactoryEntry { get; set; }
         [DisplayName("Ngày hoàn thành")]
         public DateTime? DateFinished { get; set; }
         [DisplayName("Trạng thái")]

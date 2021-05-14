@@ -180,6 +180,16 @@
                 stackup_spacing: 30
             });
         }
+        if ('@ViewBag.ErrorMessage' != "")
+        {
+            $.bootstrapGrowl('@ViewBag.ErrorMessage' + '&emsp;', {
+                type: 'danger',
+                align: 'center',
+                delay: 4000,
+                width: '130px',
+                stackup_spacing: 30
+            });
+        }
     });
 
     //$(document).on('shown.bs.modal', '#createModal', function (event) {

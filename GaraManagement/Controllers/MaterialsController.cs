@@ -50,6 +50,11 @@ namespace GaraManagement.Controllers
                 ViewBag.SuccessMessage = HttpContext.Session.GetString("SuccessMessage");
                 HttpContext.Session.Remove("SuccessMessage");
             }
+            if (HttpContext.Session.GetString("ErrorMessage") != null)
+            {
+                ViewBag.ErrorMessage = HttpContext.Session.GetString("ErrorMessage");
+                HttpContext.Session.Remove("ErrorMessage");
+            }
 
             ViewData["GetTextSearch"] = search;
             
@@ -280,33 +285,41 @@ namespace GaraManagement.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int? id)
         {
-            var supply = await _context.Materials.FindAsync(id);
-            var detailGoodDelivery = _context.DetailGoodsDeliveryNotes.Where(d => d.IdMaterial == id);
-            var detailGoodReceived = _context.DetailGoodsReceivedNotes.Where(d => d.IdMaterial == id);
-            var priceMaterial = _context.PriceMaterials.Where(d => d.IdMaterial == id);
-            foreach(var delivery in detailGoodDelivery)
+            try
             {
-                _context.DetailGoodsDeliveryNotes.Remove(delivery);
-            }            
-            foreach(var received in detailGoodReceived)
-            {
-                _context.DetailGoodsReceivedNotes.Remove(received);
-            }
-            foreach(var price in priceMaterial)
-            {
-                _context.PriceMaterials.Remove(price);
-            }
-            _context.Materials.Remove(supply);
-            await _context.SaveChangesAsync();
-            HttpContext.Session.SetString("SuccessMessage", "Xóa thành công");
+                var supply = await _context.Materials.FindAsync(id);
+                //var detailGoodDelivery = _context.DetailGoodsDeliveryNotes.Where(d => d.IdMaterial == id);
+                //var detailGoodReceived = _context.DetailGoodsReceivedNotes.Where(d => d.IdMaterial == id);
+                var priceMaterial = _context.PriceMaterials.Where(d => d.IdMaterial == id);
+                //foreach(var delivery in detailGoodDelivery)
+                //{
+                //    _context.DetailGoodsDeliveryNotes.Remove(delivery);
+                //}            
+                //foreach(var received in detailGoodReceived)
+                //{
+                //    _context.DetailGoodsReceivedNotes.Remove(received);
+                //}
+                foreach (var price in priceMaterial)
+                {
+                    _context.PriceMaterials.Remove(price);
+                }
+                _context.Materials.Remove(supply);
+                await _context.SaveChangesAsync();
+                HttpContext.Session.SetString("SuccessMessage", "Xóa thành công");
 
-            //History
-            History history = new History();
-            history.DateHistory = DateTime.Now;
-            history.UserName = HttpContext.Session.GetString("SessionUserName");
-            history.Event = "Xóa vật tư " + supply.Name;
-            _context.Add(history);
-            await _context.SaveChangesAsync();
+                //History
+                History history = new History();
+                history.DateHistory = DateTime.Now;
+                history.UserName = HttpContext.Session.GetString("SessionUserName");
+                history.Event = "Xóa vật tư " + supply.Name;
+                _context.Add(history);
+                await _context.SaveChangesAsync();
+            }
+            catch
+            {
+                HttpContext.Session.SetString("ErrorMessage", "Không thể xóa do vật tư còn ràng buộc với các bảng khác!");
+            }
+            
             //============================
 
             return RedirectToAction(nameof(Index));

@@ -23,7 +23,7 @@ namespace GaraManagement.Controllers
         }
 
         // GET: Repairs
-        public async Task<IActionResult> Index(int? IdCar, string date, StateType? state, string search)
+        public async Task<IActionResult> Index(int? IdCar, DateTime date, StateType? state, string search)
         {
             if (HttpContext.Session.GetString("SessionUserName") == null || HttpContext.Session.GetString("PermissionAdmin") != "Yes")
             {
@@ -45,24 +45,40 @@ namespace GaraManagement.Controllers
 
             if (!string.IsNullOrEmpty(search))
             {
-                var garaContext = _context.Repairs.Include(r => r.IdCarNavigation).ThenInclude(r => r.IdCustomerNavigation).Include(r => r.IdCarNavigation.IdCarModelNavigation).Where(r => r.IdCarNavigation.IdCustomerNavigation.Name.Contains(search) || r.IdCarNavigation.IdCarModelNavigation.ModelName.Contains(search) || r.IdCarNavigation.LicensePlates.Contains(search));
+                var garaContext = _context.Repairs.Include(r => r.IdCarNavigation)
+                    .ThenInclude(r => r.IdCustomerNavigation)
+                    .Include(r => r.IdCarNavigation.IdCarModelNavigation)
+                    .Where(r => r.IdCarNavigation.IdCustomerNavigation.Name.Contains(search) || r.IdCarNavigation.IdCarModelNavigation.ModelName.Contains(search) || r.IdCarNavigation.LicensePlates.Contains(search));
                 ViewData["GetTextSearch"] = search;
                 return View(await garaContext.ToListAsync());
             }
 
-            if (date != null)
+
+            if (date.ToString() != "1/1/0001 00:00:00")
             {
-                var garaContext = _context.Repairs.Include(r => r.IdCarNavigation).ThenInclude(r => r.IdCustomerNavigation).Include(r => r.IdCarNavigation.IdCarModelNavigation).Where(r => r.DateOfFactoryEntry == DateTime.Parse(date)).OrderByDescending(r => r.DateOfFactoryEntry);
+
+                var garaContext = _context.Repairs.Include(r => r.IdCarNavigation)
+                    .ThenInclude(r => r.IdCustomerNavigation)
+                    .Include(r => r.IdCarNavigation.IdCarModelNavigation)
+                    .Where(r =>  r.DateOfFactoryEntry.Month == date.Month && r.DateOfFactoryEntry.Date == date.Date)
+                    .OrderByDescending(r => r.DateOfFactoryEntry);
                 return View(await garaContext.ToListAsync());
             }
             else if (state != null)
             {
-                var garaContext = _context.Repairs.Include(r => r.IdCarNavigation).ThenInclude(r => r.IdCustomerNavigation).Include(r => r.IdCarNavigation.IdCarModelNavigation).Where(r => r.State == state.Value).OrderByDescending(r => r.DateOfFactoryEntry);
+                var garaContext = _context.Repairs.Include(r => r.IdCarNavigation).
+                    ThenInclude(r => r.IdCustomerNavigation).
+                    Include(r => r.IdCarNavigation.IdCarModelNavigation)
+                    .Where(r => r.State == state.Value)
+                    .OrderByDescending(r => r.DateOfFactoryEntry);
                 return View(await garaContext.ToListAsync());
             }
             else
             {
-                var garaContext = _context.Repairs.Include(r => r.IdCarNavigation).ThenInclude(r => r.IdCustomerNavigation).Include(r => r.IdCarNavigation.IdCarModelNavigation).OrderByDescending(r => r.DateOfFactoryEntry);
+                var garaContext = _context.Repairs.Include(r => r.IdCarNavigation)
+                    .ThenInclude(r => r.IdCustomerNavigation)
+                    .Include(r => r.IdCarNavigation.IdCarModelNavigation)
+                    .OrderByDescending(r => r.DateOfFactoryEntry);
                 return View(await garaContext.ToListAsync());
             }
 
@@ -147,7 +163,7 @@ namespace GaraManagement.Controllers
                 History history = new History();
                 history.DateHistory = DateTime.Now;
                 history.UserName = HttpContext.Session.GetString("SessionUserName");
-                history.Event = "Nhập xưởng xe của khách hàng " + repair.IdCarNavigation.IdCustomerNavigation.Name;
+                history.Event = "Nhập xưởng xe của khách hàng " + _context.Cars.Include(c => c.IdCustomerNavigation).Where(c => c.Id == repair.IdCar).Select(c => c.IdCustomerNavigation.Name).FirstOrDefault();
                 _context.Add(history);
                 await _context.SaveChangesAsync();
                 //============================
@@ -200,7 +216,7 @@ namespace GaraManagement.Controllers
                     History history = new History();
                     history.DateHistory = DateTime.Now;
                     history.UserName = HttpContext.Session.GetString("SessionUserName");
-                    history.Event = "Cập nhật thông tin nhập xuất xưởng cho xe của khách hàng " + repair.IdCarNavigation.IdCustomerNavigation.Name;
+                    history.Event = "Cập nhật thông tin nhập xuất xưởng cho xe của khách hàng " + _context.Cars.Include(c => c.IdCustomerNavigation).Where(c => c.Id == repair.IdCar).Select(c => c.IdCustomerNavigation.Name).FirstOrDefault();
                     _context.Add(history);
                     await _context.SaveChangesAsync();
                     //============================

@@ -325,9 +325,7 @@
                     title: {
                         text: 'Thống kê lợi nhuận bán hàng năm ' + year
                     },
-                    subtitle: {
-                        text: 'Source: WorldClimate.com'
-                    },
+                    
                     xAxis: {
                         categories: [
                             'Tháng 1',
@@ -543,6 +541,8 @@
 
             options.chart = new Object();
             options.chart.renderTo = 'container5';
+            options.title = new Object();
+            options.title.text = 'Thống kê tỷ lệ % dịch vụ được sử dụng';
             options.chart.type = 'pie';
             options.tooltip = new Object();
             options.tooltip.pointFormat = '{series.name}: <b>{point.percentage:.1f}%</b>';

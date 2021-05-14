@@ -234,6 +234,9 @@
             }
         });
      });
+    $(".update").click(function () {
+        location.reload();
+    });
 </script>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

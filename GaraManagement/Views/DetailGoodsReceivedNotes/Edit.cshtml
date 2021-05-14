@@ -9,16 +9,16 @@
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <input type="hidden" asp-for="IdGoodsReceivedNote" />
         <div class="row form-group">
-            <div class="col-sm-2">
+            <div class="col-sm-3">
                 <label asp-for="IdMaterialNavigation.Name" class="control-label" name="IdMaterial"></label>
             </div>
             <div class="col-sm-8">
-                <select asp-for="IdMaterial" class="form-control" asp-items="ViewBag.MaterialName"></select>
+                <select asp-for="IdMaterial" class="form-control" asp-items="ViewBag.MaterialName" disabled></select>
                 <span asp-validation-for="IdMaterial" class="text-danger"></span>
             </div>
         </div>
         <div class="row form-group">
-            <div class="col-sm-2">
+            <div class="col-sm-3">
                 <label asp-for="Amount" class="control-label" name="Amount"></label>
             </div>
             <div class="col-sm-8">
@@ -27,7 +27,7 @@
             </div>
         </div>
         <div class="row form-group">
-            <div class="col-sm-2">
+            <div class="col-sm-3">
                 <label asp-for="Price" class="control-label" name="Price"></label>
             </div>
             <div class="col-sm-8">
