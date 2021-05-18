@@ -51,14 +51,15 @@ section {
 }
 
 body {
-  margin: 0;
-  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
-  font-size: 1rem;
-  font-weight: 400;
-  line-height: 1.5;
-  color: #212529;
-  text-align: left;
-  background-color: #fafafa;
+    margin: 0;
+    /*  font-family: "Roboto", "Helvetica", "Arial", sans-serif;*/
+    font: 90%/1.5em "Helvetica Neue",HelveticaNeue,Helvetica,Arial,sans-serif !important;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    text-align: left;
+    background-color: #fafafa;
 }
 
 [tabindex="-1"]:focus {
@@ -2025,7 +2026,7 @@ pre code {
 }
 
 .table {
-    color: #23282c;
+    color: #555555;
     width: 100%;
     max-width: 100%;
     margin-bottom: 1rem;
@@ -5817,8 +5818,9 @@ button.close {
 }
 
 .modal-title {
-  margin-bottom: 0;
-  line-height: 1.5;
+    color: #636262;
+    margin-bottom: 0;
+    line-height: 1.5;
 }
 
 .modal-body {
@@ -15415,7 +15417,7 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
 }
 
 .sidebar[data-background-color="black"] .nav .nav-item .nav-link {
-  color: #fff;
+    color: #ebeaea;
 }
 
 .sidebar[data-background-color="black"] .nav .nav-item i {
@@ -16809,7 +16811,7 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
 .table>thead>tr>th {
   border-bottom-width: 1px;
   font-size: 1.0625rem;
-  font-weight: 500;
+  font-weight: 400;
 }
 
 .table .form-check {
@@ -16853,7 +16855,7 @@ fieldset[disabled] .form-group.is-focused .togglebutton label {
 
 .table thead tr th {
     padding: 10px 10px;
-    font-size: 1.063rem;
+    font-size: 15px;
 }
 
 .table .th-description {

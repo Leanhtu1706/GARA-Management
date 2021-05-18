@@ -84,7 +84,15 @@
         <div class="col-md-6 works">
             <div class="table-area">
                 <h4 class="title">Công việc</h4>
-                <a class="btn btn-sm btn-light create-work-btn" data-id-create="@ViewBag.IdGoodDeliveryNotes" data-toggle='modal' data-target='#createModal'><i class="far fa-plus-square"></i></a>
+                @if (Convert.ToInt32(Model.State) != 2)
+                {
+                    <a class="btn btn-sm btn-light create-work-btn" data-id-create="@ViewBag.IdGoodDeliveryNotes" data-toggle='modal' data-target='#createModal'><i class="far fa-plus-square"></i></a>
+                }
+                else
+                {
+                    <a class="btn btn-sm btn-light create-work-btn" style="visibility:hidden;"><i class="far fa-plus-square"></i></a>
+
+                }
                 <div>
                     <table id="dtTable" class="table table-striped table-bordered" cellspacing="0" width="100%">
                         <thead>
@@ -96,6 +104,7 @@
                                     Số lượng
                                 </th>
                                 <th class="col-action">Action</th>
+
                             </tr>
                         </thead>
                         <tbody>
@@ -110,10 +119,16 @@
                                         <td>
                                             @Html.DisplayFor(modelItem => item.Amount)
                                         </td>
+
                                         <td class="action-button">
-                                            <a class="btn btn-sm btn-warning edit-work-btn" data-toggle='modal' data-target='#editModal' data-id-repair="@item.IdRepair" data-id-work="@item.IdWork">Cập nhật</a>
-                                            <a class="btn btn-sm btn-danger delete-btn" data-toggle='modal' data-target='#deleteConfirmModal' data-id-repair="@item.IdRepair" data-id-work="@item.IdWork">Xóa</a>
+                                            @if (Convert.ToInt32(Model.State) != 2)
+                                            {
+                                                <a class="btn btn-sm btn-warning edit-work-btn" data-toggle='modal' data-target='#editModal' data-id-repair="@item.IdRepair" data-id-work="@item.IdWork">Cập nhật</a>
+                                                <a class="btn btn-sm btn-danger delete-btn" data-toggle='modal' data-target='#deleteConfirmModal' data-id-repair="@item.IdRepair" data-id-work="@item.IdWork">Xóa</a>
+                                            }
                                         </td>
+
+
                                     </tr>
                                 }
                             }
@@ -126,21 +141,23 @@
             <div class="table-area">
                 <h4 class="title">Vật tư</h4>
                 @{
-                    if (ViewBag.checkGoodsDeliveryNotes == "notNull")
+                    @if (Convert.ToInt32(Model.State) != 2)
                     {
-                        if (ViewBag.checkDetailGoodsDeliveryNotes == "Null")
+                        if (ViewBag.checkGoodsDeliveryNotes == "notNull")
                         {
-                            <a class="btn btn-sm btn-outline-danger delete-goodDelivery-btn" data-id-goodDelivery="@Model.GoodsDeliveryNotes.FirstOrDefault().Id" data-toggle='modal' data-target='#deleteConfirmModal'>Hủy yêu cầu xuất vật tư</a>
-                        }
-                        <a class="btn btn-sm btn-light create-material-btn" data-id-goodDelivery="@Model.GoodsDeliveryNotes.FirstOrDefault().Id" data-toggle='modal' data-target='#createModal'><i class="far fa-plus-square"></i></a>
+                            if (ViewBag.checkDetailGoodsDeliveryNotes == "Null")
+                            {
+                                <a class="btn btn-sm btn-outline-danger delete-goodDelivery-btn" data-id-goodDelivery="@Model.GoodsDeliveryNotes.FirstOrDefault().Id" data-toggle='modal' data-target='#deleteConfirmModal'>Hủy yêu cầu xuất vật tư</a>
+                            }
+                            <a class="btn btn-sm btn-light create-material-btn" data-id-goodDelivery="@Model.GoodsDeliveryNotes.FirstOrDefault().Id" data-toggle='modal' data-target='#createModal'><i class="far fa-plus-square"></i></a>
 
-                    }
-                    else
-                    {
-                        <a class="btn btn-sm btn-outline-info create-goodDelivery-btn" data-id-repair="@Model.Id" data-toggle='modal' data-target='#createModal'>Yêu cầu xuất vật tư</a>
+                        }
+                        else
+                        {
+                            <a class="btn btn-sm btn-outline-info create-goodDelivery-btn" data-id-repair="@Model.Id" data-toggle='modal' data-target='#createModal'>Yêu cầu xuất vật tư</a>
+                        }
                     }
                 }
-
 
                 <div>
                     <table id="dtTableMaterial" class="table table-striped table-bordered" cellspacing="0" width="100%">
@@ -167,9 +184,13 @@
                                         <td>
                                             @Html.DisplayFor(modelItem => item.Amount)
                                         </td>
+
                                         <td class="action-button">
-                                            <a class="btn btn-sm btn-warning edit-material-btn" data-toggle='modal' data-target='#editModal' data-id-goodDelivery="@item.IdGoodsDeliveryNote" data-id-material="@item.IdMaterial">Cập nhật</a>
-                                            <a class="btn btn-sm btn-danger delete-material-btn" data-toggle='modal' data-target='#deleteConfirmModal' data-id-goodDelivery="@item.IdGoodsDeliveryNote" data-id-material="@item.IdMaterial">Xóa</a>
+                                            @if (Convert.ToInt32(Model.State) != 2)
+                                            {
+                                                <a class="btn btn-sm btn-warning edit-material-btn" data-toggle='modal' data-target='#editModal' data-id-goodDelivery="@item.IdGoodsDeliveryNote" data-id-material="@item.IdMaterial">Cập nhật</a>
+                                                <a class="btn btn-sm btn-danger delete-material-btn" data-toggle='modal' data-target='#deleteConfirmModal' data-id-goodDelivery="@item.IdGoodsDeliveryNote" data-id-material="@item.IdMaterial">Xóa</a>
+                                            }
                                         </td>
                                     </tr>
                                 }
@@ -200,7 +221,7 @@
             </div>
             <div class="modal-footer">
                 <div class="modal-actions col-md-offset-3 col-md-9">
-                    <button icon-name="action-cancel" name="close" class="btn btn-default" data-dismiss="modal">
+                    <button icon-name="action-cancel" name="close" class="btn btn-sm btn-default" data-dismiss="modal">
                         Close
                     </button>
                 </div>
@@ -226,7 +247,7 @@
             </div>
             <div class="modal-footer">
                 <div class="modal-actions col-md-offset-3 col-md-9">
-                    <button icon-name="action-cancel" name="close" class="btn btn-default" data-dismiss="modal">
+                    <button icon-name="action-cancel" name="close" class="btn btn-sm btn-default" data-dismiss="modal">
                         Close
                     </button>
                 </div>
@@ -244,10 +265,10 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-action col-md-8 offset-4">
-                <a asp-action="Index" icon-name="action-cancel" class="btn btn-default" data-dismiss="modal" data-target="#deleteConfirmModal">
+                <a asp-action="Index" icon-name="action-cancel" class="btn btn-sm btn-default" data-dismiss="modal" data-target="#deleteConfirmModal">
                     Cancel
                 </a>
-                <button icon-name="action-delete" class="btn btn-danger deleteConfirm-btn">
+                <button icon-name="action-delete" class="btn btn-sm btn-danger deleteConfirm-btn">
                     Delete
                 </button>
             </div>
@@ -257,26 +278,26 @@
 
 @* Modal delete delivery *@
 @*<div id="deleteDeliveryConfirmModal" class="modal fade" role="dialog">
-    <div class="modal-dialog delete">
+        <div class="modal-dialog delete">
 
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 style="color:black;" class="modal-title">Bạn có chắc chắn không?</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-            <div class="modal-action">
-                <div class="modal-actions col-md-8 offset-4">
-                    <a asp-action="Index" icon-name="action-cancel" class="btn btn-default" data-dismiss="modal" data-target="#deleteConfirmModal">
-                        Cancel
-                    </a>
-                    <button icon-name="action-delete" class="btn btn-danger deleteConfirm-btn">
-                        Delete
-                    </button>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 style="color:black;" class="modal-title">Bạn có chắc chắn không?</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-action">
+                    <div class="modal-actions col-md-8 offset-4">
+                        <a asp-action="Index" icon-name="action-cancel" class="btn btn-sm btn-default" data-dismiss="modal" data-target="#deleteConfirmModal">
+                            Cancel
+                        </a>
+                        <button icon-name="action-delete" class="btn btn-sm btn-danger deleteConfirm-btn">
+                            Delete
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>*@
+    </div>*@
 
 <style>
     .row {
@@ -306,18 +327,21 @@
         color: white;
         position: relative;
     }
+
     .dataTables_scroll {
         position: absolute;
         top: 10px;
         left: -120px;
         width: 600px;
     }
+
     #dtTableMaterial_wrapper .dataTables_scroll {
         position: absolute;
         top: 36px;
         left: 0px;
         width: 600px;
     }
+
     .works .title {
         background: #ff6a00;
         border-top-right-radius: 20px;
@@ -426,7 +450,7 @@
     });
     // edit work
     $(".edit-work-btn").click(function () {
-        
+
         var idRepair = $(this).attr("data-id-repair");
         var idWork = $(this).attr("data-id-work");
 

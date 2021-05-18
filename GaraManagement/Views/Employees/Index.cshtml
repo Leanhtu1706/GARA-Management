@@ -20,7 +20,7 @@
             <a class="btn btn-sm btn-success create-btn" data-toggle='modal' data-target='#createModal'>Thêm mới nhân viên</a>
             <div class="input-group no-border">
                 <form asp-action="Index" method="get">
-                    <input id="search" type="text" name="search" class="form-control" value="@ViewData["GetTextSearch"]" placeholder="Search..." />
+                    <input id="search" type="text" name="search" class="form-control" value="@ViewData["GetTextSearch"]" placeholder="Tên nhân viên" />
                 </form>
                 <i class="fas fa-backspace"></i>
             </div>
@@ -125,7 +125,7 @@
             </div>
             <div class="modal-footer">
                 <div class="modal-actions col-md-offset-3 col-md-9">
-                    <button icon-name="action-cancel" name="close" class="btn btn-default" data-dismiss="modal">
+                    <button icon-name="action-cancel" name="close" class="btn btn-sm btn-default" data-dismiss="modal">
                         Close
                     </button>
                 </div>
@@ -151,7 +151,7 @@
             </div>
             <div class="modal-footer">
                 <div class="modal-actions col-md-offset-3 col-md-9">
-                    <button icon-name="action-cancel" name="close" class="btn btn-default" data-dismiss="modal">
+                    <button icon-name="action-cancel" name="close" class="btn btn-sm btn-default" data-dismiss="modal">
                         Close
                     </button>
                 </div>

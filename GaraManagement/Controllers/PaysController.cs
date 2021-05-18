@@ -23,7 +23,7 @@ namespace GaraManagement.Controllers
         }
 
         // GET: Pays
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string search)
         {
             if (HttpContext.Session.GetString("SessionUserName") == null || HttpContext.Session.GetString("PermissionAdmin") != "Yes")
             {
@@ -38,8 +38,18 @@ namespace GaraManagement.Controllers
                 ViewBag.SuccessMessage = HttpContext.Session.GetString("SuccessMessage");
                 HttpContext.Session.Remove("SuccessMessage");
             }
-            var garaContext = _context.Pays.Include(p => p.IdRepairNavigation);
-            return View(await garaContext.ToListAsync());
+            ViewData["GetTextSearch"] = search;
+            if (!string.IsNullOrEmpty(search))
+            {
+                var garaContexts = _context.Pays.Include(p => p.IdRepairNavigation).ThenInclude(p => p.IdCarNavigation).ThenInclude(p => p.IdCustomerNavigation).Where(p => p.IdRepair == Convert.ToInt32(search));
+                return View(garaContexts.ToList());
+            }
+            else
+            {
+                var garaContext = _context.Pays.Include(p => p.IdRepairNavigation);
+                return View(await garaContext.ToListAsync());
+            }
+            
         }
 
         // GET: Pays/Details/5

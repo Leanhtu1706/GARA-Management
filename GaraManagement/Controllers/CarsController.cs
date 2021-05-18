@@ -43,11 +43,11 @@ namespace GaraManagement.Controllers
             if (idCustomer != null)
             {
                 ViewBag.IdCustomer = idCustomer;
-                ViewBag.CustomerName = _context.Customers.Where(c => c.Id == idCustomer).Select(c=>c.Name).FirstOrDefault();
+                ViewBag.CustomerName = _context.Customers.Where(c => c.Id == idCustomer).Select(c => c.Name).FirstOrDefault();
                 var carData = _context.Cars.Include(i => i.IdCustomerNavigation).Include(i => i.IdCarModelNavigation).Where(a => a.IdCustomerNavigation.Id == idCustomer);
                 return View(carData.ToList());
-            }    
-            
+            }
+
             //if (!string.IsNullOrEmpty(search))
             //{
             //    var carData = _context.Cars.Include(i => i.IdCustomerNavigation).Where(a => a.CarName.Contains(search) || a.Manufacturer.Contains(search) || a.IdCustomerNavigation.Name.Contains(search));
@@ -55,9 +55,17 @@ namespace GaraManagement.Controllers
             //}
             else
             {
-                
-                var carData = _context.Cars.Include(c => c.IdCustomerNavigation).Include(i => i.IdCarModelNavigation);
-                return View(await carData.ToListAsync());
+                if (!string.IsNullOrEmpty(search))
+                {
+                    var carDatas = _context.Cars.Include(c => c.IdCustomerNavigation).Include(c => c.IdCarModelNavigation).Where(a => a.IdCustomerNavigation.Name.Contains(search));
+                    return View(await carDatas.ToListAsync());
+                }
+                else
+                {
+                    var carData = _context.Cars.Include(c => c.IdCustomerNavigation).Include(i => i.IdCarModelNavigation);
+                    return View(await carData.ToListAsync());
+                }
+
             }
         }
 
@@ -87,11 +95,11 @@ namespace GaraManagement.Controllers
             ViewData["CarModel"] = new SelectList(_context.CarModels, "Id", "ModelName");
             if (idCustomer != null)
             {
-                ViewData["Customer"] = new SelectList(_context.Customers.Where(c=>c.Id == idCustomer), "Id", "Name");
+                ViewData["Customer"] = new SelectList(_context.Customers.Where(c => c.Id == idCustomer), "Id", "Name");
             }
             else
             {
-                ViewData["Customer"] = new SelectList(_context.Customers, "Id", "Name");             
+                ViewData["Customer"] = new SelectList(_context.Customers, "Id", "Name");
             }
             return View();
         }
@@ -142,7 +150,7 @@ namespace GaraManagement.Controllers
 
                 return RedirectToAction(nameof(Index));
             }
-           
+
             ViewData["Customer"] = new SelectList(_context.Customers, "Id", "Id", car.IdCustomer);
             return View(car);
         }
@@ -262,7 +270,7 @@ namespace GaraManagement.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var car = await _context.Cars.Include(a=>a.IdCustomerNavigation).Where(a => a.Id == id).FirstOrDefaultAsync();
+            var car = await _context.Cars.Include(a => a.IdCustomerNavigation).Where(a => a.Id == id).FirstOrDefaultAsync();
             _context.Cars.Remove(car);
             await _context.SaveChangesAsync();
             HttpContext.Session.SetString("SuccessMessage", "Xóa thành công");

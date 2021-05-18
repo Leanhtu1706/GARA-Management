@@ -1,4 +1,4 @@
-﻿
+﻿<link href="~/assets/js/MDB/css/addons/datatables.min.css" rel="stylesheet">
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script src="https://code.highcharts.com/modules/data.js"></script>
 <script src="https://code.highcharts.com/modules/drilldown.js"></script>
@@ -16,7 +16,7 @@
                 <p class="card-category">Khách hàng</p>
                 <h3 class="card-title">
                     @ViewData["CountCustomer"]
-                    <small>GB</small>
+                    <small></small>
                 </h3>
             </div>
             <div class="card-footer">
@@ -38,7 +38,7 @@
             </div>
             <div class="card-footer">
                 <div class="stats">
-                    <i class="material-icons">date_range</i> Last 24 Hours
+                    <i class="material-icons">date_range</i> Từ trước tới nay
                 </div>
             </div>
         </div>
@@ -88,7 +88,55 @@
         }
     </select>
 </div>
+@*Top sản phẩm chạy nhất*@
 
+<div id="topsp" class="collapse table-area topsp">
+    <div class="row header">
+        <div class="col-md-11" style="margin-top: 10px;font-size: 20px; color: #6d6d6d;">
+            <p style="margin-bottom:0 !important;">Top 3 sản phấm bán chạy nhất</p>
+        </div>
+        <div class="col-md-1">
+            <a class="btn btn-sm btn-outline-warning more" data-toggle='modal' data-target='#detailSp'>Xem tất cả</a>
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-md-1">
+            <img class="image-field" src="~/assets/img/1st.png" />
+        </div>
+        <div class="col-md-3">
+            <div class="row tensp top1"></div>
+            <div class="row soluongsp top1"></div>
+        </div>
+
+        <div class="col-md-1">
+            <img class="image-field" src="~/assets/img/2nd.png" />
+        </div>
+        <div class="col-md-3">
+            <div class="row tensp top2"></div>
+            <div class="row soluongsp top2"></div>
+        </div>
+
+        <div class="col-md-1">
+            <img class="image-field" src="~/assets/img/3rd.png" />
+        </div>
+        <div class="col-md-3">
+            <div class="row tensp top3"></div>
+            <div class="row soluongsp top3"></div>
+        </div>
+    </div>
+    @*Chi tiết thống kê vật tư*@
+    @* View Modal*@
+    <div id="detailSp" class="modal fade col-md-12" tabindex="-1" role="dialog">
+        <div class="modal-dialog w-full" style="max-width: 50%;" role="document">
+            <div class="modal-content">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@*Biểu đồ*@
 <figure class="highcharts-figure2">
     <div id="container2"></div>
     <p class="highcharts-description">
@@ -130,19 +178,23 @@
         border-radius: 5px !important;
         background-image: linear-gradient(to right, #ff0844 0%, #ffb199 100%);
     }
-    .select2-container--default .select2-selection--single .select2-selection__rendered {
-        color: white !important;
-        line-height: 28px;
-        border-radius: 5px !important;
-    }
+
+        .select2-container--default .select2-selection--single .select2-selection__rendered {
+            color: white !important;
+            line-height: 28px;
+            border-radius: 5px !important;
+        }
+
     .select2-container--default .select2-results__option--highlighted[aria-selected] {
         color: white;
         background-image: linear-gradient(to right, #ff0844 0%, #ffb199 100%);
     }
+
     .dashBoard a.nav-link {
         background-color: rgba(200, 200, 200, 0.2);
         border-left: 5px solid #06b8ffc7 !important;
     }
+
     .main-panel {
         overflow: scroll;
     }
@@ -193,22 +245,87 @@
     .highcharts-data-table tr:hover {
         background: #f1f7ff;
     }
+
+    .topsp {
+        margin: 10px 0;
+    }
+
+    .header {
+        padding: 0px 20px;
+        margin-bottom: 0px !important;
+    }
+
+    .tensp {
+        color: #555;
+    }
+
+    .soluongsp {
+        margin-top: 10px;
+        font-weight: 800;
+        font-size: 40px;
+        color: #2a2a2a;
+    }
+
+    .image-field {
+        width: 70px;
+        height: 70px;
+    }
+    .table thead tr th {
+        padding: 10px 10px;
+        font-size: 15px;
+        color: #252525;
+        font-weight: 600;
+    }
+    thead > tr {
+        background: #efefef !important;
+    }
+    .more {
+        float: right;
+    }
 </style>
 
-@{ 
-
-}
 
 <script src="~/assets/js/core/jquery.min.js"></script>
 <script>
     $(document).ready(function () {
+
         var year;
         $('#select-year').select2({});
 
         $("#select-year").change(function () {
         year = $("#select-year option:selected").val();
-        console.log("Year:", year);
-        
+
+        $.ajax({
+            url: '@Url.Action("GetTopSp")',
+            type: "GET",
+            data: { year: year },
+            success: function (data) {
+                $("#topsp").toggle();
+                var i = 1;
+                $.each(data, function (key, value) {
+                    var classTenSp = "tensp.top" + i;
+                    var classSlSp = "soluongsp.top" + i;
+                    $('.' + classTenSp).text(value.key);
+                    $('.' + classSlSp).text(value.sum);
+                    i++;
+                });
+                console.log("Topsp: ",data);
+            }
+        });
+
+        $(".more").click(function () {
+                $.ajax({
+                url: '@Url.Action("DetailSp")',
+                type: "GET",
+                data: { year: year },
+                    success: function (data) {
+                        $("#detailSp .modal-content").html(data);
+                }
+            });
+        });
+
+
+
         $.ajax({
             url: '@Url.Action("GetcountData")',
             type: "GET",
@@ -325,7 +442,7 @@
                     title: {
                         text: 'Thống kê lợi nhuận bán hàng năm ' + year
                     },
-                    
+
                     xAxis: {
                         categories: [
                             'Tháng 1',
@@ -379,7 +496,7 @@
                 console.log("data2:", data);
                 Highcharts.chart('container3', {
                     chart: {
-                        type: 'column'
+                        type: 'line'
                     },
                     title: {
                         text: 'Tổng doanh thu và lợi nhuận ròng năm ' + year
@@ -432,7 +549,14 @@
                         headerFormat: '<b>{point.x}</b><br/>',
                         pointFormat: '{series.name}: {point.y}<br/>'
                     },
-
+                    plotOptions: {
+                        line: {
+                            dataLabels: {
+                                enabled: true
+                            },
+                            enableMouseTracking: true
+                        }
+                    },
                     series: [{
                         name: 'Tổng doanh thu ',
                         data: data.tongdoanhthu,

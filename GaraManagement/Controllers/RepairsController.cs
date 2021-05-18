@@ -411,8 +411,12 @@ namespace GaraManagement.Controllers
                         tongTienVatTu += item.Amount * item.Price;
                         rowNumber++;
                     }
-                }    
-                
+                }
+                for (var n = rowNumber; n < 25; n++)
+                {
+                    sheet.Cells[n, 5, n, 6].Merge = true;
+                }
+                rowNumber = 25;
                 using (ExcelRange exr = sheet.Cells[12, 1, rowNumber-1, 6])
                 {
                     //exr.AutoFitColumns();
@@ -437,6 +441,7 @@ namespace GaraManagement.Controllers
                 sheet.Cells["B" + (rowNumber + 1)].Style.Font.Bold = true;
                 sheet.Cells["C" + (rowNumber + 1)].Style.Font.Bold = true;
                 sheet.Cells["D" + (rowNumber + 1)].Style.Font.Bold = true;
+  
                 foreach (var item in repair.DetailRepairs)
                 {
                     sheet.Cells[rowNumberWork, 4, rowNumberWork, 6].Merge = true;
@@ -447,6 +452,12 @@ namespace GaraManagement.Controllers
                     tongTienCong += item.Amount * item.IdWorkNavigation.Cost;
                     rowNumberWork++;    
                 }
+                
+                for (var n = rowNumberWork; n < 39 ; n++)
+                {
+                    sheet.Cells[n, 4, n, 6].Merge = true;
+                }
+                rowNumberWork = 39;
                 using (ExcelRange exr = sheet.Cells[rowNumber + 1, 1, rowNumberWork - 1, 6])
                 {
                     //exr.AutoFitColumns();

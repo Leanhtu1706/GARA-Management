@@ -9,6 +9,7 @@ using GaraManagement.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Hosting;
 using Newtonsoft.Json;
+using GaraManagement.ViewModels;
 
 namespace GaraManagement.Controllers
 {
@@ -35,7 +36,39 @@ namespace GaraManagement.Controllers
             return View();
         }
 
-        public IActionResult GetcountData(int year)
+        public IActionResult GetTopSp(int year)
+        {
+            var topsp = _context.DetailGoodsDeliveryNotes
+                .Include(d => d.IdMaterialNavigation)
+                .Where(d => d.IdGoodsDeliveryNoteNavigation.ExportDate >= DateTime.Parse("01/01/" + year) && d.IdGoodsDeliveryNoteNavigation.ExportDate <= DateTime.Parse("31/12/"+year))
+                .GroupBy(d => d.IdMaterialNavigation.Name)
+                .Select(d => new { 
+                    d.Key,
+                    Sum = d.Sum(d => d.Amount)
+                })
+                .OrderByDescending(a => a.Sum)
+                .Take(3)
+                .ToList();     
+            return Json(topsp);
+        }
+        public IActionResult DetailSp(int year)
+        {
+            var topsp = _context.DetailGoodsDeliveryNotes
+                .Include(d => d.IdMaterialNavigation)
+                .ThenInclude(d => d.IdTypeNavigation)
+                .Where(d => d.IdGoodsDeliveryNoteNavigation.ExportDate >= DateTime.Parse("01/01/" + year) && d.IdGoodsDeliveryNoteNavigation.ExportDate <= DateTime.Parse("31/12/" + year))
+                .GroupBy(d => d.IdMaterialNavigation.Name)
+                .Select(d => new DetailMaterialAmount {
+                    Name = d.Key,
+                    Sum = d.Sum(d => d.Amount)
+                })
+                .OrderByDescending(a => a.Sum)
+                .ToList();
+
+            return View(topsp);
+
+        }
+            public IActionResult GetcountData(int year)
         {
             Month countCar = new Month();
             countCar.Thang1 = _context.Repairs.Where(r => r.DateOfFactoryEntry >= DateTime.Parse("01/01/" + year) && r.DateOfFactoryEntry < DateTime.Parse("01/02/" + year)).Count();

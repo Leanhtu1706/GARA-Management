@@ -20,6 +20,9 @@
 .pl-3, .px-3 {
     padding: 0 !important;
 }
+.col-md-8 > .mt-0, .my-0 {
+    height: 60px; /*index car*/
+}
 .c-subheader{
     margin-bottom: 8px;
 }
