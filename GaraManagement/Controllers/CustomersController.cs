@@ -45,7 +45,7 @@ namespace GaraManagement.Controllers
             else
             {
                 var garaContext = _context.Customers;
-                return View(garaContext.ToList());
+                return View(garaContext.OrderByDescending(c => c.Id).ToList());
             }           
         }
 

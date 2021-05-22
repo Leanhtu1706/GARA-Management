@@ -16,6 +16,7 @@ namespace GaraManagement.Models
         public int Id { get; set; }
         [DisplayName("Ngày nhập")]
         public DateTime? ImportDate { get; set; }
+        [DisplayName("Nhà cung cấp")]
         public int? IdSupplier { get; set; }
         [DisplayName("Mô tả")]
         public string Description { get; set; }

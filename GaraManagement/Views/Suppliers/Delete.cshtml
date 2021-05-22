@@ -44,8 +44,8 @@
         </dl>
 
         <div>
-            <a icon-name="action-delete" class="btn btn-sm btn-danger" data-target="#deleteConfirmModal" data-toggle="modal">Delete</a> |
-            <a asp-action="Index">Back to List</a>
+            <a icon-name="action-delete" class="btn btn-sm btn-danger" data-target="#deleteConfirmModal" data-toggle="modal">Xóa</a> |
+            <a asp-action="Index">Trở lại danh sách</a>
         </div>
     </div>
     <div id="deleteConfirmModal" class="modal fade" role="dialog">
@@ -61,10 +61,10 @@
                         <input type="hidden" asp-for="Id" />
                         <div class="modal-actions col-md-6 offset-6">
                             <a asp-action="Index" icon-name="action-cancel" class="btn btn-sm btn-default" data-dismiss="modal" data-target="#deleteConfirmModal">
-                                Cancel
+                                Thoát
                             </a>
                             <button type="submit" icon-name="action-delete" class="btn btn-sm btn-danger">
-                                Delete
+                                Xóa
                             </button>
                         </div>
                     </form>

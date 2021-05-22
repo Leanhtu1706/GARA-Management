@@ -48,11 +48,7 @@ namespace GaraManagement.Controllers
                 return View(carData.ToList());
             }
 
-            //if (!string.IsNullOrEmpty(search))
-            //{
-            //    var carData = _context.Cars.Include(i => i.IdCustomerNavigation).Where(a => a.CarName.Contains(search) || a.Manufacturer.Contains(search) || a.IdCustomerNavigation.Name.Contains(search));
-            //    return View(carData.ToList());
-            //}
+
             else
             {
                 if (!string.IsNullOrEmpty(search))
@@ -63,7 +59,7 @@ namespace GaraManagement.Controllers
                 else
                 {
                     var carData = _context.Cars.Include(c => c.IdCustomerNavigation).Include(i => i.IdCarModelNavigation);
-                    return View(await carData.ToListAsync());
+                    return View(await carData.OrderByDescending(c => c.Id).ToListAsync());
                 }
 
             }

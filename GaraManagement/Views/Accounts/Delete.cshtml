@@ -1,7 +1,7 @@
 ﻿@model GaraManagement.Models.Account
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Xóa tài khoản";
 }
 
 <h1>Delete</h1>
@@ -27,7 +27,7 @@
     
     <form asp-action="Delete">
         <input type="hidden" asp-for="UserName" />
-        <input type="submit" value="Delete" class="btn btn-sm btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+        <input type="submit" value="Xóa" class="btn btn-sm btn-danger" /> |
+        <a asp-action="Index">Trở lại danh sách</a>
     </form>
 </div>

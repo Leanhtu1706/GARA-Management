@@ -45,7 +45,7 @@ namespace GaraManagement.Controllers
             else
             {
                 var garaContext = _context.GoodsReceivedNotes.Include(g => g.IdSupplierNavigation);
-                return View(garaContext.ToList());
+                return View(garaContext.OrderByDescending(g => g.Id).ToList());
             }
         }
         // GET: GoodsReceivedNotes/Details/5

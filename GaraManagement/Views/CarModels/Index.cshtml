@@ -31,7 +31,7 @@
                                 @Html.DisplayFor(modelItem => item.ModelName)
                             </td>
                             <td>
-                                <a class="btn btn-sm btn-warning edit-btn" data-toggle='modal' data-target='#editModal' data-id="@item.Id">Edit</a> |
+                                <a class="btn btn-sm btn-warning edit-btn" data-toggle='modal' data-target='#editModal' data-id="@item.Id">Sửa</a> |
                                 <a class="btn btn-sm btn-info" asp-action="Details" asp-route-id="@item.Id">Chi tiết</a> |
                                 <a class="btn btn-sm btn-danger delete-btn" data-toggle='modal' data-target='#deleteConfirmModal' data-id="@item.Id">Xóa</a>
                             </td>
@@ -104,10 +104,10 @@
             </div>
             <div class="modal-action col-md-8 offset-4">
                 <a asp-action="Index" icon-name="action-cancel" class="btn btn-sm btn-default" data-dismiss="modal" data-target="#deleteConfirmModal">
-                    Cancel
+                    Đóng
                 </a>
                 <button icon-name="action-delete" class="btn btn-sm btn-danger deleteConfirm-btn">
-                    Delete
+                    Xóa
                 </button>
             </div>
         </div>
