@@ -48,7 +48,7 @@ namespace GaraManagement.Controllers
                 var garaContext = _context.Repairs.Include(r => r.IdCarNavigation)
                     .ThenInclude(r => r.IdCustomerNavigation)
                     .Include(r => r.IdCarNavigation.IdCarModelNavigation)
-                    .Where(r => r.IdCarNavigation.IdCustomerNavigation.Name.Contains(search) || r.IdCarNavigation.IdCarModelNavigation.ModelName.Contains(search) || r.IdCarNavigation.LicensePlates.Contains(search));
+                    .Where(r => r.IdCarNavigation.IdCustomerNavigation.Name.Contains(search) || r.IdCarNavigation.IdCarModelNavigation.ModelName.Contains(search) || r.IdCarNavigation.LicensePlates.Contains(search) || r.Id.ToString() == search);
                 ViewData["GetTextSearch"] = search;
                 return View(await garaContext.ToListAsync());
             }

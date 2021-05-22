@@ -17,9 +17,13 @@ namespace GaraManagement.Models
         public int Paid { get; set; }
         [DisplayName("Tổng tiền thanh toán")]
         public int? Total { get; set; }
+
         [DisplayName("Ngày cập nhật")]
         public DateTime? Update_at { get; set; }
 
+        [NotMapped]
+        [DisplayName("Trạng thái")]
+        public string Status { get; set; }
         [NotMapped]
         [DisplayName("Thanh toán thêm")]
         public int owe { get; set; }

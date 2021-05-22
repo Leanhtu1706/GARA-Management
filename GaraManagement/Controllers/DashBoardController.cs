@@ -108,11 +108,11 @@ namespace GaraManagement.Controllers
         {
             // tổng tiền nhập hàng theo tháng
             List<int?> arrayNhapHang = new List<int?>();
-            
-            for (int i=1; i<=12; i++)
+
+            for (int i = 1; i <= 12; i++)
             {
                 int? tiennhaphang = 0;
-                if (i==12)
+                if (i == 12)
                 {
                     var nhaphangT12 = _context.GoodsReceivedNotes.Include(a => a.DetailGoodsReceivedNotes).Where(d => d.ImportDate >= DateTime.Parse("01/" + i + "/" + year) && d.ImportDate < DateTime.Parse("31/" + i + "/" + year)).ToList();
                     foreach (var item in nhaphangT12)
@@ -134,7 +134,7 @@ namespace GaraManagement.Controllers
                     }
                 }
                 arrayNhapHang.Add(tiennhaphang);
-                
+
             }
             //tổng tiền bán hàng theo tháng
             List<int?> arrayBanHang = new List<int?>();
@@ -144,7 +144,7 @@ namespace GaraManagement.Controllers
                 int? tienbanhang = 0;
                 if (i == 12)
                 {
-                    var banhangT12 = _context.GoodsDeliveryNotes.Include(a => a.DetailGoodsDeliveryNotes).Where(d => d.ExportDate >= DateTime.Parse("01/" + i + "/" + year) && d.ExportDate < DateTime.Parse("31/" + i + "/" + year)).ToList();
+                    var banhangT12 = _context.GoodsDeliveryNotes.Include(a => a.DetailGoodsDeliveryNotes).Include(a => a.IdRepairNavigation).ThenInclude(a => a.Pays).Where(d => d.IdRepairNavigation.Pays.First().DateOfPayment >= DateTime.Parse("01/" + i + "/" + year) && d.IdRepairNavigation.Pays.First().DateOfPayment < DateTime.Parse("31/" + i + "/" + year)).ToList();
                     foreach (var item in banhangT12)
                     {
                         foreach (var item2 in item.DetailGoodsDeliveryNotes)
@@ -155,7 +155,7 @@ namespace GaraManagement.Controllers
                 }
                 else
                 {
-                    var nhaphang = _context.GoodsDeliveryNotes.Include(a => a.DetailGoodsDeliveryNotes).Where(d => d.ExportDate >= DateTime.Parse("01/" + i + "/" + year) && d.ExportDate < DateTime.Parse("01/" + (i + 1) + "/" + year)).ToList();
+                    var nhaphang = _context.GoodsDeliveryNotes.Include(a => a.DetailGoodsDeliveryNotes).Include(a => a.IdRepairNavigation).ThenInclude(a => a.Pays).Where(d => d.IdRepairNavigation.Pays.First().DateOfPayment >= DateTime.Parse("01/" + i + "/" + year) && d.IdRepairNavigation.Pays.First().DateOfPayment < DateTime.Parse("01/" + (i + 1) + "/" + year)).ToList();
                     foreach (var item in nhaphang)
                     {
                         foreach (var item2 in item.DetailGoodsDeliveryNotes)
@@ -171,66 +171,85 @@ namespace GaraManagement.Controllers
             arrayNhapHang.ToArray();
             //tổng tiền doanh thu bán hàng theo tháng
             List<int?> arrayDoanhThuBanHang = new List<int?>();
-            
-            for(int i = 0; i <= 11; i++)
+
+            for (int i = 0; i <= 11; i++)
             {
                 arrayDoanhThuBanHang.Add(arrayBanHang[i] - arrayNhapHang[i]);
             }
 
             //tổng tiền chi phí thu được theo tháng
-            List<int?> arraychiphi = new List<int?>();
-            for (var i = 1; i<=12; i++)
+            List<int?> arrayBienLai = new List<int?>();
+            for (var i = 1; i <= 12; i++)
             {
-                int? chiphisua = 0;
-                if(i == 12)
+                int bienlai = 0;
+                if (i == 12)
                 {
-                    var repairCost = _context.DetailRepairs.Include(dt => dt.IdRepairNavigation).ThenInclude(dt => dt.Pays).Where(dt => dt.IdRepairNavigation.Pays.First().DateOfPayment >= DateTime.Parse("01/" + i + "/" + year) && dt.IdRepairNavigation.Pays.First().DateOfPayment < DateTime.Parse("31/" + i + "/" + year));
-                    foreach (var item in repairCost)
+                    var pay = _context.Pays.Where(p => p.DateOfPayment >= DateTime.Parse("01/" + i + "/" + year) && p.DateOfPayment < DateTime.Parse("31/" + i + "/" + year));
+                    foreach (var item in pay)
                     {
-                        chiphisua += item.Amount * item.IdWorkNavigation.Cost;
+                        bienlai += item.Paid;
                     }
                 }
                 else
                 {
-                    var repairCost = _context.DetailRepairs.Include(dt => dt.IdWorkNavigation).Include(dt => dt.IdRepairNavigation).ThenInclude(dt => dt.Pays).Where(dt => dt.IdRepairNavigation.Pays.First().DateOfPayment >= DateTime.Parse("01/" + i + "/" + year) && dt.IdRepairNavigation.Pays.First().DateOfPayment < DateTime.Parse("01/" + (i + 1) + "/" + year));
-                    foreach(var item in repairCost)
+                    var pay = _context.Pays.Where(p => p.DateOfPayment >= DateTime.Parse("01/" + i + "/" + year) && p.DateOfPayment < DateTime.Parse("01/" + (i+1) + "/" + year));
+                    foreach (var item in pay)
                     {
-                        chiphisua += item.Amount * item.IdWorkNavigation.Cost;
-                    }    
+                        bienlai += item.Paid;
+                    }
                 }
-
-                arraychiphi.Add(chiphisua);
+                arrayBienLai.Add(bienlai);
             }
 
+            //for (var i = 1; i<=12; i++)
+            //{
+            //    int? chiphisua = 0;
+            //    if(i == 12)
+            //    {
+            //        var repairCost = _context.DetailRepairs.Include(dt => dt.IdRepairNavigation).ThenInclude(dt => dt.Pays).Where(dt => dt.IdRepairNavigation.Pays.First().DateOfPayment >= DateTime.Parse("01/" + i + "/" + year) && dt.IdRepairNavigation.Pays.First().DateOfPayment < DateTime.Parse("31/" + i + "/" + year));
+            //        foreach (var item in repairCost)
+            //        {
+            //            chiphisua += item.Amount * item.IdWorkNavigation.Cost;
+            //        }
+            //    }
+            //    else
+            //    {
+            //        var repairCost = _context.DetailRepairs.Include(dt => dt.IdWorkNavigation).Include(dt => dt.IdRepairNavigation).ThenInclude(dt => dt.Pays).Where(dt => dt.IdRepairNavigation.Pays.First().DateOfPayment >= DateTime.Parse("01/" + i + "/" + year) && dt.IdRepairNavigation.Pays.First().DateOfPayment < DateTime.Parse("01/" + (i + 1) + "/" + year));
+            //        foreach(var item in repairCost)
+            //        {
+            //            chiphisua += item.Amount * item.IdWorkNavigation.Cost;
+            //        }    
+            //    }
 
-            arraychiphi.ToArray();
+            //    arraychiphi.Add(chiphisua);
+            //}
 
-            List<int?> arrayTongDoanhThu = new List<int?>();
 
-            for (int i = 0; i <= 11; i++)
-            {
-                arrayTongDoanhThu.Add((arrayBanHang[i] + arraychiphi[i]));
-            }
+            arrayBienLai.ToArray();
+
+            //List<int?> arrayTongDoanhThu = new List<int?>();
+
+            //for (int i = 0; i <= 11; i++)
+            //{
+            //    arrayTongDoanhThu.Add((arrayBanHang[i] + arrayBienLai[i]) + ((arrayBanHang[i] + arraychiphi[i]) * 10)/100);
+            //}
             List<int?> arrayLoiNhuanRong = new List<int?>();
 
             for (int i = 0; i <= 11; i++)
             {
-                arrayLoiNhuanRong.Add((arrayTongDoanhThu[i] - arrayNhapHang[i]));
+                arrayLoiNhuanRong.Add((arrayBienLai[i] - arrayNhapHang[i]));
             }
 
             
             arrayLoiNhuanRong.ToArray();
-
-            List<int?> arrayTongNo = new List<int?>();
-
-            
+      
 
             Doanhthu doanhThu = new Doanhthu();
             doanhThu.nhaphang = arrayNhapHang;
             doanhThu.banhang = arrayBanHang;
             doanhThu.doanhthuvattu = arrayDoanhThuBanHang;
-            doanhThu.phisuachua = arraychiphi;
-            doanhThu.tongdoanhthu = arrayTongDoanhThu;
+            doanhThu.bienlai = arrayBienLai;
+            //doanhThu.tongdoanhthu = arrayTongDoanhThu;
             doanhThu.loinhuanrong = arrayLoiNhuanRong;
             
 
@@ -356,8 +375,8 @@ namespace GaraManagement.Controllers
             public IEnumerable<int?> banhang { get; set; }
             public IEnumerable<int?> nhaphang { get; set; }
             public IEnumerable<int?> doanhthuvattu { get; set; }
-            public IEnumerable<int?> phisuachua { get; set; }
-            public IEnumerable<int?> tongdoanhthu { get; set; }
+            public IEnumerable<int?> bienlai { get; set; }
+            //public IEnumerable<int?> tongdoanhthu { get; set; }
             public IEnumerable<int?> loinhuanrong { get; set; }
 
         }

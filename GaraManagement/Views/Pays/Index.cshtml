@@ -34,10 +34,10 @@
                             @Html.DisplayNameFor(model => model.DateOfPayment)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.Paid)
+                            @Html.DisplayNameFor(model => model.Total)
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.Total)
+                            @Html.DisplayNameFor(model => model.Paid)
                         </th>
                         <th>
                             Mã phiếu sửa chữa
@@ -45,32 +45,38 @@
                         <th>
                             @Html.DisplayNameFor(model => model.Update_at)
                         </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Status)
+                        </th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var item in Model)
                     {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.DateOfPayment)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Paid)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Total)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.IdRepairNavigation.Id)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Update_at)
-                            </td>
-                            <td>
-                                <a class="btn btn-sm btn-info" asp-action="Details" asp-route-id="@item.Id">Chi tiết</a>
-                            </td>
-                        </tr>
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DateOfPayment)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Total)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Paid)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IdRepairNavigation.Id)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Update_at)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Status)
+                        </td>
+                        <td>
+                            <a class="btn btn-sm btn-info" asp-action="Details" asp-route-id="@item.Id">Chi tiết</a>
+                        </td>
+                    </tr>
                     }
                 </tbody>
             </table>

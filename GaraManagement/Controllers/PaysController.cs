@@ -42,11 +42,33 @@ namespace GaraManagement.Controllers
             if (!string.IsNullOrEmpty(search))
             {
                 var garaContexts = _context.Pays.Include(p => p.IdRepairNavigation).ThenInclude(p => p.IdCarNavigation).ThenInclude(p => p.IdCustomerNavigation).Where(p => p.IdRepair == Convert.ToInt32(search));
+                foreach (var item in garaContexts)
+                {
+                    if (item.Paid == item.Total)
+                    {
+                        item.Status = "Đã hoàn thành";
+                    }
+                    else
+                    {
+                        item.Status = "Còn nợ";
+                    }
+                }
                 return View(garaContexts.ToList());
             }
             else
             {
                 var garaContext = _context.Pays.Include(p => p.IdRepairNavigation);
+                foreach(var item in garaContext)
+                {
+                    if (item.Paid == item.Total)
+                    {
+                        item.Status = "Đã hoàn thành";
+                    }
+                    else
+                    {
+                        item.Status = "Còn nợ";
+                    }
+                }    
                 return View(await garaContext.ToListAsync());
             }
             
@@ -122,6 +144,7 @@ namespace GaraManagement.Controllers
 
                 }
                 pay.Total = ((workCost + materialCost)+((workCost + materialCost) * 10) / 100);
+                
                 _context.Add(pay);
                 await _context.SaveChangesAsync();
                 HttpContext.Session.SetString("SuccessMessage", "Thêm mới biên lai thành công");

@@ -93,7 +93,7 @@
 <div id="topsp" class="collapse table-area topsp">
     <div class="row header">
         <div class="col-md-11" style="margin-top: 10px;font-size: 20px; color: #6d6d6d;">
-            <p style="margin-bottom:0 !important;">Top 3 sản phấm bán chạy nhất</p>
+            <p style="margin-bottom:0 !important;">Top 3 sản phấm được sử dụng nhiều nhất</p>
         </div>
         <div class="col-md-1">
             <a class="btn btn-sm btn-outline-warning more" data-toggle='modal' data-target='#detailSp'>Xem tất cả</a>
@@ -137,8 +137,21 @@
 </div>
 
 @*Biểu đồ*@
+<figure class="highcharts-figure3">
+    <div id="container3"></div>
+    <p class="highcharts-description">
+
+    </p>
+</figure>
 <figure class="highcharts-figure2">
     <div id="container2"></div>
+    <p class="highcharts-description">
+
+    </p>
+</figure>
+
+<figure class="highcharts-figure4">
+    <div id="container4"></div>
     <p class="highcharts-description">
 
     </p>
@@ -149,20 +162,7 @@
 
     </p>
 </figure>
-
-<figure class="highcharts-figure3">
-    <div id="container3"></div>
-    <p class="highcharts-description">
-
-    </p>
-</figure>
-<figure class="highcharts-figure4">
-    <div id="container4"></div>
-    <p class="highcharts-description">
-
-    </p>
-</figure>
-<figure class="highcharts-figure4">
+<figure class="highcharts-figure5">
     <div id="container5"></div>
     <p class="highcharts-description">
 
@@ -281,6 +281,13 @@
     }
     .more {
         float: right;
+    }
+    .highcharts-data-table th.text {
+        color: #161616;
+    }
+    .highcharts-figure1, .highcharts-figure5 {
+        float: left;
+        width: 50%;
     }
 </style>
 
@@ -466,7 +473,14 @@
                             text: 'Vnđ'
                         }
                     },
-
+                    plotOptions: {
+                        
+                        series: {
+                            animation: {
+                                duration: 3000
+                            }
+                        }
+                    },
                     series: [{
                         name: 'Nhập vào',
                         color: '#00BFFF',
@@ -555,11 +569,16 @@
                                 enabled: true
                             },
                             enableMouseTracking: true
+                        },
+                        series: {
+                            animation: {
+                                duration: 2000
+                            }
                         }
                     },
                     series: [{
                         name: 'Tổng doanh thu ',
-                        data: data.tongdoanhthu,
+                        data: data.bienlai,
                         color: '#5bc8ac'
                     },
                     {
