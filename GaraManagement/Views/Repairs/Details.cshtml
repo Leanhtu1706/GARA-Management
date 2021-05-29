@@ -222,7 +222,7 @@
             <div class="modal-footer">
                 <div class="modal-actions col-md-offset-3 col-md-9">
                     <button icon-name="action-cancel" name="close" class="btn btn-sm btn-default" data-dismiss="modal">
-                        Close
+                        Đóng
                     </button>
                 </div>
             </div>
@@ -248,7 +248,7 @@
             <div class="modal-footer">
                 <div class="modal-actions col-md-offset-3 col-md-9">
                     <button icon-name="action-cancel" name="close" class="btn btn-sm btn-default" data-dismiss="modal">
-                        Close
+                        Đóng
                     </button>
                 </div>
             </div>
@@ -266,10 +266,10 @@
             </div>
             <div class="modal-action col-md-8 offset-4">
                 <a asp-action="Index" icon-name="action-cancel" class="btn btn-sm btn-default" data-dismiss="modal" data-target="#deleteConfirmModal">
-                    Cancel
+                    Thoát
                 </a>
                 <button icon-name="action-delete" class="btn btn-sm btn-danger deleteConfirm-btn">
-                    Delete
+                    Xóa
                 </button>
             </div>
         </div>
@@ -405,6 +405,16 @@
                 type: 'success',
                 align: 'center',
                 delay: 2000,
+                stackup_spacing: 30
+            });
+        }
+        if ('@ViewBag.ErrorMessage' != "")
+        {
+            $.bootstrapGrowl('@ViewBag.ErrorMessage' + '&emsp;', {
+                type: 'danger',
+                align: 'center',
+                delay: 4000,
+                width: '130px',
                 stackup_spacing: 30
             });
         }

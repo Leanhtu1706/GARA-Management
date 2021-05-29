@@ -27,12 +27,17 @@ namespace GaraManagement.Controllers
                 ViewBag.SuccessMessage = HttpContext.Session.GetString("SuccessMessage");
                 HttpContext.Session.Remove("SuccessMessage");
             }
-            var goodsReceivedNotes = _context.GoodsReceivedNotes.Include(a=>a.IdSupplierNavigation).Where(a => a.Id == id).FirstOrDefault();
+            if (HttpContext.Session.GetString("ErrorMessage") != null)
+            {
+                ViewBag.ErrorMessage = HttpContext.Session.GetString("ErrorMessage");
+                HttpContext.Session.Remove("ErrorMessage");
+            }
+            var goodsReceivedNotes = _context.GoodsReceivedNotes.Include(a => a.IdSupplierNavigation).Where(a => a.Id == id).FirstOrDefault();
             ViewBag.ImportDate = goodsReceivedNotes.ImportDate;
             ViewBag.SupplierName = goodsReceivedNotes.IdSupplierNavigation.Name;
             ViewBag.Description = goodsReceivedNotes.Description;
             ViewBag.IdGoodReceivedNotes = id;
-            var garaContext = _context.DetailGoodsReceivedNotes.Include(d => d.IdGoodsReceivedNoteNavigation).Include(d => d.IdMaterialNavigation).Where(a=>a.IdGoodsReceivedNote == id);
+            var garaContext = _context.DetailGoodsReceivedNotes.Include(d => d.IdGoodsReceivedNoteNavigation).Include(d => d.IdMaterialNavigation).Where(a => a.IdGoodsReceivedNote == id);
             return View(await garaContext.ToListAsync());
         }
 
@@ -57,9 +62,9 @@ namespace GaraManagement.Controllers
         }
 
         // GET: DetailGoodsReceivedNotes/Create
-        public IActionResult Create(int id,string layout = "_")
+        public IActionResult Create(int id, string layout = "_")
         {
-            ViewData["IdGoodsReceivedNote"] = new SelectList(_context.GoodsReceivedNotes, "Id", "Id");           
+            ViewData["IdGoodsReceivedNote"] = new SelectList(_context.GoodsReceivedNotes, "Id", "Id");
             ViewData["MaterialName"] = new SelectList(_context.Materials, "Id", "Name");
             ViewData["Layout"] = layout == "_" ? "" : layout;
             ViewBag.IdGoodReceivedNotes = id;
@@ -79,7 +84,7 @@ namespace GaraManagement.Controllers
                 await _context.SaveChangesAsync();
                 HttpContext.Session.SetString("SuccessMessage", "Thêm mới thành công");
 
-                return RedirectToAction(nameof(Index), new {id = detailGoodsReceivedNote.IdGoodsReceivedNote });
+                return RedirectToAction(nameof(Index), new { id = detailGoodsReceivedNote.IdGoodsReceivedNote });
             }
             ViewData["IdGoodsReceivedNote"] = new SelectList(_context.GoodsReceivedNotes, "Id", "Id", detailGoodsReceivedNote.IdGoodsReceivedNote);
             ViewData["MaterialName"] = new SelectList(_context.Materials, "Id", "Name");
@@ -94,7 +99,7 @@ namespace GaraManagement.Controllers
                 return NotFound();
             }
             ViewData["Layout"] = layout == "_" ? "" : layout;
-            var detailGoodsReceivedNote =  _context.DetailGoodsReceivedNotes.Where(a=>a.IdGoodsReceivedNote == id && a.IdMaterial == idMaterial).FirstOrDefault();
+            var detailGoodsReceivedNote = _context.DetailGoodsReceivedNotes.Where(a => a.IdGoodsReceivedNote == id && a.IdMaterial == idMaterial).FirstOrDefault();
             if (detailGoodsReceivedNote == null)
             {
                 return NotFound();
@@ -165,12 +170,19 @@ namespace GaraManagement.Controllers
         [HttpPost, ActionName("Delete")]
         public async Task<IActionResult> DeleteConfirmed(int id, int idMaterial)
         {
-            var detailGoodsReceivedNote =  _context.DetailGoodsReceivedNotes.Where(a=>a.IdGoodsReceivedNote == id && a.IdMaterial == idMaterial).FirstOrDefault();
-            _context.DetailGoodsReceivedNotes.Remove(detailGoodsReceivedNote);
-            await _context.SaveChangesAsync();
-            HttpContext.Session.SetString("SuccessMessage", "Xóa thành công");
+            try
+            {
+                var detailGoodsReceivedNote = _context.DetailGoodsReceivedNotes.Where(a => a.IdGoodsReceivedNote == id && a.IdMaterial == idMaterial).FirstOrDefault();
+                _context.DetailGoodsReceivedNotes.Remove(detailGoodsReceivedNote);
+                await _context.SaveChangesAsync();
+                HttpContext.Session.SetString("SuccessMessage", "Xóa thành công");
+            }
+            catch
+            {
+                HttpContext.Session.SetString("ErrorMessage", "Không thể xóa do vật tư còn ràng buộc với các bảng khác!");
+            }
 
-            return Json(new { redirectToUrl = Url.Action("Index", "DetailGoodsReceivedNotes", new {id = id }) });
+            return Json(new { redirectToUrl = Url.Action("Index", "DetailGoodsReceivedNotes", new { id = id }) });
         }
 
         private bool DetailGoodsReceivedNoteExists(int id)

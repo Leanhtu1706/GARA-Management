@@ -36,6 +36,11 @@ namespace GaraManagement.Controllers
                 ViewBag.SuccessMessage = HttpContext.Session.GetString("SuccessMessage");
                 HttpContext.Session.Remove("SuccessMessage");
             }
+            if (HttpContext.Session.GetString("ErrorMessage") != null)
+            {
+                ViewBag.ErrorMessage = HttpContext.Session.GetString("ErrorMessage");
+                HttpContext.Session.Remove("ErrorMessage");
+            }
             ViewData["GetTextSearch"] = search;
             if (!string.IsNullOrEmpty(search))
             {
@@ -68,9 +73,9 @@ namespace GaraManagement.Controllers
         }
 
         // GET: GoodsDeliveryNotes/Create
-        public IActionResult Create(int? idRepair , string layout = "_", string title = "")
+        public IActionResult Create(int? idRepair, string layout = "_", string title = "")
         {
-      
+
             ViewData["IdRepair"] = idRepair;
             ViewData["IdEmployee"] = new SelectList(_context.Employees, "Id", "Name");
             ViewData["Layout"] = layout == "_" ? "" : layout;
@@ -160,7 +165,7 @@ namespace GaraManagement.Controllers
             else
             {
                 var goodsDeliveryNote = _context.GoodsDeliveryNotes.Find(id);
-                if(status == null)
+                if (status == null)
                 {
                     goodsDeliveryNote.Status = "Đã nhận";
 
@@ -199,11 +204,20 @@ namespace GaraManagement.Controllers
         [HttpPost, ActionName("Delete")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var goodsDeliveryNote = await _context.GoodsDeliveryNotes.FindAsync(id);
-            var idRepair = goodsDeliveryNote.IdRepair;
-            _context.GoodsDeliveryNotes.Remove(goodsDeliveryNote);
-            await _context.SaveChangesAsync();
-            HttpContext.Session.SetString("SuccessMessage", "Hủy yêu cầu xuất vật tư thành công");
+            int? idRepair = 0;
+            try
+            {
+                var goodsDeliveryNote = await _context.GoodsDeliveryNotes.FindAsync(id);
+                idRepair = goodsDeliveryNote.IdRepair;
+                _context.GoodsDeliveryNotes.Remove(goodsDeliveryNote);
+                await _context.SaveChangesAsync();
+                HttpContext.Session.SetString("SuccessMessage", "Hủy yêu cầu xuất vật tư thành công");
+            }
+            catch
+            {
+                HttpContext.Session.SetString("ErrorMessage", "Không thể xóa do vật tư còn ràng buộc với các bảng khác!");
+            }
+
             return Json(new { redirectToUrl = Url.Action("Details", "Repairs", new { id = idRepair }) });
         }
 

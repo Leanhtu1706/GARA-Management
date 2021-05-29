@@ -36,7 +36,11 @@ namespace GaraManagement.Controllers
                 ViewBag.SuccessMessage = HttpContext.Session.GetString("SuccessMessage");
                 HttpContext.Session.Remove("SuccessMessage");
             }
-
+            if (HttpContext.Session.GetString("ErrorMessage") != null)
+            {
+                ViewBag.ErrorMessage = HttpContext.Session.GetString("ErrorMessage");
+                HttpContext.Session.Remove("ErrorMessage");
+            }
             ViewData["GetTextSearch"] = search;
             if (!string.IsNullOrEmpty(search))
             {
@@ -174,10 +178,18 @@ namespace GaraManagement.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var work = await _context.Works.FindAsync(id);
-            _context.Works.Remove(work);
-            await _context.SaveChangesAsync();
-            HttpContext.Session.SetString("SuccessMessage", "Xóa thành công");
+            try
+            {
+                var work = await _context.Works.FindAsync(id);
+                _context.Works.Remove(work);
+                await _context.SaveChangesAsync();
+                HttpContext.Session.SetString("SuccessMessage", "Xóa thành công");
+            }
+            catch
+            {
+                HttpContext.Session.SetString("ErrorMessage", "Không thể xóa do vật tư còn ràng buộc với các bảng khác!");
+            }
+
             return RedirectToAction(nameof(Index));
         }
 

@@ -23,7 +23,7 @@ namespace GaraManagement.Controllers
         }
 
         // GET: Repairs
-        public async Task<IActionResult> Index(int? IdCar, DateTime date, StateType? state, string search)
+        public async Task<IActionResult> Index(int? IdCar, DateTime date, StateType? state, string search, int? idRP)
         {
             if (HttpContext.Session.GetString("SessionUserName") == null || HttpContext.Session.GetString("PermissionAdmin") != "Yes")
             {
@@ -48,11 +48,19 @@ namespace GaraManagement.Controllers
                 var garaContext = _context.Repairs.Include(r => r.IdCarNavigation)
                     .ThenInclude(r => r.IdCustomerNavigation)
                     .Include(r => r.IdCarNavigation.IdCarModelNavigation)
-                    .Where(r => r.IdCarNavigation.IdCustomerNavigation.Name.Contains(search) || r.IdCarNavigation.IdCarModelNavigation.ModelName.Contains(search) || r.IdCarNavigation.LicensePlates.Contains(search) || r.Id.ToString() == search);
+                    .Where(r => r.IdCarNavigation.IdCustomerNavigation.Name.Contains(search) || r.IdCarNavigation.IdCarModelNavigation.ModelName.Contains(search) || r.IdCarNavigation.LicensePlates.Contains(search));
                 ViewData["GetTextSearch"] = search;
                 return View(await garaContext.ToListAsync());
             }
-
+            if (idRP != null)
+            {
+                var garaContext = _context.Repairs.Include(r => r.IdCarNavigation)
+                    .ThenInclude(r => r.IdCustomerNavigation)
+                    .Include(r => r.IdCarNavigation.IdCarModelNavigation)
+                    .Where(r => r.Id == idRP);
+                ViewData["GetTextId"] = idRP;
+                return View(await garaContext.ToListAsync());
+            }
 
             if (date.ToString() != "1/1/0001 00:00:00")
             {

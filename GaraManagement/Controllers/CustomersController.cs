@@ -21,20 +21,25 @@ namespace GaraManagement.Controllers
         }
 
         [HttpGet]
-        public  IActionResult Index(string search)
+        public IActionResult Index(string search)
         {
             if (HttpContext.Session.GetString("SessionUserName") == null || HttpContext.Session.GetString("PermissionAdmin") != "Yes")
             {
                 if (HttpContext.Session.GetString("PermissionCoVan") != "Yes")
-                { 
+                {
                     return RedirectToAction("Index", "Login");
                 }
             }
-            
+
             if (HttpContext.Session.GetString("SuccessMessage") != null)
             {
                 ViewBag.SuccessMessage = HttpContext.Session.GetString("SuccessMessage");
                 HttpContext.Session.Remove("SuccessMessage");
+            }
+            if (HttpContext.Session.GetString("ErrorMessage") != null)
+            {
+                ViewBag.ErrorMessage = HttpContext.Session.GetString("ErrorMessage");
+                HttpContext.Session.Remove("ErrorMessage");
             }
             ViewData["GetTextSearch"] = search;
             if (!string.IsNullOrEmpty(search))
@@ -46,7 +51,7 @@ namespace GaraManagement.Controllers
             {
                 var garaContext = _context.Customers;
                 return View(garaContext.OrderByDescending(c => c.Id).ToList());
-            }           
+            }
         }
 
         // GET: Customers/Details/5
@@ -96,12 +101,12 @@ namespace GaraManagement.Controllers
                 await _context.SaveChangesAsync();
                 //============================
                 return RedirectToAction(nameof(Index));
-            }           
+            }
             return View(customer);
         }
 
         // GET: Customers/Edit/5
-        public async Task<IActionResult> Edit(int? id,string layout = "_")
+        public async Task<IActionResult> Edit(int? id, string layout = "_")
         {
             if (id == null)
             {
@@ -158,7 +163,7 @@ namespace GaraManagement.Controllers
                     }
                 }
 
-                
+
                 return RedirectToAction(nameof(Index));
             }
             return View(customer);
@@ -187,18 +192,27 @@ namespace GaraManagement.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int? id)
         {
-            var customer = await _context.Customers.FindAsync(id);
-            _context.Customers.Remove(customer);
-            await _context.SaveChangesAsync();
-            HttpContext.Session.SetString("SuccessMessage", "Xóa thành công");
+            try
+            {
+                var customer = await _context.Customers.FindAsync(id);
+                _context.Customers.Remove(customer);
+                await _context.SaveChangesAsync();
+                HttpContext.Session.SetString("SuccessMessage", "Xóa thành công");
 
-            //History
-            History history = new History();
-            history.DateHistory = DateTime.Now;
-            history.UserName = HttpContext.Session.GetString("SessionUserName");
-            history.Event = "Xóa khách hàng " + customer.Name;
-            _context.Add(history);
-            await _context.SaveChangesAsync();
+                //History
+                History history = new History();
+                history.DateHistory = DateTime.Now;
+                history.UserName = HttpContext.Session.GetString("SessionUserName");
+                history.Event = "Xóa khách hàng " + customer.Name;
+                _context.Add(history);
+                await _context.SaveChangesAsync();
+            }
+            catch
+            {
+                HttpContext.Session.SetString("ErrorMessage", "Không thể xóa do vật tư còn ràng buộc với các bảng khác!");
+            }
+
+
             //============================
             return RedirectToAction(nameof(Index));
         }

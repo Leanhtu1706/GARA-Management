@@ -27,6 +27,11 @@ namespace GaraManagement.Controllers
                 ViewBag.SuccessMessage = HttpContext.Session.GetString("SuccessMessage");
                 HttpContext.Session.Remove("SuccessMessage");
             }
+            if (HttpContext.Session.GetString("ErrorMessage") != null)
+            {
+                ViewBag.ErrorMessage = HttpContext.Session.GetString("ErrorMessage");
+                HttpContext.Session.Remove("ErrorMessage");
+            }
             var garaContext = _context.DetailRepairs.Include(d => d.IdRepairNavigation).Include(d => d.IdWorkNavigation);
             return View(await garaContext.ToListAsync());
         }
@@ -54,9 +59,9 @@ namespace GaraManagement.Controllers
         // GET: DetailRepairs/Create
         public IActionResult Create(int idRepair, string layout = "_")
         {
-            
+
             var workList = _context.Works.Where(w => !_context.DetailRepairs.Any(dr => dr.IdRepair == idRepair && dr.IdWork == w.Id)).ToList();
-            
+
             ViewData["IdWork"] = new SelectList(workList, "Id", "WorkName");
             ViewData["Layout"] = layout == "_" ? "" : layout;
             DetailRepair detailRepair = new DetailRepair();
@@ -77,7 +82,7 @@ namespace GaraManagement.Controllers
                 await _context.SaveChangesAsync();
                 HttpContext.Session.SetString("SuccessMessage", "Thêm công việc thành công");
 
-                return RedirectToAction("Details","Repairs", new {id = detailRepair.IdRepair });
+                return RedirectToAction("Details", "Repairs", new { id = detailRepair.IdRepair });
             }
             var workList = _context.Works.Where(w => !_context.DetailRepairs.Any(dr => dr.IdRepair == detailRepair.IdRepair && dr.IdWork == w.Id)).ToList();
 
@@ -166,12 +171,22 @@ namespace GaraManagement.Controllers
         [HttpPost, ActionName("Delete")]
         public async Task<IActionResult> DeleteConfirmed(int? idRepair, int idWork)
         {
-            var detailRepair = await _context.DetailRepairs.Where(d=>d.IdRepair == idRepair && d.IdWork == idWork).FirstOrDefaultAsync();
-            _context.DetailRepairs.Remove(detailRepair);
-            await _context.SaveChangesAsync();
-            HttpContext.Session.SetString("SuccessMessage", "Xóa thành công");
 
-            return Json(new { redirectToUrl = Url.Action("Details", "Repairs", new { id = detailRepair.IdRepair }) });
+            try
+            {
+                var detailRepair = await _context.DetailRepairs.Where(d => d.IdRepair == idRepair && d.IdWork == idWork).FirstOrDefaultAsync();             
+                _context.DetailRepairs.Remove(detailRepair);
+                await _context.SaveChangesAsync();
+                HttpContext.Session.SetString("SuccessMessage", "Xóa thành công");
+
+            }
+            catch
+            {
+                HttpContext.Session.SetString("ErrorMessage", "Không thể xóa do vật tư còn ràng buộc với các bảng khác!");
+            }
+
+
+            return Json(new { redirectToUrl = Url.Action("Details", "Repairs", new { id = idRepair }) });
         }
 
         private bool DetailRepairExists(int id)

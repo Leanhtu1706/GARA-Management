@@ -46,51 +46,54 @@
 
 <div class="container-fluid body-ctphieunhap">
     <div class="row custyle">
-        <table id="dtTable" class="table table-striped table-bordered" cellspacing="0" width="100%">
-            <thead>
-                <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.IdMaterialNavigation.Name)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Amount)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Price)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.IdGoodsDeliveryNoteNavigation.Id)
-                    </th>
-
-                    @*<th class="col-action">Action</th>*@
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
+        @{
+            var info = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
+            <table id="dtTable" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                <thead>
                     <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.IdMaterialNavigation.Name)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Amount)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Price)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.IdGoodsDeliveryNoteNavigation.Id)
-                        </td>
-                        @*<td class="action-button">
-                            <a class="btn btn-sm btn-warning edit-btn" data-toggle='modal' data-target='#editModal' data-id-edit="@item.IdGoodsDeliveryNote" data-idMaterial-edit="@item.IdMaterial">Sửa</a> |
-                            <a class="btn btn-sm btn-danger delete-btn" data-toggle='modal' data-target='#deleteConfirmModal' data-id-delete="@item.IdGoodsDeliveryNote" data-idMaterial-delete="@item.IdMaterial">Xóa</a>
-                        </td>*@
-                    </tr>
-                }
+                        <th>
+                            @Html.DisplayNameFor(model => model.IdMaterialNavigation.Name)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Amount)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Price)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.IdGoodsDeliveryNoteNavigation.Id)
+                        </th>
 
-            </tbody>
-        </table>
-    </div>
+                        @*<th class="col-action">Action</th>*@
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.IdMaterialNavigation.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Amount)
+                            </td>
+                            <td>
+                                @String.Format(info, "{0:c}", item.Price)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.IdGoodsDeliveryNoteNavigation.Id)
+                            </td>
+                            @*<td class="action-button">
+                                <a class="btn btn-sm btn-warning edit-btn" data-toggle='modal' data-target='#editModal' data-id-edit="@item.IdGoodsDeliveryNote" data-idMaterial-edit="@item.IdMaterial">Sửa</a> |
+                                <a class="btn btn-sm btn-danger delete-btn" data-toggle='modal' data-target='#deleteConfirmModal' data-id-delete="@item.IdGoodsDeliveryNote" data-idMaterial-delete="@item.IdMaterial">Xóa</a>
+                            </td>*@
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+            }
+        </div>
 </div>
 
 @* View Modal*@

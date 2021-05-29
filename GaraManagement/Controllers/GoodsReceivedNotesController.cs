@@ -36,6 +36,11 @@ namespace GaraManagement.Controllers
                 ViewBag.SuccessMessage = HttpContext.Session.GetString("SuccessMessage");
                 HttpContext.Session.Remove("SuccessMessage");
             }
+            if (HttpContext.Session.GetString("ErrorMessage") != null)
+            {
+                ViewBag.ErrorMessage = HttpContext.Session.GetString("ErrorMessage");
+                HttpContext.Session.Remove("ErrorMessage");
+            }
             ViewData["GetTextSearch"] = search;
             if (!string.IsNullOrEmpty(search))
             {
@@ -44,8 +49,22 @@ namespace GaraManagement.Controllers
             }
             else
             {
-                var garaContext = _context.GoodsReceivedNotes.Include(g => g.IdSupplierNavigation);
-                return View(garaContext.OrderByDescending(g => g.Id).ToList());
+                var garaContext = _context.GoodsReceivedNotes.Include(g => g.IdSupplierNavigation).Include(g => g.DetailGoodsReceivedNotes).ToList();               
+                int? total = 0;
+
+                foreach(var item in garaContext)
+                {
+                    if(item.DetailGoodsReceivedNotes.Any())
+                    {
+                        foreach(var item2 in item.DetailGoodsReceivedNotes)
+                        {
+                            total += item2.Amount * item2.Price;
+                        }
+                        item.Total = total;
+                        total = 0;
+                    }    
+                }       
+                return View(garaContext.OrderByDescending(g => g.Id));
             }
         }
         // GET: GoodsReceivedNotes/Details/5
@@ -71,7 +90,7 @@ namespace GaraManagement.Controllers
         public IActionResult Create(string layout = "_")
         {
             var supplier = _context.Suppliers.Select(i => i.Name).ToList();
-            ViewData["IdSupplier"] = new SelectList(_context.Suppliers, "Id", "Name",supplier);
+            ViewData["IdSupplier"] = new SelectList(_context.Suppliers, "Id", "Name", supplier);
             ViewData["Layout"] = layout == "_" ? "" : layout;
             return View();
         }
@@ -84,7 +103,7 @@ namespace GaraManagement.Controllers
         public async Task<IActionResult> Create(GoodsReceivedNote goodsReceivedNote)
         {
             if (ModelState.IsValid)
-            {                
+            {
                 _context.Add(goodsReceivedNote);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -95,7 +114,7 @@ namespace GaraManagement.Controllers
         }
 
         // GET: GoodsReceivedNotes/Edit/5
-        public async Task<IActionResult> Edit(int? id,string layout = "_")
+        public async Task<IActionResult> Edit(int? id, string layout = "_")
         {
             if (id == null)
             {
@@ -174,10 +193,18 @@ namespace GaraManagement.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var goodsReceivedNote = await _context.GoodsReceivedNotes.FindAsync(id);
-            _context.GoodsReceivedNotes.Remove(goodsReceivedNote);
-            await _context.SaveChangesAsync();
-            HttpContext.Session.SetString("SuccessMessage", "Xóa thành công");
+            try
+            {
+                var goodsReceivedNote = await _context.GoodsReceivedNotes.FindAsync(id);
+                _context.GoodsReceivedNotes.Remove(goodsReceivedNote);
+                await _context.SaveChangesAsync();
+                HttpContext.Session.SetString("SuccessMessage", "Xóa thành công");
+
+            }
+            catch
+            {
+                HttpContext.Session.SetString("ErrorMessage", "Không thể xóa do vật tư còn ràng buộc với các bảng khác!");
+            }
 
             return RedirectToAction(nameof(Index));
         }

@@ -38,6 +38,11 @@ namespace GaraManagement.Controllers
                 ViewBag.SuccessMessage = HttpContext.Session.GetString("SuccessMessage");
                 HttpContext.Session.Remove("SuccessMessage");
             }
+            if (HttpContext.Session.GetString("ErrorMessage") != null)
+            {
+                ViewBag.ErrorMessage = HttpContext.Session.GetString("ErrorMessage");
+                HttpContext.Session.Remove("ErrorMessage");
+            }
 
             ViewData["GetTextSearch"] = search; // vẫn hiển thị tên search khi load lại index
             if (idCustomer != null)
@@ -266,18 +271,27 @@ namespace GaraManagement.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var car = await _context.Cars.Include(a => a.IdCustomerNavigation).Where(a => a.Id == id).FirstOrDefaultAsync();
-            _context.Cars.Remove(car);
-            await _context.SaveChangesAsync();
-            HttpContext.Session.SetString("SuccessMessage", "Xóa thành công");
+            try
+            {
+                var car = await _context.Cars.Include(a => a.IdCustomerNavigation).Where(a => a.Id == id).FirstOrDefaultAsync();
+                _context.Cars.Remove(car);
+                await _context.SaveChangesAsync();
+                HttpContext.Session.SetString("SuccessMessage", "Xóa thành công");
 
-            //History
-            History history = new History();
-            history.DateHistory = DateTime.Now;
-            history.UserName = HttpContext.Session.GetString("SessionUserName");
-            history.Event = "Xóa xe của khách hàng " + car.IdCustomerNavigation.Name;
-            _context.Add(history);
-            await _context.SaveChangesAsync();
+                //History
+                History history = new History();
+                history.DateHistory = DateTime.Now;
+                history.UserName = HttpContext.Session.GetString("SessionUserName");
+                history.Event = "Xóa xe của khách hàng " + car.IdCustomerNavigation.Name;
+                _context.Add(history);
+                await _context.SaveChangesAsync();
+            }
+            catch
+            {
+                HttpContext.Session.SetString("ErrorMessage", "Không thể xóa do vật tư còn ràng buộc với các bảng khác!");
+            }
+
+
             //============================
 
             return RedirectToAction(nameof(Index));

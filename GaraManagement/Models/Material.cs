@@ -26,6 +26,7 @@ namespace GaraManagement.Models
         [DisplayName("Đơn vị tính")]
         public string Unit { get; set; }
         [DisplayName("Số lượng trong kho")]
+        [Required(ErrorMessage = "Số lượng không được để trống")]
         [Range(minimum: 0, maximum: 1000000000, ErrorMessage = "Giá trị không hợp lệ")]
         public int? Amount { get; set; }
         [DisplayName("Ảnh")]
@@ -40,6 +41,8 @@ namespace GaraManagement.Models
         public IFormFile ImageFile { get; set; }
         [NotMapped]
         [DisplayName("Giá")]
+        [Required(ErrorMessage = "Giá không được để trống")]
+        [Range(minimum: 0, maximum: 1000000000, ErrorMessage = "Giá trị không hợp lệ")]
         public int? Price { get; set; }
 
         public virtual TypeOfSupply IdTypeNavigation { get; set; }

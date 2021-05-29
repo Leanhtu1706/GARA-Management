@@ -39,7 +39,11 @@
                                     <input id="search" type="text" name="search" class="form-control" value="@ViewData["GetTextSearch"]" placeholder="Search...">
                                 </form>
                             </div>
-
+                            <div class="input-group no-border">
+                                <form asp-action="Index" method="get">
+                                    <input id="idRP" type="number" name="idRP" class="form-control" value="@ViewData["GetTextId"]" placeholder="Mã sữa chữa">
+                                </form>
+                            </div>
                             <h4 style="text-align: center; background: #fbbb04; border-radius: 5px;"><i class="fas fa-filter"></i>Lọc</h4>
                             <div style="text-align: center;">
                                 <h5>Theo ngày nhập xưởng</h5>

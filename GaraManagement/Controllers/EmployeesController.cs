@@ -22,7 +22,7 @@ namespace GaraManagement.Controllers
         public EmployeesController(GaraContext context, IWebHostEnvironment hostEnvironment)
         {
             _context = context;
-            this._hostEnvironment = hostEnvironment;    
+            this._hostEnvironment = hostEnvironment;
         }
 
         [HttpGet]
@@ -37,8 +37,13 @@ namespace GaraManagement.Controllers
                 ViewBag.SuccessMessage = HttpContext.Session.GetString("SuccessMessage");
                 HttpContext.Session.Remove("SuccessMessage");
             }
+            if (HttpContext.Session.GetString("ErrorMessage") != null)
+            {
+                ViewBag.ErrorMessage = HttpContext.Session.GetString("ErrorMessage");
+                HttpContext.Session.Remove("ErrorMessage");
+            }
             ViewData["GetTextSearch"] = search;
-            
+
             if (!string.IsNullOrEmpty(search))
             {
                 var garaContext = _context.Employees.Where(a => a.Name.Contains(search));
@@ -178,10 +183,10 @@ namespace GaraManagement.Controllers
                             }
                         }
                     }
-                    
+
                     _context.Update(employee);
                     await _context.SaveChangesAsync();
-                    HttpContext.Session.SetString("SuccessMessage","Cập nhật thành công");
+                    HttpContext.Session.SetString("SuccessMessage", "Cập nhật thành công");
 
                     //History
                     History history = new History();
@@ -233,28 +238,35 @@ namespace GaraManagement.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int? id)
         {
-            var employee = await _context.Employees.FindAsync(id);
-            _context.Employees.Remove(employee);
-            await _context.SaveChangesAsync();
-            HttpContext.Session.SetString("SuccessMessage", "Xóa thành công");
-            
-            //History
-            History history = new History();
-            history.DateHistory = DateTime.Now;
-            history.UserName = HttpContext.Session.GetString("SessionUserName");
-            history.Event = "Xóa nhân viên " + employee.Name;
-            _context.Add(history);
-            await _context.SaveChangesAsync();
-            //============================
+            try
+            {
+                var employee = await _context.Employees.FindAsync(id);
+                _context.Employees.Remove(employee);
+                await _context.SaveChangesAsync();
+                HttpContext.Session.SetString("SuccessMessage", "Xóa thành công");
+
+                //History
+                History history = new History();
+                history.DateHistory = DateTime.Now;
+                history.UserName = HttpContext.Session.GetString("SessionUserName");
+                history.Event = "Xóa nhân viên " + employee.Name;
+                _context.Add(history);
+                await _context.SaveChangesAsync();
+            }
+            catch
+            {
+                HttpContext.Session.SetString("ErrorMessage", "Không thể xóa do vật tư còn ràng buộc với các bảng khác!");
+            }
+
 
             return RedirectToAction(nameof(Index));
         }
-        
+
         private bool EmployeeExists(int? id)
         {
             return _context.Employees.Any(e => e.Id == id);
         }
 
-        
+
     }
 }

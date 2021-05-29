@@ -33,6 +33,7 @@ namespace GaraManagement.Controllers
             ViewData["Year"] = year;
             ViewData["CountCustomer"] = _context.Customers.Count();
             ViewData["CountRepair"] = _context.Repairs.Count();
+            ViewData["Material"] = _context.Materials.Count();
             return View();
         }
 

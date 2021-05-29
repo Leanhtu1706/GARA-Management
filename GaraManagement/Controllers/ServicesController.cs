@@ -34,6 +34,11 @@ namespace GaraManagement.Controllers
                 ViewBag.SuccessMessage = HttpContext.Session.GetString("SuccessMessage");
                 HttpContext.Session.Remove("SuccessMessage");
             }
+            if (HttpContext.Session.GetString("ErrorMessage") != null)
+            {
+                ViewBag.ErrorMessage = HttpContext.Session.GetString("ErrorMessage");
+                HttpContext.Session.Remove("ErrorMessage");
+            }
             return View(await _context.Services.ToListAsync());
         }
 
@@ -133,7 +138,7 @@ namespace GaraManagement.Controllers
         }
 
         // GET: Services/Delete/5
-        public  IActionResult Delete(IEnumerable<int> id)
+        public IActionResult Delete(IEnumerable<int> id)
         {
             if (id == null)
             {
@@ -157,18 +162,24 @@ namespace GaraManagement.Controllers
         //[ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(IEnumerable<int> id)
         {
-            foreach(var item in id) 
+            try
             {
-                var service = await _context.Services.FindAsync(item);
-                _context.Services.Remove(service);
+                foreach (var item in id)
+                {
+                    var service = await _context.Services.FindAsync(item);
+                    _context.Services.Remove(service);
+                }
+
+                await _context.SaveChangesAsync();
+                HttpContext.Session.SetString("SuccessMessage", "Xóa thành công");
             }
-            
-            await _context.SaveChangesAsync();
-            HttpContext.Session.SetString("SuccessMessage", "Xóa thành công");
+            catch
+            {
+                HttpContext.Session.SetString("ErrorMessage", "Không thể xóa do vật tư còn ràng buộc với các bảng khác!");
+            }
 
             return Json(new { redirectToUrl = Url.Action("Index", "Services") });
-            //return Json(Url.Action("Index", "Services"));
-            //return RedirectToAction(nameof(Index));
+
         }
 
         private bool ServiceExists(int id)

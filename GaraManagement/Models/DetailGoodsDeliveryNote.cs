@@ -13,6 +13,7 @@ namespace GaraManagement.Models
         public int IdMaterial { get; set; }
         [DisplayName("Số lượng xuất")]
         [Required(ErrorMessage = "Số lượng không được để trống")]
+        [Range(minimum: 0, maximum: 1000000000, ErrorMessage = "Giá trị không hợp lệ")]
         public int? Amount { get; set; }
         [DisplayName("Giá bán")]
         public int? Price { get; set; }

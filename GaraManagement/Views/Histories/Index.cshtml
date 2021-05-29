@@ -35,7 +35,7 @@
                 {
                     <tr>
                         <td>
-                            @Html.DisplayFor(modelItem => item.DateHistory)
+                            @String.Format("{0:yyyy/MM/dd HH:mm}", item.DateHistory)
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.UserNameNavigation.UserName) (IDnv: @Html.DisplayFor(modelItem => item.UserNameNavigation.IdEmployee))

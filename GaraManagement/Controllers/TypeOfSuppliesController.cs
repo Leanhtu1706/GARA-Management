@@ -182,16 +182,24 @@ namespace GaraManagement.Controllers
             {
                 var typeOfSupply = await _context.TypeOfSupplies.FindAsync(id);
                 var materials = _context.Materials.Where(a => a.IdType == id);
-                var priceMaterial = _context.PriceMaterials.Where(d => d.IdMaterial == materials.First().Id);
+                if(materials.Any())
+                {
+                    var priceMaterial = _context.PriceMaterials.Where(d => d.IdMaterial == materials.First().Id);
+                    foreach (var item in materials)
+                    {
+                        _context.Materials.Remove(item);
+                    }
+                    
+                    if (priceMaterial.Any())
+                    {
+                        foreach (var price in priceMaterial)
+                        {
+                            _context.PriceMaterials.Remove(price);
+                        }
+                    }
+                }
+                
                 _context.TypeOfSupplies.Remove(typeOfSupply);
-                foreach (var item in materials)
-                {
-                    _context.Materials.Remove(item);
-                }
-                foreach (var price in priceMaterial)
-                {
-                    _context.PriceMaterials.Remove(price);
-                }
                 await _context.SaveChangesAsync();
                 HttpContext.Session.SetString("SuccessMessage", "Xóa thành công");
 
